@@ -11,7 +11,7 @@ import { CONTACT_EMAIL, RETENTION_PERIOD } from '@/lib/questions'
  *   [x] RETENTION_PERIOD  - 24 months (questions.ts)
  *   [x] CONTACT_EMAIL     - hello@koos-ayo.com (questions.ts)
  *   [x] Country           - Estonia
- *   [x] CONTROLLER_NAME   - Koos-Ayo (set by the Product Owner, 22 Oct 2026)
+ *   [x] CONTROLLER_NAME   - Victor Ibrahim, a natural person (PO, 22 Oct 2026)
  *
  * If the company is not yet registered when the survey goes live, the
  * controller is Victor Ibrahim as a natural person, at an Estonian address.
@@ -29,9 +29,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Address outstanding — see
+// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Address deferred — see
 // the note above if the company is not registered by launch.
-const CONTROLLER_NAME = 'Koos-Ayo'
+const CONTROLLER_NAME = 'Victor Ibrahim'
 const CONTROLLER_ADDRESS = '[TEAM TO CONFIRM: registered address]'
 const CONTROLLER_COUNTRY = 'Estonia'
 
