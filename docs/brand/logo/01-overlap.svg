@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="KOOS-AYO overlap mark">
+  <title>The Overlap</title>
+  <desc>Two circles meeting; the lens where they overlap is filled. Two people, and the space they share.</desc>
+  <defs>
+    <clipPath id="lensA"><circle cx="25" cy="32" r="15"/></clipPath>
+  </defs>
+  <g fill="none" stroke="currentColor" stroke-width="3.5">
+    <circle cx="25" cy="32" r="15"/>
+    <circle cx="39" cy="32" r="15"/>
+  </g>
+  <g clip-path="url(#lensA)">
+    <circle cx="39" cy="32" r="15" fill="var(--mark-accent, #B86B7E)"/>
+  </g>
+</svg>

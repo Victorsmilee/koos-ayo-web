@@ -1,0 +1,8 @@
+# Every change needs a review before it reaches main.
+# Branch protection enforces this: public repositories get it on the free plan.
+
+*                        @Victorsmilee
+
+# Changing the instrument invalidates comparison across responses.
+/src/lib/questions.ts    @Victorsmilee
+/supabase/migrations/    @Victorsmilee

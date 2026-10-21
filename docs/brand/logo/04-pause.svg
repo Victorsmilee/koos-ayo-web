@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="KOOS-AYO pause mark">
+  <title>The Pause</title>
+  <desc>Two circles with a deliberate gap. The negative space is the Reaction Interrupt.</desc>
+  <g fill="none" stroke="currentColor" stroke-width="3.5">
+    <circle cx="22" cy="32" r="14"/>
+    <circle cx="42" cy="32" r="14"/>
+  </g>
+  <rect x="29.5" y="14" width="5" height="36" rx="2.5" fill="var(--mark-bg, #F7F9FA)"/>
+</svg>

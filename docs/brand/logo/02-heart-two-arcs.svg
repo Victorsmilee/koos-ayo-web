@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="KOOS-AYO heart mark">
+  <title>Two-arc heart</title>
+  <desc>A heart built from two identical arcs that meet at a visible seam, so the heart is made of two people.</desc>
+  <!-- left arc: one person -->
+  <path d="M32 54 C 10 38, 10 18, 21 14 C 28 11.5, 32 17, 32 23"
+        fill="none" stroke="currentColor" stroke-width="5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- right arc: the other, mirrored. The gap between them is the seam. -->
+  <path d="M32 54 C 54 38, 54 18, 43 14 C 36 11.5, 32 17, 32 23"
+        fill="none" stroke="var(--mark-accent, #B86B7E)" stroke-width="5"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

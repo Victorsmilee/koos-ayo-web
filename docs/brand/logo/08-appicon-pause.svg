@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="KOOS app icon">
+  <title>The Pause — app icon</title>
+  <desc>Two circles with a deliberate gap. The negative space is the Reaction Interrupt.</desc>
+  <rect width="64" height="64" rx="14" fill="var(--mark-field, #2F6F6B)"/>
+  <g fill="none" stroke="var(--mark-on-field, #FFFFFF)" stroke-width="3.5">
+    <circle cx="22" cy="32" r="14"/>
+    <circle cx="42" cy="32" r="14"/>
+  </g>
+  <rect x="29.5" y="14" width="5" height="36" rx="2.5" fill="var(--mark-field, #2F6F6B)"/>
+</svg>

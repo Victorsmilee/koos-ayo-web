@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOOS-AYO logo concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --teal:#2F6F6B; --rose:#B86B7E; --ink:#16222A; --muted:#586A74;
+          --bg:#F7F9FA; --surface:#fff; --line:#DDE5E7; }
+  * { box-sizing:border-box }
+  body { margin:0; font-family:Inter,system-ui,sans-serif; background:var(--bg);
+         color:var(--ink); padding:40px 32px; }
+  h1 { font-size:28px; font-weight:700; letter-spacing:-.03em; margin:0 0 4px }
+  .sub { color:var(--muted); margin:0 0 32px; font-size:15px }
+  .row { display:grid; grid-template-columns:230px 1fr; gap:24px; align-items:center;
+         border:1px solid var(--line); border-radius:12px; background:var(--surface);
+         padding:20px 24px; margin-bottom:16px; }
+  .meta h2 { font-size:17px; font-weight:700; margin:0 0 4px; letter-spacing:-.01em }
+  .meta p { font-size:13px; color:var(--muted); margin:0; line-height:1.5 }
+  .sizes { display:flex; align-items:center; gap:36px; flex-wrap:wrap }
+  .cell { display:flex; flex-direction:column; align-items:center; gap:7px }
+  .cap { font-size:10px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase }
+  .dark { background:#0B1013; border-radius:10px; padding:14px 18px; }
+  .mono { filter:grayscale(1) contrast(1.1) }
+  svg { display:block }
+  .s16{width:16px;height:16px}.s32{width:32px;height:32px}.s72{width:72px;height:72px}
+  .w120{width:120px}.w200{width:200px}
+  .note { margin-top:28px; font-size:13px; color:var(--muted); max-width:760px; line-height:1.6 }
+  .warn { border-left:3px solid var(--rose); padding-left:12px }
+</style></head><body>
+<h1>KOOS-AYO — logo concepts</h1>
+<p class="sub">Concepts 1–6, then the two that were chosen. Each shown light, dark and in one colour, at favicon size and large.</p>
+<div id="sheet"></div>
+<p class="note"><strong>The test that matters is the 16px column.</strong> Most logos die there.
+Anything that turns to mush at favicon size cannot be the primary mark, whatever it looks like big.</p>
+<p class="note warn"><strong>On option 5.</strong> The gap reads as "space to think" if you already
+know the product, and as "drifting apart" if you don't. For a relationship brand that is a real
+risk — shown here to judge, not recommended to lead with.</p>
+<script>
+const MARKS = [
+  ['01-overlap.svg','The Overlap','Two circles meeting; the filled lens is the space they share. Maps exactly to Two Truths — two experiences held at once, neither winning.','mark'],
+  ['02-heart-two-arcs.svg','Two-arc heart','The love sign. A heart at a glance; on a second look, visibly two people forming it. The seam is what stops it being clip-art.','mark'],
+  ['03-joy-dot.svg','The Joy dot','The O of AYO as a small sun. The only option carrying the ayo — joy — half of the name.','mark'],
+  ['04-pause.svg','The Pause','Two circles with a deliberate gap. The negative space is the Reaction Interrupt.','mark'],
+  ['05-wordmark-double-o.svg','Double-O overlap — full','The two O-s of KOOS slide together. The logo is the wordmark; nothing bolted on. Native to the name.','word'],
+  ['06-wordmark-koos-short.svg','Double-O overlap — short','KOOS alone, for in-product use. KOOS is the product name (Brief v2, D6); KOOS-AYO is the company.','word'],
+  ['07-wordmark-koos-ayo-joy.svg','★ CHOSEN — primary wordmark','Concept 5 with the O of AYO taken from concept 3. The overlapping O-s are koos (together); the halo is ayo (joy). The first lockup carrying both halves of the name.','word'],
+  ['09-favicon-pause-small.svg','★ CHOSEN — app icon / favicon','Concept 4, redrawn for small sizes: circles pushed apart, heavier stroke. The original lost its gap below 32px, and the gap is the whole idea.','mark'],
+]
+const sheet = document.getElementById('sheet')
+Promise.all(MARKS.map(([f]) => fetch(f).then(r => r.text()))).then(svgs => {
+  MARKS.forEach(([file, name, why, kind], i) => {
+    const svg = svgs[i]
+    const sizes = kind === 'word'
+      ? [['w120','light','120px'],['w200','light','200px'],['w200','dark','on dark'],['w200','mono','one colour']]
+      : [['s16','light','16px'],['s32','light','32px'],['s72','light','72px'],['s72','dark','on dark'],['s72','mono','one colour']]
+    const cells = sizes.map(([cls, bgmode, cap]) => {
+      const wrap = bgmode === 'dark' ? 'dark' : ''
+      const mono = bgmode === 'mono' ? 'mono' : ''
+      const colour = bgmode === 'dark' ? '#E9F1F2' : 'var(--teal)'
+      return `<div class="cell"><div class="${wrap} ${mono}" style="color:${colour}">
+        <div class="${cls}">${svg}</div></div><span class="cap">${cap}</span></div>`
+    }).join('')
+    sheet.insertAdjacentHTML('beforeend',
+      `<div class="row"><div class="meta"><h2>${i+1}. ${name}</h2><p>${why}</p></div>
+       <div class="sizes">${cells}</div></div>`)
+  })
+  document.body.dataset.ready = '1'
+})
+</script></body></html>

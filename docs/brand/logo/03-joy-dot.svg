@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="KOOS-AYO joy mark">
+  <title>The Joy dot</title>
+  <desc>A circle with short rays: the O of AYO as a small sun. Carries the joy half of the name.</desc>
+  <circle cx="32" cy="32" r="11" fill="none" stroke="currentColor" stroke-width="3.5"/>
+  <circle cx="32" cy="32" r="4" fill="var(--mark-accent, #B86B7E)"/>
+  <g stroke="currentColor" stroke-width="3.5" stroke-linecap="round">
+    <path d="M32 9v5M32 50v5M9 32h5M50 32h5"/>
+    <path d="M15.8 15.8l3.6 3.6M44.6 44.6l3.6 3.6M48.2 15.8l-3.6 3.6M19.4 44.6l-3.6 3.6"/>
+  </g>
+</svg>

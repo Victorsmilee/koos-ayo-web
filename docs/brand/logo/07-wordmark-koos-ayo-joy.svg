@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 284 64" role="img" aria-label="KOOS-AYO">
+  <title>KOOS-AYO — primary wordmark</title>
+  <desc>The two O's of KOOS overlap (koos = together); the O of AYO carries a halo
+  of short rays (ayo = joy). Both halves of the name in one lockup.</desc>
+  <defs>
+    <clipPath id="jlens"><circle cx="62" cy="33" r="16"/></clipPath>
+  </defs>
+
+  <text x="6" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1" fill="currentColor">K</text>
+
+  <g fill="none" stroke="currentColor" stroke-width="5.5">
+    <circle cx="62" cy="33" r="16"/>
+    <circle cx="89" cy="33" r="16"/>
+  </g>
+  <g clip-path="url(#jlens)">
+    <circle cx="89" cy="33" r="16" fill="var(--mark-accent, #B86B7E)"/>
+  </g>
+
+  <text x="110" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1" fill="currentColor">S</text>
+  <text x="146" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1"
+        fill="var(--mark-accent, #B86B7E)">-AY</text>
+
+  <!-- The O of AYO.
+       NO centre dot: a filled counter stops it being a letter. Ring radius and
+       stroke match the two O's of KOOS so it reads as the same glyph, and the
+       rays are short and pushed out so they never touch the Y. -->
+  <g stroke="var(--mark-accent, #B86B7E)">
+    <circle cx="248" cy="33" r="16" fill="none" stroke-width="5.5"/>
+    <g class="rays" stroke-width="3.4" stroke-linecap="round">
+      <path d="M248 7.5v4M248 54.5v4M272.5 33h4"/>
+      <path d="M264.5 16.5l2.8-2.8M264.5 49.5l2.8 2.8"/>
+    </g>
+  </g>
+</svg>

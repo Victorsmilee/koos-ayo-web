@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================================
+   KOOS design system v2 — the whole theme lives in this one block.
+
+   THE IDEA: crispness comes from STRUCTURE, not colour. Every surface sits on
+   one of three levels, and each level is separated by BOTH a fill change and a
+   hairline. That layering is what the eye reads as "sharp".
+
+       L0  bg       the page
+       L1  surface  question groups, info panels
+       L2  raised   each option row, each input
+
+   ONE ACCENT. If it is interactive, it is --koos-accent. Rose is demoted to
+   display decoration: large text only, never body text, never a control.
+
+   Contrast is asserted by scripts/contrast.py, which exits non-zero on
+   failure. Run it after touching anything here.
+   =========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* layers */
+  --koos-bg: #f7f9fa;
+  --koos-surface: #ffffff;
+  --koos-raised: #ffffff;
+  --koos-line: #dde5e7;
+  --koos-line-strong: #c2cfd3;
+  /* The outline of an UNCHECKED control. Not decorative: it is the only sign a
+     control is there, so it must clear 3:1 (WCAG 1.4.11), unlike the hairlines
+     above. Keep it separate so darkening it never darkens every card edge. */
+  --koos-control-line: #7e8d94;
+
+  /* the single interactive colour */
+  --koos-accent: #2f6f6b;
+  --koos-accent-hover: #22514e;
+  --koos-accent-soft: #e6f0ef;
+  --koos-on-accent: #ffffff;
+
+  /* text */
+  --koos-ink: #16222a;
+  --koos-muted: #586a74;
+
+  /* display decoration only — never body text, never a control */
+  --koos-rose: #b86b7e;
+  --koos-rose-deep: #8e4356;
+
+  --koos-ring: 0 0 0 3px rgb(47 111 107 / 0.35);
+}
+
+/* No-JS and first-paint default: follow the operating system. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --koos-bg: #0b1013;
+    --koos-surface: #121a1e;
+    --koos-raised: #162026;
+    --koos-line: #243038;
+    --koos-line-strong: #35454e;
+    --koos-control-line: #6b7b84;
+    --koos-accent: #5fa8a2;
+    --koos-accent-hover: #7cc0ba;
+    --koos-accent-soft: #15302f;
+    --koos-on-accent: #0b1013;
+    --koos-ink: #e9f1f2;
+    --koos-muted: #93a5ad;
+    --koos-rose: #d9909f;
+    --koos-rose-deep: #8e4356;
+    --koos-ring: 0 0 0 3px rgb(95 168 162 / 0.40);
+  }
+}
+
+/* Explicit choice, set before first paint by the script in layout.tsx. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --koos-bg: #0b1013;
+  --koos-surface: #121a1e;
+  --koos-raised: #162026;
+  --koos-line: #243038;
+  --koos-line-strong: #35454e;
+  --koos-control-line: #6b7b84;
+  --koos-accent: #5fa8a2;
+  --koos-accent-hover: #7cc0ba;
+  --koos-accent-soft: #15302f;
+  --koos-on-accent: #0b1013;
+  --koos-ink: #e9f1f2;
+  --koos-muted: #93a5ad;
+  --koos-rose: #d9909f;
+  --koos-rose-deep: #8e4356;
+  --koos-ring: 0 0 0 3px rgb(95 168 162 / 0.40);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--koos-bg);
+  color: var(--koos-ink);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-synthesis-weight: none;
+  line-height: 1.6;
+  /* Mobile-first: a guaranteed gutter, and never a horizontal scrollbar. */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Headings are tight and heavy — this is most of what reads as "crisp". */
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+h1 {
+  letter-spacing: -0.03em;
+}
+
+/* One visible focus treatment everywhere, on the drawn control not the input. */
+:where(a, button, input, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--koos-accent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visually hidden, but still in the accessibility tree and still focusable.
+   Used for the real <input> behind every drawn control — NEVER display:none,
+   which would remove it from the tree and kill keyboard support. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.koos-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+.koos-skip:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--koos-surface);
+  color: var(--koos-ink);
+  border: 1px solid var(--koos-line-strong);
+  border-radius: 12px;
+}

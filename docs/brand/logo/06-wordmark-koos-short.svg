@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 146 64" role="img" aria-label="KOOS">
+  <title>Double-O overlap — short form</title>
+  <desc>KOOS alone. The product name per MVP Brief v2 decision D6; the full KOOS-AYO wordmark is the company.</desc>
+  <defs>
+    <clipPath id="slens"><circle cx="62" cy="33" r="16"/></clipPath>
+  </defs>
+  <text x="6" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1" fill="currentColor">K</text>
+  <g fill="none" stroke="currentColor" stroke-width="5.5">
+    <circle cx="62" cy="33" r="16"/>
+    <circle cx="89" cy="33" r="16"/>
+  </g>
+  <g clip-path="url(#slens)">
+    <circle cx="89" cy="33" r="16" fill="var(--mark-accent, #B86B7E)"/>
+  </g>
+  <text x="110" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1" fill="currentColor">S</text>
+</svg>

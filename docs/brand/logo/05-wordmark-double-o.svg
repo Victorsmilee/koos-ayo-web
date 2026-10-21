@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 272 64" role="img" aria-label="KOOS-AYO">
+  <title>Double-O overlap wordmark</title>
+  <desc>The two O's of KOOS slide together; the lens where they meet is filled. The logo is the wordmark — nothing is bolted on.</desc>
+  <defs>
+    <clipPath id="wlens"><circle cx="62" cy="33" r="16"/></clipPath>
+  </defs>
+  <text x="6" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1" fill="currentColor">K</text>
+  <g fill="none" stroke="currentColor" stroke-width="5.5">
+    <circle cx="62" cy="33" r="16"/>
+    <circle cx="89" cy="33" r="16"/>
+  </g>
+  <g clip-path="url(#wlens)">
+    <circle cx="89" cy="33" r="16" fill="var(--mark-accent, #B86B7E)"/>
+  </g>
+  <text x="110" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1" fill="currentColor">S</text>
+  <text x="146" y="49" font-family="Inter, system-ui, sans-serif" font-size="46"
+        font-weight="700" letter-spacing="-1" fill="var(--mark-accent, #B86B7E)">-AYO</text>
+</svg>
