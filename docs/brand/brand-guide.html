@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KOOS-AYO brand guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=block" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F9FA; --surface:#FFFFFF; --raised:#FFFFFF;
+  --line:#DDE5E7; --line-strong:#C2CFD3; --control-line:#7E8D94;
+  --accent:#2F6F6B; --accent-hover:#22514E; --accent-soft:#E6F0EF; --on-accent:#FFFFFF;
+  --ink:#16222A; --muted:#586A74; --rose:#B86B7E; --rose-deep:#8E4356;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);
+     line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;padding:56px 32px 80px}
+h1{font-size:46px;font-weight:700;letter-spacing:-.03em;line-height:1.1;margin:14px 0 8px}
+h2{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:56px 0 6px}
+h3{font-size:16px;font-weight:700;margin:26px 0 8px}
+.eyebrow{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0}
+.lede{font-size:18px;color:var(--muted);max-width:60ch;margin:0 0 6px}
+p,li{max-width:68ch}
+.card{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:24px;margin-top:16px}
+.status{border-left:4px solid var(--rose);background:var(--surface);border:1px solid var(--line);
+        border-left:4px solid var(--rose);border-radius:12px;padding:18px 22px;margin-top:22px;font-size:14px;color:var(--muted)}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:16px}
+.sw{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.chip{height:62px}
+.sw .meta{padding:9px 11px;font-size:11px;line-height:1.45}
+.sw .name{font-weight:600;font-size:12px}
+.sw .hex{color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.layers{display:flex;gap:0;align-items:stretch;margin-top:16px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.layers div{flex:1;padding:20px 16px;font-size:12px}
+.type-row{display:flex;align-items:baseline;gap:18px;padding:12px 0;border-bottom:1px solid var(--line)}
+.type-row:last-child{border-bottom:0}
+.type-label{font-size:11px;color:var(--muted);width:150px;flex:none;text-transform:uppercase;letter-spacing:.06em}
+.do{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.do>div{border:1px solid var(--line);border-radius:10px;padding:16px;background:var(--surface);font-size:14px}
+.do .y{border-left:3px solid var(--accent)} .do .n{border-left:3px solid var(--rose-deep)}
+.do b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.do .y b{color:var(--accent)} .do .n b{color:var(--rose-deep)}
+.logos{display:flex;gap:40px;align-items:center;flex-wrap:wrap;margin-top:18px}
+.dark{background:#0B1013;border-radius:10px;padding:18px 22px}
+table{border-collapse:collapse;width:100%;margin-top:14px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+     background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+.foot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style></head>
+<body><div class="wrap">
+
+<p class="eyebrow">Brand guide · v0.1 working</p>
+<h1>KOOS-AYO</h1>
+<p class="lede"><strong style="color:var(--ink)">Together, with joy.</strong>
+When a decision is genuinely balanced — a colour, a word, a layout — the name
+settles it. This is a togetherness product that takes conflict seriously, not a
+conflict tool with a friendly coat of paint.</p>
+
+<div class="status"><strong style="color:var(--ink)">Status.</strong>
+The product is pre-validation — MVP Brief v2 §17 gates it on survey evidence that
+does not exist yet. This guide documents what exists so it stays consistent, and
+no more. Everything in it is deliberately cheap to change.</div>
+
+<h2>The logo</h2>
+<p>The two O's of KOOS overlap — <em>koos</em>, together, and the lens is the
+space they share. The O of AYO carries a halo — <em>ayo</em>, joy. One lockup
+holding both halves of the name.</p>
+<div class="card"><div class="logos" id="logos"></div></div>
+
+<h2>Colour</h2>
+<p><strong>Crispness comes from structure, not colour.</strong> Three layers,
+each separated by both a fill change and a hairline. The palette itself stays
+quiet on purpose.</p>
+<div class="layers">
+  <div style="background:var(--bg)"><strong>L0 · bg</strong><br>the page</div>
+  <div style="background:var(--surface);border-left:1px solid var(--line)"><strong>L1 · surface</strong><br>cards, panels</div>
+  <div style="background:var(--raised);border-left:1px solid var(--line-strong)"><strong>L2 · raised</strong><br>controls, inputs</div>
+</div>
+<div class="swatches" id="swatches"></div>
+<p style="margin-top:18px"><strong>If it is interactive, it is the accent.</strong>
+Rose never carries meaning — display sizes only, never body text, never a control.
+Contrast is asserted by <code>scripts/contrast.py</code> across 38 pairs in both
+themes; it exits non-zero on failure. Do not eyeball it.</p>
+
+<h2>Typography</h2>
+<p>Inter throughout, self-hosted. <strong>16px is the floor for anything
+tappable</strong> — a 36-question survey on a phone lives or dies on its option
+labels.</p>
+<div class="card">
+  <div class="type-row"><span class="type-label">Page title · 700</span>
+    <span style="font-size:40px;font-weight:700;letter-spacing:-.03em">Learn how your relationship works</span></div>
+  <div class="type-row"><span class="type-label">Heading · 700</span>
+    <span style="font-size:26px;font-weight:700;letter-spacing:-.02em">The hard part isn't knowing what you feel</span></div>
+  <div class="type-row"><span class="type-label">Eyebrow · 600</span>
+    <span class="eyebrow" style="font-size:12px">Section 3 of 8 · Support you use today</span></div>
+  <div class="type-row"><span class="type-label">Question · 600 · 17px</span>
+    <span style="font-size:17px;font-weight:600">Do the same disagreements come up again and again?</span></div>
+  <div class="type-row"><span class="type-label">Option · 400 · 16px</span>
+    <span style="font-size:16px">Take time to calm down first</span></div>
+  <div class="type-row"><span class="type-label">Helper · 400 · 14px</span>
+    <span style="font-size:14px;color:var(--muted)">Optional. You can skip this question.</span></div>
+</div>
+
+<h2>Voice</h2>
+<p>Most products can treat tone as taste. KOOS cannot — people open it while
+activated, sometimes mid-argument, sometimes frightened. A wrong sentence does
+real harm.</p>
+<div class="do">
+  <div class="y"><b>Say</b>"It makes sense that you felt ignored."</div>
+  <div class="n"><b>Never</b>"Your partner ignored you." — we do not know that.</div>
+  <div class="y"><b>Say</b>"Sending that now might land as blame."</div>
+  <div class="n"><b>Never</b>"That's a controlling thing to say." — character, not behaviour.</div>
+  <div class="y"><b>Say</b>"Here are a few ways you could respond."</div>
+  <div class="n"><b>Never</b>"You should apologise first." — orders, not options.</div>
+  <div class="y"><b>Say</b>"Your partner <em>may</em> have experienced that as criticism."</div>
+  <div class="n"><b>Never</b>"Your partner felt criticised." — a hypothesis stated as fact.</div>
+  <div class="y"><b>Say</b>"This is beyond what I can help with."</div>
+  <div class="n"><b>Never</b>"I'm so sorry, that must be incredibly hard 💙" — performed empathy.</div>
+</div>
+<table>
+  <tr><th>Use</th><th>Avoid</th><th>Why</th></tr>
+  <tr><td>partner</td><td>spouse</td><td>Not everyone using KOOS is married</td></tr>
+  <tr><td>pattern, cycle</td><td>diagnosis, disorder</td><td>KOOS is not clinical and must never appear to be</td></tr>
+  <tr><td>difficult moment</td><td>fight, blow-up</td><td>The user names the severity, not us</td></tr>
+  <tr><td>what you can change</td><td>what they should do</td><td>Individual-first — KOOS never coaches the absent partner</td></tr>
+</table>
+<p style="margin-top:14px"><strong>Never:</strong> toxic · narcissist ·
+gaslighting · abusive (as a label KOOS applies) · "fix your relationship" ·
+"save your marriage" · anything where someone wins.</p>
+
+<h2>Usage</h2>
+<table>
+  <tr><th>Rule</th><th></th></tr>
+  <tr><td>Clear space</td><td>The height of the O, all four sides</td></tr>
+  <tr><td>Wordmark minimum</td><td>120px on screen, 24mm in print — below that use the short form</td></tr>
+  <tr><td>Icon minimum</td><td>16px, and only the small-size variant at that size</td></tr>
+  <tr><td>Sending it anywhere</td><td>Send <code>*.outlined.svg</code> — never the live-text file</td></tr>
+</table>
+<div class="do" style="margin-top:18px">
+  <div class="n"><b>Do not</b>Rebuild the sun with a filled centre. A solid counter stops the ring being a letter, and the word stops saying AYO.</div>
+  <div class="n"><b>Do not</b>Use stock photography of smiling couples. It is the most clichéd move in this category and undercuts the whole proposition.</div>
+</div>
+
+<div class="foot">
+  Source of truth for colour is <code>apps/marketing/src/app/globals.css</code>.
+  Full guide in <code>docs/brand/</code> — read <code>foundations/voice.md</code>
+  before writing anything a user will see.
+</div>
+</div>
+
+<script>
+const TOKENS = [
+  ['bg','#F7F9FA','page'],['surface','#FFFFFF','cards'],['raised','#FFFFFF','controls'],
+  ['line','#DDE5E7','hairlines'],['line-strong','#C2CFD3','hover'],
+  ['control-line','#7E8D94','unchecked control — 3:1 required'],
+  ['accent','#2F6F6B','the only interactive colour'],['accent-hover','#22514E','hover'],
+  ['accent-soft','#E6F0EF','selected fill'],['on-accent','#FFFFFF','text on accent'],
+  ['ink','#16222A','body text'],['muted','#586A74','helper text'],
+  ['rose','#B86B7E','display only'],['rose-deep','#8E4356','staging banner'],
+]
+document.getElementById('swatches').innerHTML = TOKENS.map(([n,h,u])=>
+ `<div class="sw"><div class="chip" style="background:${h};${h.toUpperCase()==='#FFFFFF'?'box-shadow:inset 0 0 0 1px var(--line)':''}"></div>
+  <div class="meta"><div class="name">${n}</div><div class="hex">${h}</div>
+  <div style="color:var(--muted);margin-top:2px">${u}</div></div></div>`).join('')
+
+Promise.all(['logo/07-wordmark-koos-ayo-joy.outlined.svg','logo/09-favicon-pause-small.svg','logo/08-appicon-pause.svg']
+  .map(f=>fetch(f).then(r=>r.text()))).then(([word,fav,icon])=>{
+  document.getElementById('logos').innerHTML =
+    `<div style="width:260px;color:var(--accent)">${word}</div>
+     <div class="dark"><div style="width:220px;color:#E9F1F2">${word}</div></div>
+     <div style="width:52px;height:52px;color:var(--accent)">${fav}</div>
+     <div style="width:64px;height:64px">${icon}</div>`
+  document.body.dataset.ready='1'
+})
+</script></body></html>
