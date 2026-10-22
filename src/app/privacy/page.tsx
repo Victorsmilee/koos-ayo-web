@@ -7,17 +7,25 @@ import { CONTACT_EMAIL, RETENTION_PERIOD } from '@/lib/questions'
 /**
  * GDPR privacy notice for the research survey (INF-57).
  *
- * STATUS (21 Oct 2026):
+ * STATUS (22 Oct 2026):
  *   [x] RETENTION_PERIOD  - 24 months (questions.ts)
  *   [x] CONTACT_EMAIL     - hello@koos-ayo.com (questions.ts)
  *   [x] Country           - Estonia
- *   [x] CONTROLLER_NAME   - Koos-Ayo (set by the Product Owner, 22 Oct 2026)
+ *   [~] CONTROLLER_NAME   - Victor Ibrahim, a natural person. PROVISIONAL.
+ *   [ ] CONTROLLER_ADDRESS - still a placeholder. LAUNCH BLOCKER.
  *
- * If the company is not yet registered when the survey goes live, the
- * controller is Victor Ibrahim as a natural person, at an Estonian address.
- * A controller must be an identifiable person or entity; "a company we are
- * about to form" is not one. Set CONTROLLER_NAME accordingly, then update it
- * when the company is registered.
+ * Why a natural person: Estonian registration of Koos-Ayo is in progress, and
+ * a controller must be an identifiable natural or legal person. "A company we
+ * are about to form" is neither, so it cannot be named here yet.
+ *
+ * This must keep matching docs/gdpr/ropa.md section 1 in the PRIVATE repo
+ * Victorsmilee/koos-ayo. A regulator compares the published notice against that
+ * record, so the two are changed in the same pass, never separately.
+ *
+ * When registration completes (INF-103), update this file, ropa.md section 1 and
+ * ropa.md section 10a together, and record the date: GDPR treats that as a
+ * change of controller, not a correction, because responses already gathered
+ * were consented to a different controller.
  *
  * Still needs review by someone legally qualified (INF-67) before the link is
  * shared.
@@ -29,9 +37,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Address outstanding — see
-// the note above if the company is not registered by launch.
-const CONTROLLER_NAME = 'Koos-Ayo'
+// Estonia confirmed 21 Oct 2026. Controller set 22 Oct 2026 to the natural
+// person, because registration is still in progress. Address outstanding.
+const CONTROLLER_NAME = 'Victor Ibrahim'
 const CONTROLLER_ADDRESS = '[TEAM TO CONFIRM: registered address]'
 const CONTROLLER_COUNTRY = 'Estonia'
 

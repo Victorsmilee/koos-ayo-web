@@ -18,7 +18,7 @@ src/app/              Next.js App Router
 src/app/whatdoyouthink/   the survey — 8 sections, 36 questions
 src/lib/questions.ts  the research instrument, verbatim
 supabase/migrations/  every table change, numbered
-docs/brand.md         the living brand reference
+docs/brand/           the brand guide: foundations/ and logo/
 docs/brand/logo/      wordmark and icon sources
 scripts/contrast.py   the colour-contrast guard
 ```
