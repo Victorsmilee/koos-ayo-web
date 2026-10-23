@@ -21,6 +21,30 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### Nothing ships untested: Playwright and CI
+Product Owner rule: work is not complete until it is tested, confirmed and
+reported, automatically.
+
+Playwright rather than Cypress, decided after flagging that the stack document
+already named Playwright and this container has its browsers preinstalled, so it
+runs with no download. Revisit if it proves awkward.
+
+Ten end-to-end checks across a **phone and a desktop viewport**, since the survey
+is answered on phones. Five need no database and run anywhere: the intro, the
+Article 9 and publication consent wording, the consent decline storing nothing,
+the complete controller address with no placeholder left, and a chosen theme
+surviving a reload with no flash. Five write rows and skip themselves without
+credentials, including the regression test for the refresh bug.
+
+CI runs on every pull request: typecheck, unit tests, the contrast and brand
+guards, the build, and the full end-to-end suite against **staging**. A red check
+is the answer now, not a sentence claiming it works.
+
+One honest note: the theme spec failed on its first run and the **test** was
+wrong, not the app. The toggle cycles system, light and dark, which is three
+modes but two outcomes, so one click can legitimately leave data-theme unchanged.
+
+
 ### Refreshing the page no longer destroys saved answers
 A real data-loss bug, in the one dataset that cannot be re-collected.
 
