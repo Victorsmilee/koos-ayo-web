@@ -4,7 +4,7 @@ import './globals.css'
 
 // next/font self-hosts Inter at build time: no request to Google at runtime, no
 // third-party connection from a visitor's browser, no layout shift. One family
-// only — the serif was the main reason the pages read soft rather than sharp.
+// only, the serif was the main reason the pages read soft rather than sharp.
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -16,13 +16,13 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://koos-ayo.com'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'KOOS — learn how your relationship works',
+    default: 'KOOS: learn how your relationship works',
     template: '%s · KOOS',
   },
   description:
     'KOOS helps you pause before you react, choose a better response, and learn over time what actually works in your relationship.',
   openGraph: {
-    title: 'KOOS — learn how your relationship works',
+    title: 'KOOS: learn how your relationship works',
     description:
       'Pause before you react, choose a better response, and learn what actually works.',
     url: siteUrl,
@@ -40,7 +40,7 @@ export const viewport: Viewport = {
  * Runs BEFORE first paint, blocking. This cannot be a React effect: effects run
  * after paint, so the page would visibly flash the wrong theme on every load.
  * Wrapped in try/catch because reading localStorage throws in some private
- * browsing modes — on failure we simply fall back to the system preference.
+ * browsing modes, on failure we simply fall back to the system preference.
  */
 const themeScript = `
 (function(){try{
@@ -71,7 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             role="status"
             className="bg-rose-deep px-4 py-1.5 text-center text-sm font-semibold text-white"
           >
-            {appEnv === 'staging' ? 'STAGING' : 'PREVIEW'} — not the live site
+            {appEnv === 'staging' ? 'STAGING' : 'PREVIEW'}, not the live site
           </div>
         )}
         {children}

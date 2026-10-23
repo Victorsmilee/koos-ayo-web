@@ -1,5 +1,5 @@
 /**
- * The AYO Relationship Study — questionnaire v3.
+ * The AYO Relationship Study, questionnaire v3.
  *
  * SOURCE OF TRUTH. Every intro line, question, option and the thank-you text is
  * reproduced verbatim from the approved instrument. Do not reword, add or remove
@@ -49,7 +49,7 @@ export const intro = {
   // Framing only. The study was renamed on 21 Oct 2026; no question, option,
   // helper or the thank-you text changed. "AYO" rather than "KOOS" keeps the
   // research identity separate from the product, so respondents are less likely
-  // to read it as a sales form — which matters most for Q32/Q33.
+  // to read it as a sales form, which matters most for Q32/Q33.
   eyebrow: 'KOOS-AYO',
   title: 'The AYO Relationship Study',
   subtitle:
@@ -60,7 +60,7 @@ export const intro = {
   privacyPoints: [
     'This survey is anonymous. Please do not include names or identifying details about yourself, your partner or anyone else.',
     'We are interested in what actually happens in relationships, and in patterns across many people. There are no right or wrong answers.',
-    `Your answers are seen only by the KOOS research team. We use them for this research, and we may publish anonymous summary statistics — counts and percentages across all respondents, never your individual answers, never anything you typed, and never the faith question. They are kept for ${RETENTION_PERIOD}, then deleted.`,
+    `Your answers are seen only by the KOOS research team. We use them for this research, and we may publish anonymous summary statistics: counts and percentages across all respondents, never your individual answers, never anything you typed, and never the faith question. They are kept for ${RETENTION_PERIOD}, then deleted.`,
     'You can skip any question and stop at any time.',
     'If you leave your email at the end, it is stored separately from your answers and used only to contact you about follow-up research.',
     `Questions about your data: ${CONTACT_EMAIL}`,
@@ -68,12 +68,12 @@ export const intro = {
   /**
    * GDPR Article 9 explicit-consent line (INF-61). Q6 asks about religious
    * belief, which is special-category data. This is helper copy in the privacy
-   * box — it does not reword any question or option.
+   * box, it does not reword any question or option.
    */
   articleNineNotice:
-    'One question asks how important faith or religion is to you. That counts as sensitive personal data under GDPR. Answering it is optional — you can select "Prefer not to say" or skip it — and by continuing you consent to us processing it for this research.',
+    'One question asks how important faith or religion is to you. That counts as sensitive personal data under GDPR. Answering it is optional: you can select "Prefer not to say" or skip it, and by continuing you consent to us processing it for this research.',
   closing:
-    'Honest answers, including negative experiences, are the most useful — go with your first instinct rather than the answer that sounds best. The survey takes about 8 minutes; the three open-text questions are optional.',
+    'Honest answers, including negative experiences, are the most useful. Go with your first instinct rather than the answer that sounds best. The survey takes about 8 minutes; the three open-text questions are optional.',
 }
 
 export const consentQuestion: Question = {
@@ -91,7 +91,7 @@ export const CONSENT_DECLINE = 'No (thank you, the survey ends here)'
 export const sections: Section[] = [
   {
     index: 1,
-    title: 'About You',
+    title: 'About you',
     questions: [
       {
         id: 'q2',
@@ -166,7 +166,7 @@ export const sections: Section[] = [
   },
   {
     index: 2,
-    title: 'Your Real Relationship Experience',
+    title: 'Your real relationship experience',
     helper: 'This section is about what actually happens, not what should happen.',
     questions: [
       {
@@ -276,7 +276,7 @@ export const sections: Section[] = [
   },
   {
     index: 3,
-    title: 'Support You Use Today',
+    title: 'Support you use today',
     questions: [
       {
         id: 'q15',
@@ -333,7 +333,7 @@ export const sections: Section[] = [
   },
   {
     index: 4,
-    title: 'A New Kind of Support',
+    title: 'A new kind of support',
     questions: [
       {
         id: 'q19',
@@ -433,7 +433,7 @@ export const sections: Section[] = [
   },
   {
     index: 5,
-    title: 'Trust, Privacy & Safety',
+    title: 'Trust, privacy and safety',
     helper:
       'Relationship experiences are personal. Privacy and control would be central to this product.',
     questions: [
@@ -498,7 +498,7 @@ export const sections: Section[] = [
   },
   {
     index: 6,
-    title: 'How You Would Use It',
+    title: 'How you would use it',
     questions: [
       {
         id: 'q29',
@@ -590,7 +590,7 @@ export const sections: Section[] = [
   },
   {
     index: 8,
-    title: 'One Last Thing',
+    title: 'One last thing',
     questions: [
       {
         id: 'q34',

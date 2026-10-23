@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Address deferred — see
+// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Address deferred, see
 // the note above if the company is not registered by launch.
 const CONTROLLER_NAME = 'Victor Ibrahim'
 const CONTROLLER_ADDRESS = '[TEAM TO CONFIRM: registered address]'
@@ -130,7 +130,7 @@ export default function PrivacyPage() {
           </p>
           <p className="mt-3">
             We may publish <strong className="font-semibold">anonymous summary
-            statistics</strong> from this research — counts and percentages across all
+            statistics</strong> from this research: counts and percentages across all
             respondents. Those summaries never include your individual answers, anything
             you typed in your own words, or the question about faith. They are published
             only after the survey closes.
@@ -149,27 +149,27 @@ export default function PrivacyPage() {
 
         <Block title="Who else can see it">
           <p>
-            Only the KOOS research team. Published summaries are aggregates — no one
+            Only the KOOS research team. Published summaries are aggregates. No one
             outside the team sees an individual response. Three service providers process
             data on our behalf under data processing agreements, and none of them use it
             for their own purposes:
           </p>
           <ul className="mt-3 space-y-2">
             <li>
-              <strong className="font-semibold">Hetzner Online GmbH</strong> (Germany) —
+              <strong className="font-semibold">Hetzner Online GmbH</strong> (Germany):
               hosts the website.
             </li>
             <li>
-              <strong className="font-semibold">Supabase</strong> — hosts the database, in
+              <strong className="font-semibold">Supabase</strong>: hosts the database, in
               Frankfurt, Germany.
             </li>
             <li>
-              <strong className="font-semibold">Cloudflare</strong> — serves and protects
+              <strong className="font-semibold">Cloudflare</strong>: serves and protects
               the site.
             </li>
           </ul>
           <p className="mt-3">
-            Your answers are stored in the European Union — in Frankfurt, Germany — and
+            Your answers are stored in the European Union, in Frankfurt, Germany, and
             are not transferred outside it for storage.
           </p>
         </Block>
@@ -186,7 +186,7 @@ export default function PrivacyPage() {
             </strong>{' '}
             Because your survey answers are genuinely anonymous, we have no way to find
             which response was yours. That means we cannot retrieve, correct or delete an
-            individual set of answers once submitted — not for you, and not for anyone
+            individual set of answers once submitted, not for you, and not for anyone
             else who might ask. We consider that a protection rather than a limitation,
             but you should know it before you take part.
           </p>

@@ -1,5 +1,7 @@
 import { strict as assert } from 'node:assert'
 import { test } from 'node:test'
+import { readdirSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 import {
   CONSENT_DECLINE,
   CONTACT_EMAIL,
@@ -119,6 +121,36 @@ test('consent covers publishing aggregates, and excludes what must never be publ
   assert.match(consent, /never your individual answers/)
   assert.match(consent, /never anything you typed/)
   assert.match(consent, /never the faith question/)
+})
+
+test('no em or en dashes anywhere in src', () => {
+  // Product Owner decision, 23 Oct 2026: these dashes read as machine writing.
+  // Enforced here rather than remembered, because they return one paste at a
+  // time. Use a comma, a colon or a full stop instead.
+  //
+  // En dashes BETWEEN DIGITS are allowed: "18-24" and "6-12 months" are answer
+  // options reproduced from questionnaire v3, where the en dash is correct
+  // typography for a range and not the thing being banned. They are also
+  // instrument text, so they must not be retyped anyway.
+  const offenders: string[] = []
+  const walk = (dir: string) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, e.name)
+      if (e.isDirectory()) walk(full)
+      else if (/\.(ts|tsx|css)$/.test(e.name)) {
+        readFileSync(full, 'utf8')
+          .split('\n')
+          .forEach((line, i) => {
+            const stripped = line.replace(/(?<=\d)\u2013(?=\d)/g, '')
+            if (stripped.includes('\u2014') || stripped.includes('\u2013')) {
+              offenders.push(`${full}:${i + 1}`)
+            }
+          })
+      }
+    }
+  }
+  walk('src')
+  assert.deepEqual(offenders, [], 'em or en dash found')
 })
 
 test('respondents are told to answer on instinct rather than presentably', () => {
