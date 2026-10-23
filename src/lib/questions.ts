@@ -59,8 +59,8 @@ export const intro = {
   privacyHeading: 'Your privacy comes first',
   privacyPoints: [
     'This survey is anonymous. Please do not include names or identifying details about yourself, your partner or anyone else.',
-    'We are interested in experiences and patterns, not in judging you or your relationship. There are no right or wrong answers.',
-    `Your answers are seen only by the KOOS research team and are used only for this research. They are kept for ${RETENTION_PERIOD}, then deleted.`,
+    'We are interested in what actually happens in relationships, and in patterns across many people. There are no right or wrong answers.',
+    `Your answers are seen only by the KOOS research team. We use them for this research, and we may publish anonymous summary statistics — counts and percentages across all respondents, never your individual answers, never anything you typed, and never the faith question. They are kept for ${RETENTION_PERIOD}, then deleted.`,
     'You can skip any question and stop at any time.',
     'If you leave your email at the end, it is stored separately from your answers and used only to contact you about follow-up research.',
     `Questions about your data: ${CONTACT_EMAIL}`,
@@ -73,7 +73,7 @@ export const intro = {
   articleNineNotice:
     'One question asks how important faith or religion is to you. That counts as sensitive personal data under GDPR. Answering it is optional — you can select "Prefer not to say" or skip it — and by continuing you consent to us processing it for this research.',
   closing:
-    'Honest answers, including negative experiences, are the most useful. The survey takes about 8 minutes; the three open-text questions are optional.',
+    'Honest answers, including negative experiences, are the most useful — go with your first instinct rather than the answer that sounds best. The survey takes about 8 minutes; the three open-text questions are optional.',
 }
 
 export const consentQuestion: Question = {

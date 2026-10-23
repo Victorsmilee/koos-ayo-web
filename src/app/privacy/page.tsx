@@ -128,6 +128,13 @@ export default function PrivacyPage() {
             would genuinely help. We do not sell this data, we do not share it for
             advertising, and we do not use it to train any public AI model.
           </p>
+          <p className="mt-3">
+            We may publish <strong className="font-semibold">anonymous summary
+            statistics</strong> from this research — counts and percentages across all
+            respondents. Those summaries never include your individual answers, anything
+            you typed in your own words, or the question about faith. They are published
+            only after the survey closes.
+          </p>
         </Block>
 
         <Block title="How long we keep it">
@@ -142,9 +149,10 @@ export default function PrivacyPage() {
 
         <Block title="Who else can see it">
           <p>
-            Only the KOOS research team. Three service providers process data on our
-            behalf under data processing agreements, and none of them use it for their
-            own purposes:
+            Only the KOOS research team. Published summaries are aggregates — no one
+            outside the team sees an individual response. Three service providers process
+            data on our behalf under data processing agreements, and none of them use it
+            for their own purposes:
           </p>
           <ul className="mt-3 space-y-2">
             <li>

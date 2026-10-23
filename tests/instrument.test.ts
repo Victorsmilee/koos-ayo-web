@@ -108,6 +108,24 @@ test('no [TEAM TO CONFIRM] placeholder survives anywhere in the instrument', () 
   assert.deepEqual(offenders, [], 'unfilled placeholder shown to respondents')
 })
 
+test('consent covers publishing aggregates, and excludes what must never be published', () => {
+  // INF-108. Respondents are anonymous, so consent cannot be obtained after the
+  // fact: if this sentence is ever dropped, nothing collected afterwards can
+  // lawfully appear on the public results page. The three exclusions are the
+  // substance of the promise, not decoration - Q6 is Article 9 data and the
+  // open-text answers are the one place someone may have identified themselves.
+  const consent = intro.privacyPoints.join(' ')
+  assert.match(consent, /publish anonymous summary statistics/)
+  assert.match(consent, /never your individual answers/)
+  assert.match(consent, /never anything you typed/)
+  assert.match(consent, /never the faith question/)
+})
+
+test('respondents are told to answer on instinct rather than presentably', () => {
+  // Aimed at social-desirability editing, which contaminates Q32 and Q33 worst.
+  assert.match(intro.closing, /first instinct rather than the answer that sounds best/)
+})
+
 test('the study is named, and the instrument text is untouched by it', () => {
   // The rename on 21 Oct 2026 was framing only. These two assertions are what
   // stop a future copy tweak quietly altering the instrument: the title may be
