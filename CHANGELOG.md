@@ -21,6 +21,20 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### The home page says build, not write
+The closing section read "Before writing the product". You write code or copy;
+you build a product. Two lines above, the heading already says "We're deciding
+what to build", and the privacy notice says "what to build, and what not to
+build", so write was the only outlier on the site.
+
+It now reads "Before we build anything", which also avoids repeating "the
+product" straight after "what to build" and makes a stronger promise: nothing is
+decided yet, so the answer counts. That is the whole argument for filling it in.
+
+Marketing copy, not the instrument. `questions.ts` is untouched, so nothing here
+affects comparison across responses.
+
+
 ### The notice says European Union, not Frankfurt
 The project was created in Supabase's general **Europe** region, which deploys
 to an available EU region by capacity rather than to a named city. The published

@@ -219,7 +219,7 @@ export default function HomePage() {
               We&rsquo;re deciding what to build. Help us get it right.
             </h2>
             <p className="mt-4 max-w-2xl text-base text-ink sm:text-lg">
-              Before writing the product, we want to understand what actually happens in
+              Before we build anything, we want to understand what actually happens in
               real relationships and what kind of support would genuinely help. The
               survey is anonymous, takes about eight minutes, and honest negative
               answers are the most useful ones.
