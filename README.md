@@ -15,7 +15,7 @@ further is gated on evidence from it.
 ## Layout
 ```
 src/app/              Next.js App Router
-src/app/whatdoyouthink/   the survey, 8 sections, 36 questions
+src/app/whatdoyouthink/   the survey, 8 sections, 38 questions
 src/lib/questions.ts  the research instrument, verbatim
 supabase/migrations/  every table change, numbered
 docs/brand/           the brand guide: foundations/ and logo/
@@ -61,10 +61,15 @@ gh pr create --base main --fill
 ```
 
 ## A note on the instrument
-`src/lib/questions.ts` reproduces questionnaire v3 word for word. It is a
-measuring device, not copy: rewording a question invalidates comparison across
-responses. `tests/instrument.test.ts` enforces this, and `CODEOWNERS` requires a
-review on that file specifically.
+`src/lib/questions.ts` is questionnaire v3 word for word, plus two questions
+added on 23 Oct 2026 before any response was collected. Nothing in v3 was
+reworded, removed or reordered; old Q34 to Q36 became Q36 to Q38. The delta is
+recorded in the private repository.
+
+It is a measuring device, not copy: rewording a question invalidates comparison
+across responses, and that window closed the moment the first response arrived.
+`tests/instrument.test.ts` enforces this, and `CODEOWNERS` requires a review on
+that file specifically.
 
 ## Privacy
 No analytics, tracking pixels or third-party scripts run on `/whatdoyouthink`.
