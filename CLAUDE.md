@@ -39,7 +39,8 @@ instrument moved.
 ## Environments
 - local, preview → `staging` schema
 - production (`main`) → `public` schema
-- Both live in one Supabase project in Frankfurt. `SUPABASE_DB_SCHEMA` has no
+- Both live in one Supabase project in the **EU** (Supabase's general Europe
+  region, which picks an EU region by capacity). `SUPABASE_DB_SCHEMA` has no
   default: missing config must throw, never silently fall back to `public`.
 
 ## Nothing ships untested

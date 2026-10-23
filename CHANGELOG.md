@@ -21,6 +21,16 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### The notice says European Union, not Frankfurt
+The project was created in Supabase's general **Europe** region, which deploys
+to an available EU region by capacity rather than to a named city. The published
+notice named Frankfurt twice, which is a claim we cannot stand behind.
+
+It now says the European Union. A narrower claim can be wrong and a broader true
+one cannot, and the EU boundary is what the transfer rules actually turn on. No
+personal data leaves the EU either way, so nothing about the lawful basis
+changes. The matching ROPA change lands in the private repo at the same time.
+
 ### The selection-limit spec hung on a disabled option
 Second CI run: 19 passed, 2 failed, down from 6. The remaining failure was the
 limit spec timing out, and the cause was the spec clicking every option in turn.

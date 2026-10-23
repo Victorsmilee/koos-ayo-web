@@ -171,7 +171,7 @@ export default function PrivacyPage() {
             </li>
             <li>
               <strong className="font-semibold">Supabase</strong>: hosts the database, in
-              Frankfurt, Germany.
+              the European Union.
             </li>
             <li>
               <strong className="font-semibold">Cloudflare</strong>: serves and protects
@@ -179,8 +179,8 @@ export default function PrivacyPage() {
             </li>
           </ul>
           <p className="mt-3">
-            Your answers are stored in the European Union, in Frankfurt, Germany, and
-            are not transferred outside it for storage.
+            Your answers are stored in the European Union and are not transferred
+            outside it for storage.
           </p>
         </Block>
 
