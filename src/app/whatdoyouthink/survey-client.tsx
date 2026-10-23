@@ -219,8 +219,20 @@ export default function SurveyClient({
             </p>
             <p className="mt-3 text-sm text-muted">
               Full detail in our{' '}
-              <Link href="/privacy" className="font-semibold text-accent underline underline-offset-4">
-                privacy notice
+              {/*
+                Opens in a new tab so reading it never costs the respondent
+                their place. rel is required with target _blank: without
+                noopener the opened page can reach back through window.opener.
+                The label says so out loud, because a link that silently
+                hijacks or spawns tabs is worse for screen reader users.
+              */}
+              <Link
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-accent underline underline-offset-4"
+              >
+                privacy notice (opens in a new tab)
               </Link>
               .
             </p>

@@ -21,6 +21,20 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### The privacy notice opens in a new tab
+Reading it mid-survey used to navigate away from the form. The resume fix would
+now bring answers back, but making someone rely on that to read the notice they
+are consenting to is the wrong trade.
+
+The link carries `rel="noopener noreferrer"`, which `target="_blank"` requires:
+without `noopener` the opened page can reach back through `window.opener`. The
+label says "opens in a new tab" out loud, because a link that spawns one
+silently is disorienting for screen reader users.
+
+Covered by an end-to-end check, verified by regression: removing `target` fails
+the suite, restoring it passes.
+
+
 ### Nothing ships untested: Playwright and CI
 Product Owner rule: work is not complete until it is tested, confirmed and
 reported, automatically.
