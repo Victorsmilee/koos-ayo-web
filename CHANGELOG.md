@@ -21,6 +21,45 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### The selection-limit spec hung on a disabled option
+Second CI run: 19 passed, 2 failed, down from 6. The remaining failure was the
+limit spec timing out, and the cause was the spec clicking every option in turn.
+Once the maximum is reached the remaining inputs are `disabled`, so Playwright
+waited the full timeout for an element that was never going to become
+actionable, and reported it as a plain timeout.
+
+It now selects exactly the maximum, asserts the live "3 of 3 selected" counter
+a respondent actually sees, and then asserts the next option is disabled rather
+than trying to click it. Which question, which section and what the maximum is
+all come from the instrument.
+
+The suite timeout went from the 30s default to 90s, because these drive a real
+survey against a real database and walking to a later section is several round
+trips. The short timeout was turning a hang into something that looked like
+slowness.
+
+### The database end-to-end specs failed their first real run, and were wrong
+They shipped unproven, as their commit said, because they need a database and
+could not be run where they were written. CI ran them for the first time and six
+failed.
+
+**The app was fine.** `getByText(/section 3 of 8/i)` matched two nodes, the
+eyebrow and the progress bar, and Playwright's strict mode refuses a locator
+that resolves to more than one. The only production change here is a
+`data-testid` on the progress count, which is the authoritative one.
+
+Rewritten while fixing it:
+
+- Section numbers and the total come from `sections`, not typed into the spec.
+  Writing "of 8" into a test is the same mistake as writing it into the app.
+- `answerSection` now waits for the indicator to change rather than clicking
+  Next and assuming. A slow save looked identical to a broken page, which is
+  part of why the first failures were ambiguous.
+- The limit and email-gating specs derive which question and which section they
+  need from the instrument, so renumbering cannot silently point them at the
+  wrong one.
+
+
 ### Navigation sticks to the bottom of the screen
 Back used to be a scroll away at the end of a long section. The options
 considered were a clickable progress bar and a second Back/Next pair at the top;

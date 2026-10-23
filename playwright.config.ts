@@ -12,6 +12,10 @@ export default defineConfig({
   testDir: './e2e',
   fullyParallel: false, // one survey row at a time: these specs share a cookie jar per worker
   workers: 1,
+  // These drive a real survey against a real database, so a test can legitimately
+  // take longer than the 30s default: walking to a later section is several
+  // round trips. The previous timeout masked a hang as a plain timeout.
+  timeout: 90_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['list']] : 'list',
