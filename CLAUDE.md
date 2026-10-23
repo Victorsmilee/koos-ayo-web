@@ -17,7 +17,9 @@ public: assume anyone can read it.
 - `src/app` — Next.js App Router; the survey is `src/app/whatdoyouthink`
 - `src/lib/questions.ts` — the research instrument, verbatim
 - `supabase/migrations` — every table change is a numbered SQL file here
-- `docs/brand.md`, `docs/brand/logo` — the living brand reference
+- `docs/brand/` — the brand guide: `foundations/` (colour, type, naming, voice,
+  usage) and `logo/`. Read `foundations/voice.md` before writing anything a user
+  will see.
 
 There is no Python service. The backend is Next.js route handlers and server
 actions. Do not reintroduce a separate API service without an explicit decision.
@@ -66,7 +68,10 @@ togetherness product that takes conflict seriously, not a conflict tool with a
 friendly coat of paint.
 
 ## Brand
-Tokens live in one block in `src/app/globals.css`; see `docs/brand.md`.
+Tokens live in one block in `src/app/globals.css`; the guide is `docs/brand/`.
+After touching a token, run `python3 scripts/check-brand-docs.py` as well — it
+asserts every hex in the guide still exists in the CSS, so the docs cannot go
+quietly stale.
 **Crispness comes from structure, not colour:** three layers (`bg` / `surface` /
 `raised`), each separated by both a fill change and a hairline.
 
