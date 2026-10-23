@@ -42,6 +42,22 @@ instrument moved.
 - Both live in one Supabase project in Frankfurt. `SUPABASE_DB_SCHEMA` has no
   default: missing config must throw, never silently fall back to `public`.
 
+## Nothing is hardcoded
+Product Owner rule, 23 Oct 2026. **Any value that must be hardcoded needs his
+approval first.** Derive it instead, from the one place it is defined:
+
+- Question ids come from `questions.ts`. Never write `q35` or `answers.q1`:
+  use `EMAIL_QUESTION_ID`, `EMAIL_GATE_QUESTION_ID`, `consentQuestion.id`.
+- Table names come from `TABLES` in `supabase-server.ts`, schema names from
+  `SCHEMAS`, environment names from `app-env.ts`.
+- Selection limits and option lists are already derived from the instrument in
+  `validation.ts`. Keep it that way.
+
+`tests/instrument.test.ts` fails the build on a hardcoded question id, table or
+schema. This was a real bug, not a style preference: `q35` was spelled out in
+`actions.ts` and twice in `survey-client.tsx`, so renumbering the instrument
+would have written respondents' email addresses into the answers table.
+
 ## Hard rules
 - Never log, track or send relationship content, survey answers or emails to
   analytics, error tools or the console.

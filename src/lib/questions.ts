@@ -643,7 +643,7 @@ export const declineMessage = {
 }
 
 /** Q35 is shown only when Q34 is one of these. */
-export const Q35_SHOWN_WHEN = ['Yes', 'Maybe']
+export const EMAIL_SHOWN_WHEN = ['Yes', 'Maybe']
 
 export const allQuestions: Question[] = [
   consentQuestion,
@@ -651,3 +651,22 @@ export const allQuestions: Question[] = [
 ]
 
 export const TOTAL_SECTIONS = sections.length
+
+/**
+ * The email question, found by its kind rather than written down. Nothing else
+ * in the codebase may name it by id: it is the one answer that must never reach
+ * the answers table, and a renumbered instrument silently breaking that promise
+ * is the failure this derivation exists to prevent.
+ */
+const emailQuestion = allQuestions.find((q) => q.kind === 'email')!
+
+export const EMAIL_QUESTION_ID = emailQuestion.id
+
+/**
+ * The email question is shown only when the question immediately before it was
+ * answered with one of EMAIL_SHOWN_WHEN. That adjacency is not an assumption
+ * about ordering: the email question's own text begins "If yes", which only
+ * refers to the question before it. A test asserts both halves.
+ */
+export const EMAIL_GATE_QUESTION_ID =
+  allQuestions[allQuestions.indexOf(emailQuestion) - 1].id

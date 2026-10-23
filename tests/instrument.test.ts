@@ -5,7 +5,9 @@ import { join } from 'node:path'
 import {
   CONSENT_DECLINE,
   CONTACT_EMAIL,
-  Q35_SHOWN_WHEN,
+  EMAIL_GATE_QUESTION_ID,
+  EMAIL_QUESTION_ID,
+  EMAIL_SHOWN_WHEN,
   RETENTION_PERIOD,
   allQuestions,
   consentQuestion,
@@ -64,10 +66,10 @@ test('Q1 is the only required question and offers exactly two options', () => {
 
 test('Q35 is gated on Q34 being Yes or Maybe, and those are real Q34 options', () => {
   const q34 = allQuestions.find((q) => q.id === 'q34')!
-  for (const value of Q35_SHOWN_WHEN) {
+  for (const value of EMAIL_SHOWN_WHEN) {
     assert.ok(q34.options?.includes(value), `${value} is not an option on Q34`)
   }
-  assert.ok(!Q35_SHOWN_WHEN.includes('No'))
+  assert.ok(!EMAIL_SHOWN_WHEN.includes('No'))
 })
 
 test('Q35 is the email question and the only one of its kind', () => {
@@ -250,4 +252,56 @@ test('Q30 and Q31 allow at most two selections', () => {
     q31: ['Advice felt generic', 'Privacy worries', 'Cost'],
   })
   assert.equal(threeNotOk.success, false)
+})
+
+test('the email question and its gate are derived, not written down', () => {
+  const emails = allQuestions.filter((q) => q.kind === 'email')
+  assert.equal(emails.length, 1, 'exactly one email question')
+  assert.equal(EMAIL_QUESTION_ID, emails[0].id)
+
+  // The gate is the question immediately before it, because the email
+  // question's text begins "If yes" and that can only refer to its neighbour.
+  const gateIndex = allQuestions.indexOf(emails[0]) - 1
+  assert.equal(EMAIL_GATE_QUESTION_ID, allQuestions[gateIndex].id)
+  assert.match(emails[0].text, /^If yes/i)
+
+  // Every value that reveals the email question must be a real option on the
+  // gate. A typo here would hide the question from everyone, silently.
+  for (const value of EMAIL_SHOWN_WHEN) {
+    assert.ok(
+      allQuestions[gateIndex].options?.includes(value),
+      `${value} is not an option on the gate question`,
+    )
+  }
+})
+
+test('no question id, table name or schema is hardcoded outside its source', () => {
+  // Product Owner rule, 23 Oct 2026: nothing is hardcoded without approval.
+  // questions.ts defines the instrument and supabase-server.ts defines the
+  // database names; everywhere else must derive from them. This existed as a
+  // real bug: 'q35' was spelled out in actions.ts and twice in
+  // survey-client.tsx, so renumbering the instrument would have written
+  // respondents' email addresses into the answers table.
+  const sources = ['src/lib/questions.ts', 'src/lib/supabase-server.ts']
+  const offenders: string[] = []
+  const walk = (dir: string) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, e.name)
+      if (e.isDirectory()) walk(full)
+      else if (/\.(ts|tsx)$/.test(e.name) && !sources.includes(full)) {
+        readFileSync(full, 'utf8')
+          .split('\n')
+          .forEach((line, i) => {
+            const code = line.replace(/\/\/.*$/, '').replace(/^\s*\*.*$/, '')
+            if (
+              /'q\d+'|answers\.q\d+|'research_(responses|contacts)'/.test(code)
+            ) {
+              offenders.push(`${full}:${i + 1}`)
+            }
+          })
+      }
+    }
+  }
+  walk('src')
+  assert.deepEqual(offenders, [], 'hardcoded identifier; derive it instead')
 })
