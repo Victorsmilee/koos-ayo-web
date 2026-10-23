@@ -26,6 +26,11 @@ test.skip(
 const TOTAL = sections.length
 const indicator = (page: Page) => page.getByTestId('section-indicator')
 
+/** Question text contains punctuation that is meaningful in a regex. */
+function escapeForText(text: string): RegExp {
+  return new RegExp(text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+}
+
 async function expectSection(page: Page, n: number) {
   await expect(indicator(page)).toHaveText(
     new RegExp(`Section\\s+${n}\\s+of\\s+${TOTAL}`, 'i'),
@@ -89,26 +94,35 @@ test('going back keeps the answers already given', async ({ page }) => {
 })
 
 test('a selection limit cannot be exceeded', async ({ page }) => {
-  // Limits come from the instrument, so the expected maximum is read from it
-  // rather than written down.
-  const limited = sections
-    .flatMap((s) => s.questions)
-    .find((q) => typeof q.maxSelections === 'number')
-  expect(limited, 'the instrument has at least one limited question').toBeTruthy()
+  // Which question, which section and what the maximum is all come from the
+  // instrument. The previous version walked every section hunting for the
+  // question, and then clicked every option, which hangs: once the limit is
+  // reached the remaining inputs are disabled, and Playwright waits the full
+  // timeout for an element that will never become actionable.
+  const section = sections.find((sec) =>
+    sec.questions.some((q) => typeof q.maxSelections === 'number'),
+  )!
+  const question = section.questions.find(
+    (q) => typeof q.maxSelections === 'number',
+  )!
+  const max = question.maxSelections!
 
   await consentAndStart(page)
-  for (let i = 1; i < TOTAL; i++) {
-    const group = page.locator('[role="group"]', { hasText: /select up to/i }).first()
-    if (await group.count()) {
-      const options = group.locator('label')
-      const total = await options.count()
-      for (let o = 0; o < total; o++) await options.nth(o).click()
-      const checked = await group.locator('input:checked').count()
-      expect(checked).toBeLessThanOrEqual(limited!.maxSelections!)
-      return
-    }
-    await answerSection(page)
-  }
+  for (let i = 1; i < section.index; i++) await answerSection(page)
+  await expectSection(page, section.index)
+
+  const group = page.locator('[role="group"]', {
+    hasText: escapeForText(question.text.slice(0, 40)),
+  })
+  const options = group.locator('label')
+
+  for (let i = 0; i < max; i++) await options.nth(i).click()
+
+  // The live counter is what a respondent actually sees, so assert on that.
+  await expect(group.getByText(`${max} of ${max} selected`)).toBeVisible()
+
+  // And the next option is now unreachable rather than merely ignored.
+  await expect(group.locator('input').nth(max)).toBeDisabled()
 })
 
 test('the email question appears only after an affirmative follow-up', async ({
@@ -122,13 +136,12 @@ test('the email question appears only after an affirmative follow-up', async ({
   for (let i = 1; i < sectionWithEmail.index; i++) await answerSection(page)
   await expectSection(page, sectionWithEmail.index)
 
-  const gate = page.locator(`[role="group"]`, {
-    hasText: new RegExp(
+  const gate = page.locator('[role="group"]', {
+    hasText: escapeForText(
       sections
-        .flatMap((s) => s.questions)
+        .flatMap((sec) => sec.questions)
         .find((q) => q.id === EMAIL_GATE_QUESTION_ID)!
-        .text.slice(0, 40)
-        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+        .text.slice(0, 40),
     ),
   })
 

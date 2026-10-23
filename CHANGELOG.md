@@ -21,6 +21,23 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### The selection-limit spec hung on a disabled option
+Second CI run: 19 passed, 2 failed, down from 6. The remaining failure was the
+limit spec timing out, and the cause was the spec clicking every option in turn.
+Once the maximum is reached the remaining inputs are `disabled`, so Playwright
+waited the full timeout for an element that was never going to become
+actionable, and reported it as a plain timeout.
+
+It now selects exactly the maximum, asserts the live "3 of 3 selected" counter
+a respondent actually sees, and then asserts the next option is disabled rather
+than trying to click it. Which question, which section and what the maximum is
+all come from the instrument.
+
+The suite timeout went from the 30s default to 90s, because these drive a real
+survey against a real database and walking to a later section is several round
+trips. The short timeout was turning a hang into something that looked like
+slowness.
+
 ### The database end-to-end specs failed their first real run, and were wrong
 They shipped unproven, as their commit said, because they need a database and
 could not be run where they were written. CI ran them for the first time and six
