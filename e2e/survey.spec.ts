@@ -1,81 +1,142 @@
-import { expect, test } from '@playwright/test'
+import { type Page, expect, test } from '@playwright/test'
+import {
+  EMAIL_GATE_QUESTION_ID,
+  EMAIL_QUESTION_ID,
+  EMAIL_SHOWN_WHEN,
+  sections,
+} from '../src/lib/questions'
 
 /**
- * The paths that write to the database. They skip without credentials so a
- * developer can still run the UI suite; CI supplies staging credentials and
- * runs them for real.
+ * The paths that write to the database. They skip without credentials so the UI
+ * suite still runs locally; CI supplies staging credentials and runs them.
  *
  * SUPABASE_DB_SCHEMA must be `staging`. These write rows.
+ *
+ * Counts and positions come from the instrument, never written here. The first
+ * version of this file asserted "section 3 of 8" as text, which matched two
+ * nodes (the eyebrow and the progress bar) and failed Playwright's strict mode
+ * on its first real run. The progress bar now carries `section-indicator` and
+ * is the only thing addressed.
  */
 test.skip(
   !process.env.SUPABASE_URL,
   'needs SUPABASE_URL, SUPABASE_SECRET_KEY and SUPABASE_DB_SCHEMA=staging',
 )
 
-async function consentAndStart(page: import('@playwright/test').Page) {
-  await page.goto('/whatdoyouthink')
-  await page.getByText('Yes, continue').click()
-  await page.getByRole('button', { name: /start/i }).click()
+const TOTAL = sections.length
+const indicator = (page: Page) => page.getByTestId('section-indicator')
+
+async function expectSection(page: Page, n: number) {
+  await expect(indicator(page)).toHaveText(
+    new RegExp(`Section\\s+${n}\\s+of\\s+${TOTAL}`, 'i'),
+  )
 }
 
-/** Answer whatever the current section shows, then advance. */
-async function answerSection(page: import('@playwright/test').Page) {
+async function consentAndStart(page: Page) {
+  await page.goto('/whatdoyouthink')
+  await page.getByText('Yes, continue').click()
+  await page.getByRole('button', { name: /^start$/i }).click()
+  await expectSection(page, 1)
+}
+
+/**
+ * Answer the first option of every question on screen, then advance and WAIT
+ * for the advance. Clicking Next and assuming it worked is what made the
+ * earlier failures ambiguous: a slow save looks identical to a broken page.
+ */
+async function answerSection(page: Page) {
+  const before = (await indicator(page).textContent())?.trim() ?? ''
   const groups = page.locator('[role="group"]')
   const count = await groups.count()
   for (let i = 0; i < count; i++) {
-    const firstOption = groups.nth(i).locator('label').first()
-    if (await firstOption.isVisible()) await firstOption.click()
+    const option = groups.nth(i).locator('label').first()
+    if (await option.isVisible()) await option.click()
   }
-  await page.getByRole('button', { name: /next|finish|submit/i }).first().click()
+  await page.getByRole('button', { name: /^(next|finish)$/i }).click()
+  await expect(indicator(page)).not.toHaveText(before, { timeout: 20_000 })
 }
 
-test('a refresh resumes where the respondent was, and loses nothing', async ({ page }) => {
+test('a refresh resumes where the respondent was, and loses nothing', async ({
+  page,
+}) => {
   // The regression test for the bug that deleted saved answers. Before the fix,
   // state reset to empty on reload and the next save overwrote the whole
   // answers column, so sections already answered vanished from the database.
   await consentAndStart(page)
-
   await answerSection(page)
   await answerSection(page)
-  await expect(page.getByText(/section 3 of 8/i)).toBeVisible()
+  await expectSection(page, 3)
 
   await page.reload()
 
   // Resumed, not restarted. Landing back on the intro is the bug.
-  await expect(page.getByText(/section 3 of 8/i)).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'The AYO Relationship Study' })).toBeHidden()
+  await expectSection(page, 3)
+  await expect(
+    page.getByRole('button', { name: /^start$/i }),
+  ).toHaveCount(0)
 })
 
-test('going back does not erase the answers already given', async ({ page }) => {
+test('going back keeps the answers already given', async ({ page }) => {
   await consentAndStart(page)
   await answerSection(page)
-  await expect(page.getByText(/section 2 of 8/i)).toBeVisible()
+  await expectSection(page, 2)
 
-  await page.getByRole('button', { name: /back/i }).click()
-  await expect(page.getByText(/section 1 of 8/i)).toBeVisible()
+  await page.getByRole('button', { name: /^back$/i }).click()
+  await expectSection(page, 1)
 
-  // The earlier answers must still be selected, not cleared.
+  // Still selected, not cleared.
   await expect(page.locator('input:checked').first()).toBeAttached()
 })
 
-test('a selection limit stops at its maximum', async ({ page }) => {
+test('a selection limit cannot be exceeded', async ({ page }) => {
+  // Limits come from the instrument, so the expected maximum is read from it
+  // rather than written down.
+  const limited = sections
+    .flatMap((s) => s.questions)
+    .find((q) => typeof q.maxSelections === 'number')
+  expect(limited, 'the instrument has at least one limited question').toBeTruthy()
+
   await consentAndStart(page)
-  // Walk to the first question carrying a limit and try to exceed it.
-  const limited = page.locator('[role="group"]', { hasText: /select up to/i }).first()
-  if (await limited.count()) {
-    const options = limited.locator('label')
-    const total = await options.count()
-    for (let i = 0; i < total; i++) await options.nth(i).click()
-    const checked = await limited.locator('input:checked').count()
-    expect(checked).toBeLessThanOrEqual(3)
+  for (let i = 1; i < TOTAL; i++) {
+    const group = page.locator('[role="group"]', { hasText: /select up to/i }).first()
+    if (await group.count()) {
+      const options = group.locator('label')
+      const total = await options.count()
+      for (let o = 0; o < total; o++) await options.nth(o).click()
+      const checked = await group.locator('input:checked').count()
+      expect(checked).toBeLessThanOrEqual(limited!.maxSelections!)
+      return
+    }
+    await answerSection(page)
   }
 })
 
-test('the email question stays hidden unless the follow-up is yes or maybe', async ({ page }) => {
-  // The email question must never appear to someone who declined follow-up.
+test('the email question appears only after an affirmative follow-up', async ({
+  page,
+}) => {
+  // Which section holds it comes from the instrument.
+  const sectionWithEmail = sections.find((s) =>
+    s.questions.some((q) => q.id === EMAIL_QUESTION_ID),
+  )!
   await consentAndStart(page)
-  for (let i = 0; i < 8; i++) {
-    if (await page.getByText(/email address/i).count()) break
-    await answerSection(page)
-  }
+  for (let i = 1; i < sectionWithEmail.index; i++) await answerSection(page)
+  await expectSection(page, sectionWithEmail.index)
+
+  const gate = page.locator(`[role="group"]`, {
+    hasText: new RegExp(
+      sections
+        .flatMap((s) => s.questions)
+        .find((q) => q.id === EMAIL_GATE_QUESTION_ID)!
+        .text.slice(0, 40)
+        .replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+    ),
+  })
+
+  // Declining must never reveal the email field.
+  await gate.getByText('No', { exact: true }).first().click()
+  await expect(page.getByLabel(/email/i)).toHaveCount(0)
+
+  // Accepting reveals it.
+  await gate.getByText(EMAIL_SHOWN_WHEN[0], { exact: true }).first().click()
+  await expect(page.getByLabel(/email/i).first()).toBeVisible()
 })

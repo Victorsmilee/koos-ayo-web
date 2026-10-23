@@ -368,7 +368,13 @@ function Progress({ current, total }: { current: number; total: number }) {
   return (
     <div>
       <div className="flex items-center justify-between text-sm text-muted">
-        <span>
+        {/*
+          The same fact is also rendered in the eyebrow above, which is why a
+          test looking for "Section 3 of 8" by text matched two nodes and failed
+          Playwright's strict mode. This is the authoritative one, so it carries
+          the hook and specs address it rather than the prose.
+        */}
+        <span data-testid="section-indicator">
           Section {current} of {total}
         </span>
         <span>{pct}%</span>
