@@ -21,6 +21,44 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### Navigation sticks to the bottom of the screen
+Back used to be a scroll away at the end of a long section. The options
+considered were a clickable progress bar and a second Back/Next pair at the top;
+both were rejected. Eight clickable segments give about 45px targets at 390px
+against the 52px rule, and turn a `role="progressbar"` status element into eight
+tab stops. A second pair spends the top of a phone screen duplicating the
+primary action.
+
+A sticky footer solves the actual complaint, which was reachability rather than
+there being only one Back. Solid `bg` with a top hairline, because the
+three-layer rule asks for both and a translucent bar lets option text show
+through as the page scrolls under it. The padding clears the iPhone home
+indicator.
+
+Two things this turned up, neither of them visible in the code:
+
+- The hint explaining why Start is disabled rendered **after** the nav, so a
+  sticky bar pushed it under the pinned footer. Moved above the control it
+  explains.
+- Three versions of the end-to-end check were wrong before the layout was: it
+  picked a paragraph inside the bar, then measured mid-scroll before the scroll
+  had settled. The layout was right each time. Verified by regression in the
+  end: removing `sticky` fails the check, restoring it passes.
+
+### The concept box no longer counts sections
+`screen === 4` pinned the concept description to a section by number, so
+reordering or inserting a section would have floated it onto the wrong one
+silently. The section now carries its own `conceptBox`, so position comes from
+the instrument.
+
+`conceptBox` moved above `sections` in the file, because a const is not hoisted
+and referencing it later would fail at module load rather than at build.
+
+Screen 0 became a named `INTRO` for the same reason, and the no-hardcode guard
+now flags section indices as well as question ids and table names. Verified by
+regression.
+
+
 ### The privacy notice opens in a new tab
 Reading it mid-survey used to navigate away from the form. The resume fix would
 now bring answers back, but making someone rely on that to read the notice they
