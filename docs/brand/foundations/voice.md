@@ -63,7 +63,7 @@ KOOS) · "fix your relationship" · "save your marriage" · anything where someo
 wins.
 
 Those clinical words matter especially. Brief v2 §10 forbids KOOS from
-diagnosing or declaring a partner abusive from limited information — and the
+diagnosing or declaring a partner abusive from limited information, and the
 language is how that rule gets broken in practice.
 
 ## Microcopy, as approved

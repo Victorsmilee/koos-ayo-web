@@ -20,7 +20,7 @@ layout shift.
 lives or dies on the option labels; nothing smaller than 16px gets a tap target.
 
 ## Why there is no serif
-The first pass paired Lora with Inter. It read calm and editorial — and soft.
+The first pass paired Lora with Inter. It read calm and editorial, and soft.
 Against a sharper reference the diagnosis was that the serif was the single
 biggest reason the pages lacked bite. Bold sans at negative tracking does the
 work instead, and it halves what the browser has to load.
@@ -32,5 +32,5 @@ structured rather than as a wall of text.
 
 ## In the logo
 The wordmark uses Inter Bold, but as **outlines** in any file that leaves this
-repo — see `../logo/README.md`. Inside the app it stays live text, because Inter
+repo, see `../logo/README.md`. Inside the app it stays live text, because Inter
 is already loaded there and live text keeps the mark themeable and accessible.

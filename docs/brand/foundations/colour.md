@@ -1,6 +1,6 @@
 # Colour
 
-Source of truth: **`apps/marketing/src/app/globals.css`** — one block, both
+Source of truth: **`apps/marketing/src/app/globals.css`**, one block, both
 themes. Everything below is a copy for humans, checked against the CSS by
 `scripts/check-brand-docs.py`.
 
@@ -22,7 +22,7 @@ That layering is what reads as sharp; the palette itself is quiet on purpose.
 | `bg` | `#F7F9FA` | `#0B1013` | page |
 | `surface` | `#FFFFFF` | `#121A1E` | cards |
 | `raised` | `#FFFFFF` | `#162026` | controls |
-| `line` | `#DDE5E7` | `#243038` | resting hairlines — decorative |
+| `line` | `#DDE5E7` | `#243038` | resting hairlines, decorative |
 | `line-strong` | `#C2CFD3` | `#35454E` | hover, dividers that matter |
 | `control-line` | `#7E8D94` | `#6B7B84` | **unchecked control outline** |
 | `accent` | `#2F6F6B` | `#5FA8A2` | **the only interactive colour** |
@@ -38,12 +38,12 @@ That layering is what reads as sharp; the palette itself is quiet on purpose.
 
 **1. If it is interactive, it is `accent`.**
 Rose keeps the brand from going cold, but it never carries meaning. Large display
-text and the odd highlight — never body text, never a control. One accent makes
+text and the odd highlight, never body text, never a control. One accent makes
 the selected state unmistakable on a long form.
 
 **2. Never hard-code `text-white` on an accent or rose fill.**
 Dark mode lightens the accent so it reads on a dark background, which drops white
-text on it to **2.8:1** — a failure. That is what `on-accent` is for. Same story
+text on it to **2.8:1**, a failure. That is what `on-accent` is for. Same story
 for the banner: white on plain `rose` is 3.9:1 light and 2.5:1 dark, so it uses
 `rose-deep` and reaches 6.8:1 in both.
 
