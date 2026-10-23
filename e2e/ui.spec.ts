@@ -23,6 +23,49 @@ test('the privacy notice opens in a new tab, so the survey is not lost', async (
   await expect(link).toContainText(/opens in a new tab/i)
 })
 
+test('the navigation stays reachable without scrolling to the end', async ({
+  page,
+}, testInfo) => {
+  // The whole point of the sticky footer. Unprovable by reading the code, and
+  // it only matters on a phone, where the intro is several screens long.
+  test.skip(testInfo.project.name !== 'phone', 'phone viewport only')
+
+  await page.goto('/whatdoyouthink')
+  const next = page.getByRole('button', { name: /start|next|finish/i }).first()
+
+  // Visible at the top, before any scrolling.
+  await expect(next).toBeInViewport()
+
+  // Still visible halfway down, which is where someone answering question 1
+  // actually is.
+  await page.mouse.wheel(0, 600)
+  await expect(next).toBeInViewport()
+
+  // And at the very bottom it settles into the flow rather than floating, so
+  // nothing is left permanently hidden behind it. Content passing under the
+  // bar mid-scroll is how sticky works; content still under it when you have
+  // scrolled as far as you can is a bug.
+  await page.keyboard.press('End')
+  // Wait for the scroll to settle. Measuring mid-scroll reports an overlap that
+  // is not there, which is what the first version of this check did.
+  await page.waitForFunction(
+    () => window.scrollY + window.innerHeight >= document.body.scrollHeight - 2,
+  )
+  await expect(next).toBeInViewport()
+
+  const overlap = await page.evaluate(() => {
+    const bar = document.querySelector('.sticky')
+    if (!bar) return null
+    // Paragraphs inside the bar trivially overlap it, so only the page content
+    // counts. This caught out the first version of this check.
+    const content = [...document.querySelectorAll('p')].filter((el) => !bar.contains(el))
+    const last = content.pop()
+    if (!last) return null
+    return last.getBoundingClientRect().bottom > bar.getBoundingClientRect().top
+  })
+  expect(overlap, 'the last paragraph is hidden behind the sticky bar').toBe(false)
+})
+
 test('the privacy box carries the Article 9 and publication wording', async ({ page }) => {
   // Both are consent-bearing. If either disappears the survey cannot lawfully
   // run, so this is a launch check as much as a UI one.

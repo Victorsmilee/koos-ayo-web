@@ -38,6 +38,13 @@ type Screen = number | 'done' | 'declined'
 const TOTAL = sections.length
 
 /**
+ * Screen 0 is the intro and consent gate; 1..TOTAL are the sections. Named
+ * because a bare number here is the same class of thing as `screen === 4`,
+ * which used to pin the concept box to a section by counting.
+ */
+const INTRO = 0
+
+/**
  * `saved` is an unfinished response belonging to this visitor, found by the id
  * in their own httpOnly cookie. Starting from it is what makes a refresh
  * survivable: before this, state began empty and the next save overwrote the
@@ -50,7 +57,7 @@ export default function SurveyClient({
 }) {
   const [screen, setScreen] = useState<Screen>(
     // Resume on the section after the furthest one saved, never past the end.
-    saved ? (Math.min(saved.lastSection + 1, TOTAL) as Screen) : 0,
+    saved ? (Math.min(saved.lastSection + 1, TOTAL) as Screen) : INTRO,
   )
   const [answers, setAnswers] = useState<Answers>(saved?.answers ?? {})
   const [busy, setBusy] = useState(false)
@@ -185,7 +192,7 @@ export default function SurveyClient({
 
   /* -------------------------------- intro ------------------------------- */
 
-  if (screen === 0) {
+  if (screen === INTRO) {
     return (
       <Shell>
         <div ref={topRef} tabIndex={-1} className="outline-none">
@@ -251,6 +258,16 @@ export default function SurveyClient({
 
           <Honeypot onChange={(v) => (honeypot.current = v)} />
 
+          {/*
+            Above the Nav, not below it. The Nav is sticky, so anything after it
+            is pushed under the pinned bar, and a hint explaining why the button
+            is disabled is the last thing that should be off screen.
+          */}
+          {!answers[consentQuestion.id] && (
+            <p className="mt-3 text-sm text-muted">
+              Please answer question 1 to continue. Every other question can be skipped.
+            </p>
+          )}
           <Nav
             busy={busy}
             error={error}
@@ -258,11 +275,6 @@ export default function SurveyClient({
             nextDisabled={!answers[consentQuestion.id]}
             onNext={handleConsent}
           />
-          {!answers[consentQuestion.id] && (
-            <p className="mt-3 text-sm text-muted">
-              Please answer question 1 to continue. Every other question can be skipped.
-            </p>
-          )}
         </div>
       </Shell>
     )
@@ -290,11 +302,10 @@ export default function SurveyClient({
         {section.helper && (
           <p className="mt-2 text-base italic text-muted">{section.helper}</p>
         )}
-
-        {/* The concept description sits above Q19, as printed. */}
-        {screen === 4 && (
+        {/* Position comes from the instrument: the section carries it. */}
+        {section.conceptBox && (
           <div className="mt-5 rounded-koos border border-l-4 border-line border-l-accent bg-surface p-5">
-            {conceptBox.paragraphs.map((p) => (
+            {section.conceptBox.paragraphs.map((p) => (
               <p key={p} className="mt-3 text-base text-ink first:mt-0">
                 {p}
               </p>
@@ -538,7 +549,20 @@ function Nav({
   onBack?: () => void
 }) {
   return (
-    <div className="mt-10">
+    /*
+     * Sticky, so Back is reachable without scrolling to the end of a long
+     * section. That was the real complaint, rather than there being only one
+     * Back: a second pair at the top would have duplicated the primary action
+     * and spent the most valuable part of a phone screen.
+     *
+     * Solid `bg` plus a top hairline, because the three-layer rule asks for
+     * both. A translucent bar lets option text show through as the page
+     * scrolls under it, which reads as a rendering fault.
+     *
+     * pb-safe clears the iPhone home indicator; without it the buttons sit
+     * underneath it and the bottom of the tap target is unreachable.
+     */
+    <div className="sticky bottom-0 z-10 mt-10 border-t border-line bg-bg pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4">
       {error && (
         <p
           role="alert"

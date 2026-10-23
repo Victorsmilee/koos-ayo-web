@@ -294,7 +294,11 @@ test('no question id, table name or schema is hardcoded outside its source', () 
           .forEach((line, i) => {
             const code = line.replace(/\/\/.*$/, '').replace(/^\s*\*.*$/, '')
             if (
-              /'q\d+'|answers\.q\d+|'research_(responses|contacts)'/.test(code)
+              /'q\d+'|answers\.q\d+|'research_(responses|contacts)'/.test(code) ||
+              // Section indices count too. `screen === 4` pinned the concept box
+              // to a section by number, and reordering sections would have
+              // floated it onto the wrong one with nothing to catch it.
+              /\b(screen|sectionIndex)\s*[=!]==?\s*\d/.test(code)
             ) {
               offenders.push(`${full}:${i + 1}`)
             }

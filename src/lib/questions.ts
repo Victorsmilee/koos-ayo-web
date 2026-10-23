@@ -36,6 +36,18 @@ export interface Section {
   title: string
   helper?: string
   questions: Question[]
+  /**
+   * The concept description, shown above this section's first question.
+   *
+   * It lives here rather than being pinned to a section number in the client,
+   * which is what used to happen: `screen === 4`. Reordering or inserting a
+   * section would have floated it onto the wrong one silently.
+   */
+  conceptBox?: ConceptBox
+}
+
+export interface ConceptBox {
+  paragraphs: string[]
 }
 
 export const SURVEY_VERSION = 'v3'
@@ -88,6 +100,16 @@ export const consentQuestion: Question = {
 /** Selecting this on Q1 ends the survey immediately. */
 export const CONSENT_DECLINE = 'No (thank you, the survey ends here)'
 
+/** Shown above Q19. Verbatim concept description from the instrument. */
+export const conceptBox = {
+  paragraphs: [
+    'Imagine a private relationship-support app that helps you slow down before reacting. It helps you understand what happened, identify what you are feeling and what you are tempted to do, separate facts from assumptions, consider another perspective, clarify what you actually want, choose how to respond, and later learn from what happened.',
+    'The goal is not to decide who is right. It is to help you respond more intentionally and, over time, build healthier relationship patterns.',
+  ],
+}
+
+// Declared before `sections` because a section now carries it, and a const is
+// not hoisted: referencing it later in the file would fail at module load.
 export const sections: Section[] = [
   {
     index: 1,
@@ -334,6 +356,7 @@ export const sections: Section[] = [
   {
     index: 4,
     title: 'A new kind of support',
+    conceptBox,
     questions: [
       {
         id: 'q19',
@@ -650,13 +673,6 @@ export const sections: Section[] = [
   },
 ]
 
-/** Shown above Q19. Verbatim concept description from the instrument. */
-export const conceptBox = {
-  paragraphs: [
-    'Imagine a private relationship-support app that helps you slow down before reacting. It helps you understand what happened, identify what you are feeling and what you are tempted to do, separate facts from assumptions, consider another perspective, clarify what you actually want, choose how to respond, and later learn from what happened.',
-    'The goal is not to decide who is right. It is to help you respond more intentionally and, over time, build healthier relationship patterns.',
-  ],
-}
 
 export const thankYou = {
   heading: 'Thank you.',
