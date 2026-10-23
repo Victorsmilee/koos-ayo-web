@@ -1,9 +1,9 @@
-# KOOS — marketing site and research survey
+# KOOS, marketing site and research survey
 
 The public site at **koos-ayo.com**, including the research questionnaire at
 `/whatdoyouthink`.
 
-KOOS-AYO means "together, with joy." It is private relationship coaching — a
+KOOS-AYO means "together, with joy." It is private relationship coaching, a
 togetherness product that takes conflict seriously.
 
 **Right now there is one job:** get the research questionnaire live. Everything
@@ -15,7 +15,7 @@ further is gated on evidence from it.
 ## Layout
 ```
 src/app/              Next.js App Router
-src/app/whatdoyouthink/   the survey — 8 sections, 36 questions
+src/app/whatdoyouthink/   the survey, 8 sections, 36 questions
 src/lib/questions.ts  the research instrument, verbatim
 supabase/migrations/  every table change, numbered
 docs/brand/           the brand guide: foundations/ and logo/
@@ -33,7 +33,7 @@ npm install
 npm run dev                     # http://localhost:3000
 ```
 
-`.env.local` needs five values. `SUPABASE_DB_SCHEMA` must be `staging` locally —
+`.env.local` needs five values. `SUPABASE_DB_SCHEMA` must be `staging` locally,
 there is deliberately no default, so a missing value throws at startup instead of
 silently writing test data into the real research dataset.
 

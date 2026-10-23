@@ -1,0 +1,102 @@
+# Changelog
+
+What changed on the marketing site and the research survey, and why. Newest
+first.
+
+No version numbers yet: nothing has been released. Dates are the only meaningful
+marker until the survey goes live.
+
+**Add an entry in the same pull request as the change.** A changelog written
+afterwards is written from memory, and memory is what this file exists to
+replace. Entries say what changed and why it mattered, not which files moved:
+`git log` already has the files.
+
+**Changes to `src/lib/questions.ts` get special care.** It reproduces
+questionnaire v3 verbatim and is a measuring device: if a question, option or the
+thank-you text ever changes, early and late respondents answered different
+instruments and the two sets cannot be compared. Say explicitly in the entry
+whether the instrument moved. So far it never has.
+
+---
+
+## 23 Oct 2026
+
+### Controller address completed
+`Paldiski mnt 227c, 13520 Tallinn, Estonia`, closing the last blank in the
+notice. Because no placeholder remains, `<Todo>` stops highlighting it and the
+address renders as ordinary prose rather than as a draft. The matching ROPA
+change landed in the private repo at the same time, because a regulator compares
+the published notice against that record.
+
+### Consent now permits publishing aggregates
+The privacy box said answers were "used only for this research", which forbade a
+public results page. Respondents are anonymous, so consent cannot be obtained
+after the fact: anything collected under the old wording could never have been
+published, with no way back. It now says we may publish anonymous summary
+statistics, and names the three exclusions: individual answers, anything typed in
+free text, and the faith question (Article 9 data). Tests guard that sentence.
+
+**Instrument unchanged.** This is helper copy in the privacy box, the same class
+of change as the Article 9 line.
+
+### Respondents told to answer on instinct
+The closing line now says to go with your first instinct "rather than the answer
+that sounds best", aimed at social desirability editing, which contaminates the
+willingness to pay questions worst. **Instrument unchanged.**
+
+### "Not judging you" removed
+The privacy box said we are "not in judging you or your relationship". Denying
+judgement is what raises it. Replaced with what the research is actually about:
+what happens in relationships, and patterns across many people.
+**Instrument unchanged.**
+
+### Sentence case, and no em dashes
+Section titles moved from "Support You Use Today" to "Support you use today", and
+43 em dashes were removed from `src`, replaced with a comma, colon or full stop
+depending on what the sentence was doing. Both read as machine written.
+
+A test now fails on any em dash in `src`. It allows an en dash between digits:
+`18-24` and `6-12 months` are answer options from v3, where an en dash is correct
+typography for a range, and they are instrument text regardless. That exception
+was found by the guard on its first run.
+
+**Instrument unchanged.** Section titles are headings, not questions, options or
+the thank-you text.
+
+### Brand guide arrived
+The 22 Oct split carried `docs/brand/logo` over but not the rest of the guide, so
+this repo kept a `docs/brand.md` the guide had already replaced. Added
+`docs/brand/` with `foundations/` (colour, typography, naming, voice, usage) and
+the rendered guide; removed the superseded file.
+
+`scripts/check-brand-docs.py` came with it, with its CSS path corrected for this
+repo's flat layout. It asserts every hex in the guide is a real token in
+`globals.css`, so the palette table cannot drift.
+
+---
+
+## 22 Oct 2026
+
+### Split out of the monorepo
+This repository became the public home of the marketing site and the survey. The
+product documents, GDPR records and backlog stayed in the private
+`Victorsmilee/koos-ayo`. Nothing here should restate strategy, pricing or
+roadmap: it is public.
+
+`supabase/migrations/0001_research.sql` exists in both repositories. **The copy
+in the private repo is canonical**; this one is for local development.
+
+### Controller set to a natural person
+Estonian registration of Koos-Ayo is in progress, and an intended company is not
+an identifiable legal person, so it cannot be the controller. Set to Victor
+Ibrahim, matching the ROPA.
+
+`<Todo>` also stopped highlighting unconditionally. It had marked every value,
+including ones already filled in, which made the notice look like a draft and
+made the highlight useless as a signal. It now keys off the `[TEAM TO CONFIRM]`
+marker itself.
+
+### Initial site and survey
+Marketing home page, the 36 question survey at `/whatdoyouthink`, and the privacy
+notice. Progressive save so drop-off is measurable, skip logic on Q1 and Q34,
+selection limits, and a honeypot.

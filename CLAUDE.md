@@ -1,4 +1,4 @@
-# KOOS — marketing site and research survey
+# KOOS, marketing site and research survey
 
 This is the **public** repository: the marketing site at koos-ayo.com and the
 research questionnaire at `/whatdoyouthink`.
@@ -14,15 +14,21 @@ Nothing in this repository should restate strategy, pricing or roadmap. It is
 public: assume anyone can read it.
 
 ## Layout
-- `src/app` — Next.js App Router; the survey is `src/app/whatdoyouthink`
-- `src/lib/questions.ts` — the research instrument, verbatim
-- `supabase/migrations` — every table change is a numbered SQL file here
-- `docs/brand/` — the brand guide: `foundations/` (colour, type, naming, voice,
+- `src/app`, Next.js App Router; the survey is `src/app/whatdoyouthink`
+- `src/lib/questions.ts`, the research instrument, verbatim
+- `supabase/migrations`, every table change is a numbered SQL file here
+- `docs/brand/`, the brand guide: `foundations/` (colour, type, naming, voice,
   usage) and `logo/`. Read `foundations/voice.md` before writing anything a user
   will see.
 
 There is no Python service. The backend is Next.js route handlers and server
 actions. Do not reintroduce a separate API service without an explicit decision.
+
+## Changelog
+Every pull request that changes behaviour, the privacy notice, or copy a
+respondent sees adds an entry to `CHANGELOG.md` under today's date, in the same
+PR. Say what changed and why it mattered, and state explicitly whether the
+instrument moved.
 
 ## Branches and releases
 - Never push directly to `main`. Work on `feature/*` branches.
@@ -43,7 +49,7 @@ actions. Do not reintroduce a separate API service without an explicit decision.
 - Row-level security is on for every table. The research tables have **zero
   policies**: RLS on with no policy denies every role, and only the server's
   secret key (which bypasses RLS) writes. Never add an `anon` policy to them.
-- Never chain `.select()` onto an insert or update on an RLS-locked table —
+- Never chain `.select()` onto an insert or update on an RLS-locked table,
   PostgREST will ask for the row back and fail with `42501`.
 - Survey emails stay separate from survey answers, with nothing linking them.
   `q35` is stripped from the answers payload on every write.
@@ -58,7 +64,7 @@ actions. Do not reintroduce a separate API service without an explicit decision.
 or remove a question, an option or the thank-you text. It is a measuring device:
 changing wording invalidates comparison across responses.
 `[TEAM TO CONFIRM]` placeholders are launch blockers, never values to invent.
-`tests/instrument.test.ts` guards this — run `npm test`.
+`tests/instrument.test.ts` guards this, run `npm test`.
 
 ## The name
 KOOS-AYO means "together, with joy." The full wordmark is KOOS-AYO; **KOOS** is
@@ -69,23 +75,23 @@ friendly coat of paint.
 
 ## Brand
 Tokens live in one block in `src/app/globals.css`; the guide is `docs/brand/`.
-After touching a token, run `python3 scripts/check-brand-docs.py` as well — it
+After touching a token, run `python3 scripts/check-brand-docs.py` as well, it
 asserts every hex in the guide still exists in the CSS, so the docs cannot go
 quietly stale.
 **Crispness comes from structure, not colour:** three layers (`bg` / `surface` /
 `raised`), each separated by both a fill change and a hairline.
 
-- **If it is interactive, it is `accent`.** `rose` is display decoration only —
+- **If it is interactive, it is `accent`.** `rose` is display decoration only,
   large text, never body text, never a control.
 - Never hard-code `text-white` on an accent or rose fill. Use `on-accent`, or
   `rose-deep` for the banner. Dark mode lightens the accent and white drops to
   2.8:1.
 - `control-line` is for the outline of an **unchecked** control and must stay at
-  3:1 (WCAG 1.4.11). It is not a decorative hairline — do not merge it with
+  3:1 (WCAG 1.4.11). It is not a decorative hairline, do not merge it with
   `line`.
 - Options use `<OptionRow>`: a `sr-only` real input plus a drawn control. Never
   `display:none` an input.
-- Question groups use `role="group"` + `aria-labelledby`, not `<fieldset>` —
+- Question groups use `role="group"` + `aria-labelledby`, not `<fieldset>`,
   `<legend>` cannot be laid out as a block and overflows the card.
 - Run `python3 scripts/contrast.py` after touching any token. It must exit 0.
 - Mobile-first: single column by default, 52px tap targets, no horizontal
