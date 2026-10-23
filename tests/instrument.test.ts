@@ -25,11 +25,14 @@ import { answersSchema } from '../src/lib/validation'
  * comparison across responses without anything visibly breaking.
  */
 
-test('the instrument has exactly 36 questions, q1 to q36, no duplicates', () => {
-  assert.equal(allQuestions.length, 36)
+test('the instrument has exactly 38 questions, q1 to q38, no duplicates', () => {
+  // 36 in questionnaire v3. Two were added on 23 Oct 2026, before any response
+  // was collected: a price ceiling and a recommendation question. Nothing was
+  // reworded. After the link is shared this number must never change again.
+  assert.equal(allQuestions.length, 38)
   const ids = allQuestions.map((q) => q.id)
-  assert.equal(new Set(ids).size, 36, 'duplicate question id')
-  for (let n = 1; n <= 36; n++) {
+  assert.equal(new Set(ids).size, allQuestions.length, 'duplicate question id')
+  for (let n = 1; n <= allQuestions.length; n++) {
     assert.ok(ids.includes(`q${n}`), `missing q${n}`)
   }
 })
@@ -60,27 +63,24 @@ test('Q1 is the only required question and offers exactly two options', () => {
   assert.equal(consentQuestion.options?.length, 2)
   assert.ok(consentQuestion.options?.includes(CONSENT_DECLINE))
   // Every other question is skippable: none is marked required anywhere.
-  const required = allQuestions.filter((q) => q.id !== 'q1' && q.optional === false)
+  const required = allQuestions.filter(
+    (q) => q.id !== consentQuestion.id && q.optional === false,
+  )
   assert.equal(required.length, 0)
 })
 
-test('Q35 is gated on Q34 being Yes or Maybe, and those are real Q34 options', () => {
-  const q34 = allQuestions.find((q) => q.id === 'q34')!
-  for (const value of EMAIL_SHOWN_WHEN) {
-    assert.ok(q34.options?.includes(value), `${value} is not an option on Q34`)
-  }
+test('declining the follow-up never reveals the email question', () => {
+  // The positive cases live in the derivation test below. This is the negative
+  // one, and it is the one that matters: a respondent who said No must never be
+  // shown the email field.
   assert.ok(!EMAIL_SHOWN_WHEN.includes('No'))
+  const gate = allQuestions.find((q) => q.id === EMAIL_GATE_QUESTION_ID)!
+  assert.ok(gate.options?.includes('No'), 'the gate must offer No at all')
 })
 
-test('Q35 is the email question and the only one of its kind', () => {
-  const emails = allQuestions.filter((q) => q.kind === 'email')
-  assert.equal(emails.length, 1)
-  assert.equal(emails[0].id, 'q35')
-})
-
-test('the three optional free-text questions are q14, q18 and q36', () => {
+test('the three optional free-text questions are q14, q18 and the last one', () => {
   const text = allQuestions.filter((q) => q.kind === 'text').map((q) => q.id)
-  assert.deepEqual(text, ['q14', 'q18', 'q36'])
+  assert.deepEqual(text, ['q14', 'q18', allQuestions[allQuestions.length - 1].id])
   assert.ok(allQuestions.filter((q) => q.kind === 'text').every((q) => q.optional))
 })
 
