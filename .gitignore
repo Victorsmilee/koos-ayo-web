@@ -22,3 +22,6 @@ supabase/.temp/
 # Playwright
 test-results/
 playwright-report/
+
+# per-machine agent permissions, never shared
+.claude/settings.local.json

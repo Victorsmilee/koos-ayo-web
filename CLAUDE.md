@@ -88,7 +88,8 @@ would have written respondents' email addresses into the answers table.
 - Never chain `.select()` onto an insert or update on an RLS-locked table,
   PostgREST will ask for the row back and fail with `42501`.
 - Survey emails stay separate from survey answers, with nothing linking them.
-  `q35` is stripped from the answers payload on every write.
+  The email question is stripped from the answers payload on every write, by
+  `EMAIL_QUESTION_ID` rather than a literal id.
 - Never write code that lets one partner see another's private content.
 - KOOS never sends messages on a user's behalf.
 - No analytics, tracking pixels or third-party scripts on `/whatdoyouthink`.
