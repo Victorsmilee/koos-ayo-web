@@ -42,6 +42,26 @@ instrument moved.
 - Both live in one Supabase project in Frankfurt. `SUPABASE_DB_SCHEMA` has no
   default: missing config must throw, never silently fall back to `public`.
 
+## Nothing ships untested
+Product Owner rule, 23 Oct 2026. **Work is not complete until it is tested,
+confirmed, and reported.** Automated, not by hand.
+
+- `npm run verify` runs typecheck, unit tests, both guards and the build.
+- `npm run e2e` runs Playwright across a phone and a desktop viewport.
+- CI (`.github/workflows/ci.yml`) runs all of it on every pull request. A red
+  check is the answer, not a comment saying it works.
+
+A change to behaviour needs a test that fails without it. The refresh fix is the
+example to copy: the bug deleted saved answers, and nothing caught it because
+every test checked structure rather than what a respondent could actually do.
+
+E2E specs that write to the database skip themselves when SUPABASE_URL is unset,
+so the UI suite still runs locally without credentials. CI supplies **staging**
+credentials. They must never see the production schema: these specs write rows.
+
+Locally the container has its own browser, so run e2e with
+`PLAYWRIGHT_CHROMIUM_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`.
+
 ## Nothing is hardcoded
 Product Owner rule, 23 Oct 2026. **Any value that must be hardcoded needs his
 approval first.** Derive it instead, from the one place it is defined:
