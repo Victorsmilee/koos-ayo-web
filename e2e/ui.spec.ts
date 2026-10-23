@@ -12,6 +12,17 @@ test('the intro names the study and links the privacy notice', async ({ page }) 
   await expect(page.getByRole('link', { name: /privacy/i }).first()).toBeVisible()
 })
 
+test('the privacy notice opens in a new tab, so the survey is not lost', async ({ page }) => {
+  await page.goto('/whatdoyouthink')
+  const link = page.getByRole('link', { name: /privacy notice/i })
+  await expect(link).toHaveAttribute('target', '_blank')
+  // Without noopener the opened page can reach back through window.opener.
+  await expect(link).toHaveAttribute('rel', /noopener/)
+  // Announced, not silent: a link that spawns a tab without saying so is
+  // disorienting for screen reader users.
+  await expect(link).toContainText(/opens in a new tab/i)
+})
+
 test('the privacy box carries the Article 9 and publication wording', async ({ page }) => {
   // Both are consent-bearing. If either disappears the survey cannot lawfully
   // run, so this is a launch check as much as a UI one.
