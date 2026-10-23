@@ -586,6 +586,35 @@ export const sections: Section[] = [
           'Not sure',
         ],
       },
+      {
+        id: 'q34',
+        number: 34,
+        text: 'What is the most you would pay per month before it stops feeling worth it?',
+        kind: 'one',
+        instruction: '(Select one)',
+        options: [
+          'I would not pay anything',
+          'Up to €5 per month',
+          'Up to €10 per month',
+          'Up to €20 per month',
+          'More than €20 per month',
+          'Not sure',
+        ],
+      },
+      {
+        id: 'q35',
+        number: 35,
+        text: 'If it genuinely helped you, would you recommend it to a friend or family member?',
+        kind: 'one',
+        instruction: '(Select one)',
+        options: [
+          'Definitely yes',
+          'Probably yes',
+          'Maybe',
+          'Probably not',
+          'Definitely not',
+        ],
+      },
     ],
   },
   {
@@ -593,16 +622,16 @@ export const sections: Section[] = [
     title: 'One last thing',
     questions: [
       {
-        id: 'q34',
-        number: 34,
+        id: 'q36',
+        number: 36,
         text: 'Would you be interested in a short follow-up interview or testing an early version?',
         kind: 'one',
         instruction: '(Select one)',
         options: ['Yes', 'Maybe', 'No'],
       },
       {
-        id: 'q35',
-        number: 35,
+        id: 'q37',
+        number: 37,
         text: 'If yes, please leave your email address.',
         kind: 'email',
         instruction:
@@ -610,8 +639,8 @@ export const sections: Section[] = [
         optional: true,
       },
       {
-        id: 'q36',
-        number: 36,
+        id: 'q38',
+        number: 38,
         text: 'Is there anything else you would like to tell us?',
         kind: 'text',
         instruction: '(Optional)',

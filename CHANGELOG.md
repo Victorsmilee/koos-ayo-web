@@ -21,6 +21,53 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### THE INSTRUMENT MOVED. Two questions added, 36 to 38
+**The first and so far only time this has happened.** Done before a single
+response was collected, which is the only window in which it is possible: the
+rule against changing the instrument exists so early and late respondents answer
+the same survey, and with nothing collected there was nothing to break. After the
+link is shared this is closed permanently.
+
+**No existing question, option or the thank-you text was reworded.** Two were
+added and the tail was renumbered.
+
+New Q34, the price ceiling: "What is the most you would pay per month before it
+stops feeling worth it?" Q33 already asked what price feels reasonable, which is
+a different thing. A respondent who thinks EUR10 is fair may still stop at EUR5,
+and that gap is the number that decides whether this can be a paid product. The
+bands share Q33 breakpoints so the two cross-tabulate.
+
+The alternative considered was making Q33 multiple choice with a limit of three.
+Rejected: three ticks on a price scale stop measuring price, since adjacent bands
+all inflate together and "I would only use a free version" becomes selectable
+alongside "EUR10-20 per month".
+
+New Q35, recommendation: "If it genuinely helped you, would you recommend it to a
+friend or family member?" on Q32's scale, so willingness to pay and willingness
+to advocate cross-tabulate. For this product the gap between them is the finding:
+someone may value it highly and still never admit using a relationship app. If
+Q32 runs high and Q35 low, that changes acquisition entirely.
+
+A referral programme was considered and deliberately NOT built into the survey.
+Incentivised referrals would measure the incentive rather than the product,
+collecting a friend's contact details processes a third party who never
+consented, and points require an identity the anonymous design does not have.
+The question measures intent; the mechanism waits for the answer.
+
+Q34 to Q36 became Q36 to Q38. That renumbering was only safe because the change
+below removed every hardcoded question id.
+
+### Nothing is hardcoded any more
+Question ids, table names, schema names and environment names are now derived
+from their single source. The one that mattered: the email question id was
+written out in three places and derived in none, so renumbering the instrument
+would have made stripEmail delete a question that no longer existed and write
+respondents' email addresses into the answers table.
+
+A test now fails the build on any hardcoded question id, table or schema,
+verified by regression rather than inspection.
+
+
 ### Controller address completed
 `Paldiski mnt 227c, 13520 Tallinn, Estonia`, closing the last blank in the
 notice. Because no placeholder remains, `<Todo>` stops highlighting it and the
