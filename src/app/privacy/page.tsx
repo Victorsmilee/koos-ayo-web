@@ -7,15 +7,16 @@ import { CONTACT_EMAIL, RETENTION_PERIOD } from '@/lib/questions'
 /**
  * GDPR privacy notice for the research survey (INF-57).
  *
- * STATUS (22 Oct 2026):
+ * STATUS (23 Oct 2026):
  *   [x] RETENTION_PERIOD  - 24 months (questions.ts)
  *   [x] CONTACT_EMAIL     - hello@koos-ayo.com (questions.ts)
  *   [x] Country           - Estonia
  *   [x] CONTROLLER_NAME   - Victor Ibrahim, a natural person (PO, 22 Oct 2026)
- *   [~] CONTROLLER_ADDRESS - street given 22 Oct: Paldiski mnt 227c.
- *       POSTAL CODE AND CITY STILL MISSING, and still a launch blocker: an
- *       address a respondent cannot reach does not make the controller
- *       identifiable. Deliberately not guessed here.
+ *   [x] CONTROLLER_ADDRESS - Paldiski mnt 227c, 13520 Tallinn (PO, 23 Oct 2026)
+ *
+ * Every blank in this notice is now filled. The one thing still outstanding
+ * before the link is shared is the legal review (INF-67), and the controller
+ * switch when the company is registered (INF-103).
  *
  * This block must keep matching docs/gdpr/ropa.md section 1 in the PRIVATE repo
  * Victorsmilee/koos-ayo. A regulator compares the published notice against that
@@ -37,12 +38,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Street given 22 Oct;
-// postal code and city outstanding, so the marker stays and <Todo> keeps
-// highlighting it until the address is complete.
+// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Address completed
+// 23 Oct 2026. No placeholder remains, so <Todo> now renders these as ordinary
+// prose rather than highlighting them.
 const CONTROLLER_NAME = 'Victor Ibrahim'
-const CONTROLLER_ADDRESS =
-  'Paldiski mnt 227c, [TEAM TO CONFIRM: postal code and city]'
+const CONTROLLER_ADDRESS = 'Paldiski mnt 227c, 13520 Tallinn'
 const CONTROLLER_COUNTRY = 'Estonia'
 
 export default function PrivacyPage() {
