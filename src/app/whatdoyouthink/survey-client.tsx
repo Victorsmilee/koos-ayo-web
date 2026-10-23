@@ -4,7 +4,9 @@ import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import {
   CONSENT_DECLINE,
-  Q35_SHOWN_WHEN,
+  EMAIL_GATE_QUESTION_ID,
+  EMAIL_QUESTION_ID,
+  EMAIL_SHOWN_WHEN,
   conceptBox,
   consentQuestion,
   declineMessage,
@@ -56,15 +58,15 @@ export default function SurveyClient() {
     const section = sections[sectionIndex - 1]
     if (!section) return []
     return section.questions.filter((q) => {
-      if (q.id !== 'q35') return true
-      const q34 = answers.q34
-      return typeof q34 === 'string' && Q35_SHOWN_WHEN.includes(q34)
+      if (q.id !== EMAIL_QUESTION_ID) return true
+      const gate = answers[EMAIL_GATE_QUESTION_ID]
+      return typeof gate === 'string' && EMAIL_SHOWN_WHEN.includes(gate)
     })
   }
 
   async function handleConsent() {
     // Q1 "No" ends the survey here. Nothing is stored.
-    if (answers.q1 === CONSENT_DECLINE) {
+    if (answers[consentQuestion.id] === CONSENT_DECLINE) {
       setScreen('declined')
       return
     }
@@ -112,13 +114,13 @@ export default function SurveyClient() {
     }
 
     // Separate call, separate table. Never linked to the answers above.
-    const email = answers.q35
-    const followUp = answers.q34
+    const email = answers[EMAIL_QUESTION_ID]
+    const followUp = answers[EMAIL_GATE_QUESTION_ID]
     if (
       typeof email === 'string' &&
       email.trim() &&
       typeof followUp === 'string' &&
-      Q35_SHOWN_WHEN.includes(followUp)
+      EMAIL_SHOWN_WHEN.includes(followUp)
     ) {
       await saveEmail(email.trim(), followUp.toLowerCase())
     }
@@ -226,11 +228,11 @@ export default function SurveyClient() {
           <Nav
             busy={busy}
             error={error}
-            nextLabel={answers.q1 === CONSENT_DECLINE ? 'Finish' : 'Start'}
-            nextDisabled={!answers.q1}
+            nextLabel={answers[consentQuestion.id] === CONSENT_DECLINE ? 'Finish' : 'Start'}
+            nextDisabled={!answers[consentQuestion.id]}
             onNext={handleConsent}
           />
-          {!answers.q1 && (
+          {!answers[consentQuestion.id] && (
             <p className="mt-3 text-sm text-muted">
               Please answer question 1 to continue. Every other question can be skipped.
             </p>

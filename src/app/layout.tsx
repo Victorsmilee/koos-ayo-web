@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import { isNotProduction } from '@/lib/app-env'
 import './globals.css'
 
 // next/font self-hosts Inter at build time: no request to Google at runtime, no
@@ -52,7 +53,7 @@ document.documentElement.setAttribute('data-theme',dark?'dark':'light');
 `.trim()
 
 const appEnv = process.env.NEXT_PUBLIC_APP_ENV
-const isNotProduction = appEnv === 'staging' || appEnv === 'preview'
+const showEnvBanner = isNotProduction(appEnv)
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -66,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="koos-skip">
           Skip to content
         </a>
-        {isNotProduction && (
+        {showEnvBanner && (
           <div
             role="status"
             className="bg-rose-deep px-4 py-1.5 text-center text-sm font-semibold text-white"

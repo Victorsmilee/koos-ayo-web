@@ -1,14 +1,14 @@
 'use server'
 
 import { cookies } from 'next/headers'
-import { getSupabase } from '@/lib/supabase-server'
+import { TABLES, getSupabase } from '@/lib/supabase-server'
 import {
   answersSchema,
   emailSchema,
   followUpSchema,
   sectionPayloadSchema,
 } from '@/lib/validation'
-import { SURVEY_VERSION } from '@/lib/questions'
+import { EMAIL_QUESTION_ID, SURVEY_VERSION } from '@/lib/questions'
 
 /**
  * Server Actions for the research survey.
@@ -25,7 +25,8 @@ import { SURVEY_VERSION } from '@/lib/questions'
  *   therefore exempt from consent-banner requirements.
  *
  * TWO TABLES, NEVER JOINED
- *   An email goes to research_contacts and nowhere else. q35 is stripped from
+ *   An email goes to the contacts table and nowhere else. The email answer is
+ *   stripped from
  *   the answers payload defensively on every single write, regardless of what
  *   the client sent.
  *
@@ -46,11 +47,19 @@ export interface ActionResult {
 const GENERIC_ERROR =
   "Sorry, that didn't save. Please check your connection and try again."
 
-/** q35 is the email question. It must never appear in the answers table. */
+/**
+ * Remove the email answer before anything is written to the answers table.
+ *
+ * The id comes from the instrument rather than being written here. It used to
+ * be the literal 'q35', in this file and again in survey-client.tsx, so a
+ * renumbered instrument would have left both pointing at the wrong question and
+ * quietly written respondents' email addresses into the answers table. That is
+ * the one thing the privacy notice promises cannot happen.
+ */
 function stripEmail(answers: Record<string, unknown>): Record<string, unknown> {
-  const { q35, q35_other, ...rest } = answers
-  void q35
-  void q35_other
+  const rest = { ...answers }
+  delete rest[EMAIL_QUESTION_ID]
+  delete rest[`${EMAIL_QUESTION_ID}_other`]
   return rest
 }
 
@@ -97,7 +106,7 @@ export async function saveSection(input: unknown): Promise<ActionResult> {
 
     if (existingId) {
       const { error } = await supabase
-        .from('research_responses')
+        .from(TABLES.responses)
         .update({
           answers: payload,
           last_section: sectionIndex,
@@ -112,7 +121,7 @@ export async function saveSection(input: unknown): Promise<ActionResult> {
     }
 
     const id = crypto.randomUUID()
-    const { error } = await supabase.from('research_responses').insert({
+    const { error } = await supabase.from(TABLES.responses).insert({
       id,
       survey_version: SURVEY_VERSION,
       answers: payload,
@@ -159,7 +168,7 @@ export async function submitSurvey(input: unknown): Promise<ActionResult> {
 
     if (existingId) {
       const { error } = await supabase
-        .from('research_responses')
+        .from(TABLES.responses)
         .update({
           answers: payload,
           completed: true,
@@ -169,7 +178,7 @@ export async function submitSurvey(input: unknown): Promise<ActionResult> {
         .eq('id', existingId)
       if (error) return { ok: false, message: GENERIC_ERROR }
     } else {
-      const { error } = await supabase.from('research_responses').insert({
+      const { error } = await supabase.from(TABLES.responses).insert({
         id,
         survey_version: SURVEY_VERSION,
         answers: payload,
@@ -209,7 +218,7 @@ export async function saveEmail(
 
   try {
     const supabase = getSupabase()
-    const { error } = await supabase.from('research_contacts').insert({
+    const { error } = await supabase.from(TABLES.contacts).insert({
       email: email.data,
       follow_up: followUp.data,
     })
