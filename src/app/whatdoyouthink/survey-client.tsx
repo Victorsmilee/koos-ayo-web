@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
+import type { SavedResponse } from '@/lib/resume'
 import {
   CONSENT_DECLINE,
   EMAIL_GATE_QUESTION_ID,
@@ -36,9 +37,22 @@ type Screen = number | 'done' | 'declined'
 
 const TOTAL = sections.length
 
-export default function SurveyClient() {
-  const [screen, setScreen] = useState<Screen>(0)
-  const [answers, setAnswers] = useState<Answers>({})
+/**
+ * `saved` is an unfinished response belonging to this visitor, found by the id
+ * in their own httpOnly cookie. Starting from it is what makes a refresh
+ * survivable: before this, state began empty and the next save overwrote the
+ * row, so a refresh at section 5 destroyed sections 1 to 4.
+ */
+export default function SurveyClient({
+  saved,
+}: {
+  saved: SavedResponse | null
+}) {
+  const [screen, setScreen] = useState<Screen>(
+    // Resume on the section after the furthest one saved, never past the end.
+    saved ? (Math.min(saved.lastSection + 1, TOTAL) as Screen) : 0,
+  )
+  const [answers, setAnswers] = useState<Answers>(saved?.answers ?? {})
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const startedAt = useRef(Date.now())

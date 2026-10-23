@@ -8,7 +8,12 @@ import {
   followUpSchema,
   sectionPayloadSchema,
 } from '@/lib/validation'
-import { EMAIL_QUESTION_ID, SURVEY_VERSION } from '@/lib/questions'
+import { EMAIL_QUESTION_ID, SURVEY_VERSION, sections } from '@/lib/questions'
+import {
+  COOKIE_MAX_AGE_SECONDS,
+  RESPONSE_COOKIE,
+  SURVEY_PATH,
+} from '@/lib/response-cookie'
 
 /**
  * Server Actions for the research survey.
@@ -35,9 +40,7 @@ import { EMAIL_QUESTION_ID, SURVEY_VERSION } from '@/lib/questions'
  *   console, not to an error reporter. Only the shape of a failure is recorded.
  */
 
-const RESPONSE_COOKIE = 'koos_rid'
-const COOKIE_MAX_AGE = 60 * 60 * 4 // 4 hours, long enough to finish, then gone
-const MIN_ELAPSED_MS = 15_000 // a human cannot complete 36 questions faster
+const MIN_ELAPSED_MS = 15_000 // nobody answers this many questions faster
 
 export interface ActionResult {
   ok: boolean
@@ -63,6 +66,32 @@ function stripEmail(answers: Record<string, unknown>): Record<string, unknown> {
   return rest
 }
 
+/**
+ * Merge a section's answers into whatever the row already holds.
+ *
+ * The update used to assign `answers: payload` outright, which meant any
+ * partial payload truncated the row. That is exactly what a refresh produced:
+ * state reset to empty, the next save wrote one section, and every earlier
+ * section was deleted from the database. Merging makes a short payload
+ * incapable of destroying data even if the client is wrong.
+ */
+async function mergeWithSaved(
+  id: string,
+  payload: Record<string, unknown>,
+): Promise<{ answers: Record<string, unknown>; lastSection: number } | null> {
+  const { data, error } = await getSupabase()
+    .from(TABLES.responses)
+    .select('answers, last_section')
+    .eq('id', id)
+    .maybeSingle()
+
+  if (error) return null
+  return {
+    answers: { ...((data?.answers as Record<string, unknown>) ?? {}), ...payload },
+    lastSection: data?.last_section ?? 0,
+  }
+}
+
 async function readResponseId(): Promise<string | null> {
   const store = await cookies()
   return store.get(RESPONSE_COOKIE)?.value ?? null
@@ -74,8 +103,8 @@ async function writeResponseId(id: string): Promise<void> {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
-    path: '/whatdoyouthink',
-    maxAge: COOKIE_MAX_AGE,
+    path: SURVEY_PATH,
+    maxAge: COOKIE_MAX_AGE_SECONDS,
   })
 }
 
@@ -105,11 +134,17 @@ export async function saveSection(input: unknown): Promise<ActionResult> {
     const existingId = await readResponseId()
 
     if (existingId) {
+      const merged = await mergeWithSaved(existingId, payload)
+      if (!merged) return { ok: false, message: GENERIC_ERROR }
+
       const { error } = await supabase
         .from(TABLES.responses)
         .update({
-          answers: payload,
-          last_section: sectionIndex,
+          answers: merged.answers,
+          // The furthest section reached, never the most recent one saved.
+          // Going Back and re-saving must not make drop-off look shallower
+          // than it was.
+          last_section: Math.max(sectionIndex, merged.lastSection),
           updated_at: new Date().toISOString(),
         })
         .eq('id', existingId)
@@ -167,12 +202,15 @@ export async function submitSurvey(input: unknown): Promise<ActionResult> {
     const id = existingId ?? crypto.randomUUID()
 
     if (existingId) {
+      const merged = await mergeWithSaved(existingId, payload)
+      if (!merged) return { ok: false, message: GENERIC_ERROR }
+
       const { error } = await supabase
         .from(TABLES.responses)
         .update({
-          answers: payload,
+          answers: merged.answers,
           completed: true,
-          last_section: 8,
+          last_section: sections.length,
           updated_at: new Date().toISOString(),
         })
         .eq('id', existingId)
@@ -183,7 +221,7 @@ export async function submitSurvey(input: unknown): Promise<ActionResult> {
         survey_version: SURVEY_VERSION,
         answers: payload,
         completed: true,
-        last_section: 8,
+        last_section: sections.length,
       })
       if (error) return { ok: false, message: GENERIC_ERROR }
       await writeResponseId(id)

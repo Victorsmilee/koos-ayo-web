@@ -21,6 +21,42 @@ whether the instrument moved. So far it never has.
 
 ## 23 Oct 2026
 
+### Refreshing the page no longer destroys saved answers
+A real data-loss bug, in the one dataset that cannot be re-collected.
+
+State began empty on every page load, and `saveSection` assigned
+`answers: payload` outright. So a respondent who answered sections 1 to 4 and
+refreshed came back to a blank form, and the moment they re-answered section 1
+the update wrote `{section 1 only}` over the row: **sections 2 to 4 were deleted
+from the database.** `last_section` also fell from 4 to 1, corrupting the
+drop-off measurement that progressive save exists to produce.
+
+The cookie made it worse rather than better. Without it they would have got a
+fresh row and the earlier answers would have survived as a partial response; with
+it, the overwrite was guaranteed.
+
+Two fixes, either of which would have been enough, both kept because this is
+answer data:
+
+- The page now loads the unfinished response by the id in the visitor's own
+  cookie and passes it in as initial state, so a refresh resumes where they were.
+- Saves merge into what the row already holds instead of replacing it, so a short
+  payload cannot truncate a row even if the client is wrong. `last_section` takes
+  the furthest section reached, never the most recent saved, so going Back cannot
+  make drop-off look shallower than it was.
+
+A completed response is deliberately not resumed: the stale cookie is left
+pointing at a finished row and the next save starts a new one, rather than
+overwriting a submitted response.
+
+`/whatdoyouthink` is now server-rendered per request rather than static, because
+it reads a cookie. Every other route is unchanged.
+
+Also removed two more hardcoded values found on the way: `last_section: 8` in two
+places is now `sections.length`, and the cookie name, path and lifetime now live
+in one module instead of being spelled out where they are used.
+
+
 ### THE INSTRUMENT MOVED. Two questions added, 36 to 38
 **The first and so far only time this has happened.** Done before a single
 response was collected, which is the only window in which it is possible: the
