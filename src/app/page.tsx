@@ -3,7 +3,7 @@ import Eyebrow from '@/components/eyebrow'
 import SiteHeader from '@/components/site-header'
 
 /**
- * KOOS marketing home page — first version.
+ * KOOS marketing home page, first version.
  *
  * Every claim here traces to an approved document:
  *   positioning + loop ... MVP Brief v2 §3, §4
@@ -42,7 +42,7 @@ export default function HomePage() {
 
             <p className="mt-4 max-w-2xl text-base text-muted lg:text-lg">
               KOOS is a private relationship coach being built for the moments that
-              actually go wrong — and for learning, over time, what helps you.
+              actually go wrong, and for learning, over time, what helps you.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-10">
@@ -60,7 +60,7 @@ export default function HomePage() {
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/* The problem — MVP Brief v2 §1                                    */}
+        {/* The problem: MVP Brief v2 §1                                    */}
         {/* ---------------------------------------------------------------- */}
         <Section title="The hard part isn't knowing what you feel">
           <p className="max-w-2xl text-lg">
@@ -91,7 +91,7 @@ export default function HomePage() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        {/* How it works — MVP Brief v2 §4, §5                               */}
+        {/* How it works: MVP Brief v2 §4, §5                               */}
         {/* ---------------------------------------------------------------- */}
         <Section title="How KOOS would work" tint>
           <p className="max-w-2xl text-lg">
@@ -100,7 +100,7 @@ export default function HomePage() {
           </p>
           <ol className="mt-8 grid gap-6 md:grid-cols-2 md:gap-x-12 md:gap-y-8">
             <Step n={1} title="Something happened">
-              Capture it while it&rsquo;s fresh — what happened, what you feel, and what
+              Capture it while it&rsquo;s fresh: what happened, what you feel, and what
               you&rsquo;re tempted to do about it.
             </Step>
             <Step n={2} title="Understand it">
@@ -114,7 +114,7 @@ export default function HomePage() {
               one, or edit it into your own words.
             </Step>
             <Step n={4} title="Act in real life">
-              You act — not the app. If it&rsquo;s a message, KOOS can show you how it
+              You act, not the app. If it&rsquo;s a message, KOOS can show you how it
               might land before you send it.{' '}
               <strong className="font-semibold">KOOS never sends anything.</strong>
             </Step>
@@ -129,7 +129,7 @@ export default function HomePage() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        {/* Differentiation — MVP Brief v2 §3                                */}
+        {/* Differentiation: MVP Brief v2 §3                                */}
         {/* ---------------------------------------------------------------- */}
         <Section title="Why not just ask ChatGPT?">
           <p className="max-w-2xl text-lg">
@@ -150,7 +150,7 @@ export default function HomePage() {
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        {/* Privacy — Competitive Strategy §19, MVP Brief v2 §9              */}
+        {/* Privacy: Competitive Strategy §19, MVP Brief v2 §9              */}
         {/* ---------------------------------------------------------------- */}
         <Section title="A safe place to work on yourself" tint>
           <p className="max-w-2xl text-lg">
@@ -169,14 +169,14 @@ export default function HomePage() {
               else to read your private entries.
             </Point>
             <Point>
-              It has to be worth using even if your partner never joins — so it focuses
+              It has to be worth using even if your partner never joins, so it focuses
               on what you can understand and change, never on getting them to change.
             </Point>
           </PointGrid>
         </Section>
 
         {/* ---------------------------------------------------------------- */}
-        {/* Boundaries — Blueprint §5, MVP Brief v2 §13                      */}
+        {/* Boundaries: Blueprint §5, MVP Brief v2 §13                      */}
         {/* ---------------------------------------------------------------- */}
         <Section title="What KOOS is not">
           <ul className="grid gap-4 md:grid-cols-2 md:gap-x-12 md:gap-y-5">

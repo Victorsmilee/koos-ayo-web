@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* ===========================================================================
-   KOOS design system v2 — the whole theme lives in this one block.
+   KOOS design system v2, the whole theme lives in this one block.
 
    THE IDEA: crispness comes from STRUCTURE, not colour. Every surface sits on
    one of three levels, and each level is separated by BOTH a fill change and a
@@ -44,7 +44,7 @@
   --koos-ink: #16222a;
   --koos-muted: #586a74;
 
-  /* display decoration only — never body text, never a control */
+  /* display decoration only, never body text, never a control */
   --koos-rose: #b86b7e;
   --koos-rose-deep: #8e4356;
 
@@ -113,7 +113,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Headings are tight and heavy — this is most of what reads as "crisp". */
+/* Headings are tight and heavy, this is most of what reads as "crisp". */
 h1,
 h2,
 h3 {
@@ -143,7 +143,7 @@ h1 {
 }
 
 /* Visually hidden, but still in the accessibility tree and still focusable.
-   Used for the real <input> behind every drawn control — NEVER display:none,
+   Used for the real <input> behind every drawn control, NEVER display:none,
    which would remove it from the tree and kill keyboard support. */
 .sr-only {
   position: absolute;

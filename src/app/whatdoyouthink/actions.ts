@@ -21,7 +21,7 @@ import { SURVEY_VERSION } from '@/lib/questions'
  *
  * THE ROW ID NEVER REACHES THE BROWSER
  *   It lives in an httpOnly cookie. A respondent cannot read or alter it from
- *   the page, and it is the only cookie this route sets — strictly necessary,
+ *   the page, and it is the only cookie this route sets, strictly necessary,
  *   therefore exempt from consent-banner requirements.
  *
  * TWO TABLES, NEVER JOINED
@@ -30,12 +30,12 @@ import { SURVEY_VERSION } from '@/lib/questions'
  *   the client sent.
  *
  * LOGGING
- *   No answer text, no email, and no payload is ever logged — not to the
+ *   No answer text, no email, and no payload is ever logged, not to the
  *   console, not to an error reporter. Only the shape of a failure is recorded.
  */
 
 const RESPONSE_COOKIE = 'koos_rid'
-const COOKIE_MAX_AGE = 60 * 60 * 4 // 4 hours — long enough to finish, then gone
+const COOKIE_MAX_AGE = 60 * 60 * 4 // 4 hours, long enough to finish, then gone
 const MIN_ELAPSED_MS = 15_000 // a human cannot complete 36 questions faster
 
 export interface ActionResult {
@@ -44,7 +44,7 @@ export interface ActionResult {
 }
 
 const GENERIC_ERROR =
-  "Sorry — that didn't save. Please check your connection and try again."
+  "Sorry, that didn't save. Please check your connection and try again."
 
 /** q35 is the email question. It must never appear in the answers table. */
 function stripEmail(answers: Record<string, unknown>): Record<string, unknown> {
@@ -73,7 +73,7 @@ async function writeResponseId(id: string): Promise<void> {
 /**
  * Save progress at the end of a section. Creates the row on first call.
  * Called on every Next, so it must be cheap and must never block the UI on
- * failure — a save error is reported but the respondent keeps their answers
+ * failure, a save error is reported but the respondent keeps their answers
  * client-side and can continue.
  */
 export async function saveSection(input: unknown): Promise<ActionResult> {
@@ -188,7 +188,7 @@ export async function submitSurvey(input: unknown): Promise<ActionResult> {
 
 /**
  * Store a follow-up email. Separate call, separate table, no response id, and
- * a DATE rather than a timestamp — so a row here cannot be matched to an
+ * a DATE rather than a timestamp, so a row here cannot be matched to an
  * answer row by submission time.
  */
 export async function saveEmail(

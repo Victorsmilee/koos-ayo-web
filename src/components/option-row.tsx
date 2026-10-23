@@ -3,7 +3,7 @@
 /**
  * A single selectable option.
  *
- * The real <input> stays in the DOM as `sr-only` — visually hidden but still
+ * The real <input> stays in the DOM as `sr-only`, visually hidden but still
  * focusable and still in the accessibility tree. `display:none` would remove it
  * from both and silently break keyboard use.
  *
