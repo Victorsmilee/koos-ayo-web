@@ -24,73 +24,100 @@
   color-scheme: light;
 
   /* layers */
-  --koos-bg: #f7f9fa;
+  --koos-bg: #faf6f2;
   --koos-surface: #ffffff;
   --koos-raised: #ffffff;
-  --koos-line: #dde5e7;
-  --koos-line-strong: #c2cfd3;
+  --koos-line: #e8dfd6;
+  --koos-line-strong: #d3c4b4;
   /* The outline of an UNCHECKED control. Not decorative: it is the only sign a
      control is there, so it must clear 3:1 (WCAG 1.4.11), unlike the hairlines
      above. Keep it separate so darkening it never darkens every card edge. */
-  --koos-control-line: #7e8d94;
+  --koos-control-line: #8c7c6c;
 
   /* the single interactive colour */
-  --koos-accent: #2f6f6b;
-  --koos-accent-hover: #22514e;
-  --koos-accent-soft: #e6f0ef;
+  --koos-accent: #6b4ea8;
+  --koos-accent-hover: #553c87;
+  --koos-accent-soft: #f1ecfb;
   --koos-on-accent: #ffffff;
 
   /* text */
-  --koos-ink: #16222a;
-  --koos-muted: #586a74;
+  --koos-ink: #2a2320;
+  --koos-muted: #655952;
 
   /* display decoration only, never body text, never a control */
-  --koos-rose: #b86b7e;
-  --koos-rose-deep: #8e4356;
+  --koos-rose: #a05468;
+  --koos-rose-deep: #8a3f52;
 
-  --koos-ring: 0 0 0 3px rgb(47 111 107 / 0.35);
+  /* One per section, used for the eyebrow only. Each clears 4.5:1 on --koos-bg,
+     so they carry text rather than being decorative fills. */
+  --koos-sec-1: #4c6b94;
+  --koos-sec-2: #a8573a;
+  --koos-sec-3: #536b4a;
+  --koos-sec-4: #6e5ba6;
+  --koos-sec-5: #8f6a42;
+  --koos-sec-6: #4a736f;
+  --koos-sec-7: #a05468;
+  --koos-sec-8: #8a6a2e;
+
+  --koos-ring: 0 0 0 3px rgb(107 78 168 / 0.35);
 }
 
 /* No-JS and first-paint default: follow the operating system. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --koos-bg: #0b1013;
-    --koos-surface: #121a1e;
-    --koos-raised: #162026;
-    --koos-line: #243038;
-    --koos-line-strong: #35454e;
-    --koos-control-line: #6b7b84;
-    --koos-accent: #5fa8a2;
-    --koos-accent-hover: #7cc0ba;
-    --koos-accent-soft: #15302f;
-    --koos-on-accent: #0b1013;
-    --koos-ink: #e9f1f2;
-    --koos-muted: #93a5ad;
-    --koos-rose: #d9909f;
-    --koos-rose-deep: #8e4356;
-    --koos-ring: 0 0 0 3px rgb(95 168 162 / 0.40);
+    --koos-bg: #17120f;
+    --koos-surface: #211b17;
+    --koos-raised: #26201b;
+    --koos-line: #352c25;
+    --koos-line-strong: #4a3e35;
+    --koos-control-line: #8e7e70;
+    --koos-accent: #b49be4;
+    --koos-accent-hover: #c9b6ee;
+    --koos-accent-soft: #2a2140;
+    --koos-on-accent: #17120f;
+    --koos-ink: #f3ece5;
+    --koos-muted: #ad9e92;
+    --koos-rose: #e0a0af;
+    --koos-rose-deep: #8a3f52;
+    --koos-sec-1: #9fbbdd;
+    --koos-sec-2: #e2a184;
+    --koos-sec-3: #a6c39a;
+    --koos-sec-4: #b6a5e6;
+    --koos-sec-5: #d9b183;
+    --koos-sec-6: #8fc0bb;
+    --koos-sec-7: #e0a0af;
+    --koos-sec-8: #d5b570;
+    --koos-ring: 0 0 0 3px rgb(180 155 228 / 0.40);
   }
 }
 
 /* Explicit choice, set before first paint by the script in layout.tsx. */
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --koos-bg: #0b1013;
-  --koos-surface: #121a1e;
-  --koos-raised: #162026;
-  --koos-line: #243038;
-  --koos-line-strong: #35454e;
-  --koos-control-line: #6b7b84;
-  --koos-accent: #5fa8a2;
-  --koos-accent-hover: #7cc0ba;
-  --koos-accent-soft: #15302f;
-  --koos-on-accent: #0b1013;
-  --koos-ink: #e9f1f2;
-  --koos-muted: #93a5ad;
-  --koos-rose: #d9909f;
-  --koos-rose-deep: #8e4356;
-  --koos-ring: 0 0 0 3px rgb(95 168 162 / 0.40);
+  --koos-bg: #17120f;
+  --koos-surface: #211b17;
+  --koos-raised: #26201b;
+  --koos-line: #352c25;
+  --koos-line-strong: #4a3e35;
+  --koos-control-line: #8e7e70;
+  --koos-accent: #b49be4;
+  --koos-accent-hover: #c9b6ee;
+  --koos-accent-soft: #2a2140;
+  --koos-on-accent: #17120f;
+  --koos-ink: #f3ece5;
+  --koos-muted: #ad9e92;
+  --koos-rose: #e0a0af;
+  --koos-rose-deep: #8a3f52;
+  --koos-sec-1: #9fbbdd;
+  --koos-sec-2: #e2a184;
+  --koos-sec-3: #a6c39a;
+  --koos-sec-4: #b6a5e6;
+  --koos-sec-5: #d9b183;
+  --koos-sec-6: #8fc0bb;
+  --koos-sec-7: #e0a0af;
+  --koos-sec-8: #d5b570;
+  --koos-ring: 0 0 0 3px rgb(180 155 228 / 0.40);
 }
 
 html {
@@ -111,6 +138,76 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------------------
+   The background wash.
+
+   CSS rather than an image, deliberately. A photograph behind text cannot be
+   guaranteed to clear WCAG at every scroll position, it costs real bytes on a
+   phone partway through an eight minute survey, and the brand guide already
+   rules out stock photography of couples as the category cliche
+   (docs/brand/foundations/usage.md).
+
+   Two soft washes and a faint ring motif, echoing the overlapping O's of the
+   wordmark. Fixed, so it does not move while scrolling and never repaints.
+
+   It changes NO contrast measurement: every card, option and control sits on an
+   opaque fill above it, which is why scripts/contrast.py still describes what a
+   respondent actually sees.
+   --------------------------------------------------------------------------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(
+      42rem 30rem at 85% -5%,
+      rgb(107 78 168 / 0.10),
+      transparent 70%
+    ),
+    radial-gradient(
+      38rem 28rem at -10% 15%,
+      rgb(160 84 104 / 0.07),
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      var(--koos-line) 0.9px,
+      transparent 1px
+    );
+  background-size:
+    auto,
+    auto,
+    2.25rem 2.25rem;
+  opacity: 0.9;
+}
+
+/* Lower in dark mode: the same wash that reads as warmth on paper reads as
+   haze on near black. */
+:root[data-theme='dark'] body::before {
+  opacity: 0.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) body::before {
+    opacity: 0.5;
+  }
+}
+
+/* The ring grid is the quietest part and should stay quiet when a respondent
+   has asked for less movement and less noise. */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    background-image:
+      radial-gradient(
+        42rem 30rem at 85% -5%,
+        rgb(107 78 168 / 0.08),
+        transparent 70%
+      );
+  }
 }
 
 /* Headings are tight and heavy, this is most of what reads as "crisp". */

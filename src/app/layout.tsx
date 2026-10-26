@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Fraunces, Inter } from 'next/font/google'
 import { isNotProduction } from '@/lib/app-env'
 import './globals.css'
 
@@ -10,6 +10,19 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
+})
+
+/**
+ * Fraunces carries question text and section titles, nothing else. The v2
+ * redesign dropped a serif for reading soft; soft is what the Product Owner
+ * asked for on 26 Oct, so it returns in a narrower role. Options, labels and
+ * every control stay Inter, so legibility at 16px on a phone is untouched.
+ */
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '600'],
+  variable: '--font-fraunces',
 })
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://koos-ayo.com'
@@ -59,7 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     // suppressHydrationWarning: the script above sets data-theme on <html>
     // before React hydrates, so the server and client markup differ by design.
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${fraunces.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

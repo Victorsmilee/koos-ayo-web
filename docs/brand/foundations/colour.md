@@ -11,28 +11,28 @@ That layering is what reads as sharp; the palette itself is quiet on purpose.
 
 | Level | Light | Dark | Used for |
 |---|---|---|---|
-| L0 `bg` | `#F7F9FA` | `#0B1013` | the page |
-| L1 `surface` | `#FFFFFF` | `#121A1E` | question groups, panels |
-| L2 `raised` | `#FFFFFF` | `#162026` | option rows, inputs |
+| L0 `bg` | `#FAF6F2` | `#17120F` | the page |
+| L1 `surface` | `#FFFFFF` | `#211B17` | question groups, panels |
+| L2 `raised` | `#FFFFFF` | `#26201B` | option rows, inputs |
 
 ## Palette
 
 | Token | Light | Dark | Use |
 |---|---|---|---|
-| `bg` | `#F7F9FA` | `#0B1013` | page |
-| `surface` | `#FFFFFF` | `#121A1E` | cards |
-| `raised` | `#FFFFFF` | `#162026` | controls |
-| `line` | `#DDE5E7` | `#243038` | resting hairlines, decorative |
-| `line-strong` | `#C2CFD3` | `#35454E` | hover, dividers that matter |
-| `control-line` | `#7E8D94` | `#6B7B84` | **unchecked control outline** |
-| `accent` | `#2F6F6B` | `#5FA8A2` | **the only interactive colour** |
-| `accent-hover` | `#22514E` | `#7CC0BA` | hover, active |
-| `accent-soft` | `#E6F0EF` | `#15302F` | selected option fill |
-| `on-accent` | `#FFFFFF` | `#0B1013` | text on an accent fill |
-| `ink` | `#16222A` | `#E9F1F2` | body text |
-| `muted` | `#586A74` | `#93A5AD` | helper text |
-| `rose` | `#B86B7E` | `#D9909F` | display decoration only |
-| `rose-deep` | `#8E4356` | `#8E4356` | STAGING banner, white text |
+| `bg` | `#FAF6F2` | `#17120F` | page |
+| `surface` | `#FFFFFF` | `#211B17` | cards |
+| `raised` | `#FFFFFF` | `#26201B` | controls |
+| `line` | `#E8DFD6` | `#352C25` | resting hairlines, decorative |
+| `line-strong` | `#D3C4B4` | `#4A3E35` | hover, dividers that matter |
+| `control-line` | `#8C7C6C` | `#8E7E70` | **unchecked control outline** |
+| `accent` | `#6B4EA8` | `#B49BE4` | **the only interactive colour** |
+| `accent-hover` | `#553C87` | `#C9B6EE` | hover, active |
+| `accent-soft` | `#F1ECFB` | `#2A2140` | selected option fill |
+| `on-accent` | `#FFFFFF` | `#17120F` | text on an accent fill |
+| `ink` | `#2A2320` | `#F3ECE5` | body text |
+| `muted` | `#655952` | `#AD9E92` | helper text |
+| `rose` | `#A05468` | `#E0A0AF` | display decoration only |
+| `rose-deep` | `#8A3F52` | `#8A3F52` | STAGING banner, white text |
 
 ## Three rules that are not style preferences
 
@@ -61,3 +61,42 @@ python3 scripts/check-brand-docs.py   # the hexes above still exist in globals.c
 
 Both of the first two rules exist because the checker caught real failures that
 the palette table alone hid. Run it; do not eyeball contrast.
+
+
+## Section colours
+
+One per section, used for a short **rule above the heading**, like the levels
+in a card deck.
+Added 26 Oct 2026 with the warm purple palette.
+
+| Section | Light | Dark |
+|---|---|---|
+| 1 | `#4C6B94` | `#9FBBDD` |
+| 2 | `#A8573A` | `#E2A184` |
+| 3 | `#536B4A` | `#A6C39A` |
+| 4 | `#6E5BA6` | `#B6A5E6` |
+| 5 | `#8F6A42` | `#D9B183` |
+| 6 | `#4A736F` | `#8FC0BB` |
+| 7 | `#A05468` | `#E0A0AF` |
+| 8 | `#D5B570` | `#D5B570` |
+
+As a rule they are decoration and would need no minimum at all. They are held to
+**4.5:1** anyway, deliberately: a section colour is the sort of thing that ends
+up carrying a label later, and discovering the problem then costs more than the
+headroom does now. Two failed when the palette was first drawn, dusty blue at
+4.05:1 and sage at 4.44:1, and were darkened before the design was shown to
+anyone. `scripts/contrast.py` asserts all sixteen.
+
+They are never used as a fill, a border or a control. If it is interactive, it
+is still `accent`.
+
+## The background wash
+
+The page carries a fixed CSS layer: two soft radial washes and a faint ring
+grid echoing the overlapping O's of the wordmark. It is **CSS, never an image**.
+
+A photograph behind text cannot be guaranteed to clear WCAG at every scroll
+position, it costs real bytes on a phone partway through an eight minute survey,
+and `usage.md` already rules out stock photography of couples as the category
+cliche. The wash changes no contrast measurement, because every card, option and
+control sits on an opaque fill above it.

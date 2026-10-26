@@ -291,12 +291,27 @@ export default function SurveyClient({
       <div ref={topRef} tabIndex={-1} className="outline-none">
         <Progress current={screen} total={TOTAL} />
 
-        <div className="mt-7">
-          <Eyebrow>
-            Section {screen} of {TOTAL} · {section.title}
-          </Eyebrow>
-        </div>
-        <h1 className="mt-2 text-2xl font-bold leading-tight sm:text-3xl">
+        {/*
+          The count lives in the progress bar and nowhere else. It used to be
+          repeated here too, which is what made a test locator match two nodes,
+          and it was telling the respondent the same thing twice.
+
+          Each section carries its own colour, like the levels in a card deck.
+          Every one of the eight clears 4.5:1 on the page, so it can hold text
+          rather than being a decorative fill.
+        */}
+        {/*
+          A coloured rule rather than a label. The eyebrow used to repeat the
+          count, which the progress bar already gives; putting the title there
+          instead just repeated the heading directly below it. A rule carries
+          the section's identity without saying anything twice.
+        */}
+        <div
+          className="mt-7 h-[3px] w-10 rounded-full"
+          style={{ backgroundColor: `var(--koos-sec-${section.index})` }}
+          aria-hidden="true"
+        />
+        <h1 className="mt-3 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight sm:text-4xl">
           {section.title}
         </h1>
         {section.helper && (
@@ -421,7 +436,9 @@ function QuestionField({
   const legend = (
     <>
       <span className="font-semibold text-accent">{question.number}.</span>{' '}
-      <span className="font-semibold text-ink">{question.text}</span>{' '}
+      <span className="font-serif text-[1.0625rem] font-semibold leading-snug text-ink sm:text-lg">
+        {question.text}
+      </span>{' '}
       {question.instruction && (
         <span className="font-normal italic text-muted">{question.instruction}</span>
       )}
