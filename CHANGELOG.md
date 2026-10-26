@@ -28,10 +28,15 @@ grey to warm paper, teal becomes purple, and question text and section titles
 take a serif (Fraunces). Options, labels and every control stay Inter, so
 legibility at 16px on a phone is untouched.
 
-Each section gets its own colour, carried as a short rule above the heading
-rather than a label. The eyebrow used to repeat the section count, which the
-progress bar already shows; replacing it with the title just repeated the
-heading directly below. A rule says the same thing without words.
+Each section gets its own colour, carried in the eyebrow: the count in that
+colour with a hairline running off to the right, which is the treatment that was
+approved from the preview.
+
+That repeats the count already in the progress bar. It used to matter, because a
+test located the section by its text and matched two nodes, but the progress bar
+now carries `section-indicator` and is addressed directly. So the repetition is
+a visual choice rather than a trap, and the duplicated copy is aria-hidden so a
+screen reader hears the position once.
 
 **The background is CSS, never an image.** Two soft radial washes and a faint
 ring grid echoing the overlapping O's of the wordmark, fixed so it never

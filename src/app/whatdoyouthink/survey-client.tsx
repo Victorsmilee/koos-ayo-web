@@ -301,16 +301,29 @@ export default function SurveyClient({
           rather than being a decorative fill.
         */}
         {/*
-          A coloured rule rather than a label. The eyebrow used to repeat the
-          count, which the progress bar already gives; putting the title there
-          instead just repeated the heading directly below it. A rule carries
-          the section's identity without saying anything twice.
+          The count in the section's own colour, with a hairline running off to
+          the right. This is the treatment that was approved from the preview.
+
+          It does repeat the count already shown in the progress bar. That used
+          to matter because a test located the section by its text and matched
+          two nodes; the progress bar now carries `section-indicator` and is
+          addressed directly, so the repetition is a deliberate visual choice
+          rather than a trap. Screen readers get it once: this copy is
+          aria-hidden, and the progress bar announces position properly.
         */}
         <div
-          className="mt-7 h-[3px] w-10 rounded-full"
-          style={{ backgroundColor: `var(--koos-sec-${section.index})` }}
+          className="mt-7 flex items-center gap-3"
+          style={{ color: `var(--koos-sec-${section.index})` }}
           aria-hidden="true"
-        />
+        >
+          <p className="text-xs font-semibold uppercase tracking-eyebrow">
+            Section {screen} of {TOTAL}
+          </p>
+          <span
+            className="h-px flex-1"
+            style={{ backgroundColor: 'currentColor', opacity: 0.35 }}
+          />
+        </div>
         <h1 className="mt-3 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight sm:text-4xl">
           {section.title}
         </h1>
