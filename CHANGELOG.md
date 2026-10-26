@@ -19,6 +19,41 @@ whether the instrument moved. So far it never has.
 
 ---
 
+
+## 26 Oct 2026
+
+### Warm purple theme, with a background wash
+Approved from a preview rather than argued about. The ground moves from cool
+grey to warm paper, teal becomes purple, and question text and section titles
+take a serif (Fraunces). Options, labels and every control stay Inter, so
+legibility at 16px on a phone is untouched.
+
+Each section gets its own colour, carried in the eyebrow: the count in that
+colour with a hairline running off to the right, which is the treatment that was
+approved from the preview.
+
+That repeats the count already in the progress bar. It used to matter, because a
+test located the section by its text and matched two nodes, but the progress bar
+now carries `section-indicator` and is addressed directly. So the repetition is
+a visual choice rather than a trap, and the duplicated copy is aria-hidden so a
+screen reader hears the position once.
+
+**The background is CSS, never an image.** Two soft radial washes and a faint
+ring grid echoing the overlapping O's of the wordmark, fixed so it never
+repaints on scroll. A photograph behind text cannot be guaranteed to clear WCAG
+at every scroll position, it costs real bytes on a phone partway through an
+eight minute survey, and the brand guide already rules out stock photography of
+couples as the category cliche. It changes no contrast measurement, because
+every card and control sits on an opaque fill above it.
+
+Contrast was computed **before** the preview was shown, not after. Two section
+colours failed, dusty blue at 4.05:1 and sage at 4.44:1, and were darkened to
+5.09 and 5.47. `scripts/contrast.py` now asserts 54 pairs, up from 38, including
+all sixteen section colours in both themes.
+
+**The instrument did not move.** Nothing here touches a question, an option or
+the thank-you text.
+
 ## 23 Oct 2026
 
 ### The home page says build, not write

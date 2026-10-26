@@ -23,22 +23,27 @@ that a control is there at all.
 import sys
 
 LIGHT = {
-    "bg": "#F7F9FA", "surface": "#FFFFFF", "raised": "#FFFFFF",
-    "line": "#DDE5E7", "line-strong": "#C2CFD3", "control-line": "#7E8D94",
-    "accent": "#2F6F6B", "accent-hover": "#22514E",
-    "accent-soft": "#E6F0EF", "on-accent": "#FFFFFF",
-    "ink": "#16222A", "muted": "#586A74",
-    "rose": "#B86B7E", "rose-deep": "#8E4356",
+    "bg": "#FAF6F2", "surface": "#FFFFFF", "raised": "#FFFFFF",
+    "line": "#E8DFD6", "line-strong": "#D3C4B4", "control-line": "#8C7C6C",
+    "accent": "#6B4EA8", "accent-hover": "#553C87",
+    "accent-soft": "#F1ECFB", "on-accent": "#FFFFFF",
+    "ink": "#2A2320", "muted": "#655952",
+    "rose": "#A05468", "rose-deep": "#8A3F52",
     "white": "#FFFFFF",
+    # One per section, eyebrow only. These carry TEXT, so 4.5:1 and not 3.0.
+    "sec-1": "#4C6B94", "sec-2": "#A8573A", "sec-3": "#536B4A", "sec-4": "#6E5BA6",
+    "sec-5": "#8F6A42", "sec-6": "#4A736F", "sec-7": "#A05468", "sec-8": "#8A6A2E",
 }
 DARK = {
-    "bg": "#0B1013", "surface": "#121A1E", "raised": "#162026",
-    "line": "#243038", "line-strong": "#35454E", "control-line": "#6B7B84",
-    "accent": "#5FA8A2", "accent-hover": "#7CC0BA",
-    "accent-soft": "#15302F", "on-accent": "#0B1013",
-    "ink": "#E9F1F2", "muted": "#93A5AD",
-    "rose": "#D9909F", "rose-deep": "#8E4356",
+    "bg": "#17120F", "surface": "#211B17", "raised": "#26201B",
+    "line": "#352C25", "line-strong": "#4A3E35", "control-line": "#8E7E70",
+    "accent": "#B49BE4", "accent-hover": "#C9B6EE",
+    "accent-soft": "#2A2140", "on-accent": "#17120F",
+    "ink": "#F3ECE5", "muted": "#AD9E92",
+    "rose": "#E0A0AF", "rose-deep": "#8A3F52",
     "white": "#FFFFFF",
+    "sec-1": "#9FBBDD", "sec-2": "#E2A184", "sec-3": "#A6C39A", "sec-4": "#B6A5E6",
+    "sec-5": "#D9B183", "sec-6": "#8FC0BB", "sec-7": "#E0A0AF", "sec-8": "#D5B570",
 }
 
 # (description, foreground, background, required ratio)
@@ -67,6 +72,16 @@ PAIRS = [
 
     # --- display decoration ---
     ("rose display text (LARGE only)",   "rose",      "bg",          3.0),
+]
+
+# One colour per section. Today each is a short rule above the heading, which is
+# decoration and would need nothing at all. They are held to 4.5:1 anyway, on
+# purpose: a section colour is exactly the sort of thing that ends up carrying a
+# label later, and finding out then is more expensive than the headroom now.
+# Two failed when the warm palette was first drawn, dusty blue at 4.05 and sage
+# at 4.44, and were darkened before the design was shown to anyone.
+PAIRS += [
+    (f"section {n} colour on the page", f"sec-{n}", "bg", 4.5) for n in range(1, 9)
 ]
 
 

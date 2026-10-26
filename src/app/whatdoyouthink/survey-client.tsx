@@ -291,12 +291,40 @@ export default function SurveyClient({
       <div ref={topRef} tabIndex={-1} className="outline-none">
         <Progress current={screen} total={TOTAL} />
 
-        <div className="mt-7">
-          <Eyebrow>
-            Section {screen} of {TOTAL} · {section.title}
-          </Eyebrow>
+        {/*
+          The count lives in the progress bar and nowhere else. It used to be
+          repeated here too, which is what made a test locator match two nodes,
+          and it was telling the respondent the same thing twice.
+
+          Each section carries its own colour, like the levels in a card deck.
+          Every one of the eight clears 4.5:1 on the page, so it can hold text
+          rather than being a decorative fill.
+        */}
+        {/*
+          The count in the section's own colour, with a hairline running off to
+          the right. This is the treatment that was approved from the preview.
+
+          It does repeat the count already shown in the progress bar. That used
+          to matter because a test located the section by its text and matched
+          two nodes; the progress bar now carries `section-indicator` and is
+          addressed directly, so the repetition is a deliberate visual choice
+          rather than a trap. Screen readers get it once: this copy is
+          aria-hidden, and the progress bar announces position properly.
+        */}
+        <div
+          className="mt-7 flex items-center gap-3"
+          style={{ color: `var(--koos-sec-${section.index})` }}
+          aria-hidden="true"
+        >
+          <p className="text-xs font-semibold uppercase tracking-eyebrow">
+            Section {screen} of {TOTAL}
+          </p>
+          <span
+            className="h-px flex-1"
+            style={{ backgroundColor: 'currentColor', opacity: 0.35 }}
+          />
         </div>
-        <h1 className="mt-2 text-2xl font-bold leading-tight sm:text-3xl">
+        <h1 className="mt-3 font-serif text-[1.75rem] font-semibold leading-tight tracking-tight sm:text-4xl">
           {section.title}
         </h1>
         {section.helper && (
@@ -421,7 +449,9 @@ function QuestionField({
   const legend = (
     <>
       <span className="font-semibold text-accent">{question.number}.</span>{' '}
-      <span className="font-semibold text-ink">{question.text}</span>{' '}
+      <span className="font-serif text-[1.0625rem] font-semibold leading-snug text-ink sm:text-lg">
+        {question.text}
+      </span>{' '}
       {question.instruction && (
         <span className="font-normal italic text-muted">{question.instruction}</span>
       )}

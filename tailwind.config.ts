@@ -27,6 +27,7 @@ export default {
         'rose-deep': 'var(--koos-rose-deep)',
       },
       fontFamily: {
+        serif: ['var(--font-fraunces)', 'Georgia', 'serif'],
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       borderRadius: { koos: '12px' },
