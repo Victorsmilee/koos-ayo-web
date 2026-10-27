@@ -128,6 +128,14 @@ changing wording invalidates comparison across responses.
 `[TEAM TO CONFIRM]` placeholders are launch blockers, never values to invent.
 `tests/instrument.test.ts` guards this, run `npm test`.
 
+**`npm run instrument:json` is a contract, not a convenience.** It prints the
+instrument as JSON, and the response analysis in the private repository reads it
+at runtime rather than keeping a copy that would drift. Its feature tagging keys
+on **option text**, so a reworded option does not merely change a label: it
+silently stops counting unless the export and the test catch it. A test asserts
+the export carries every question and option. Nothing secret is exported; every
+field is already served to anyone who opens the survey.
+
 ## The name
 KOOS-AYO means "together, with joy." The full wordmark is KOOS-AYO; **KOOS** is
 the short form used in running copy and as the product name (Brief v2, D6).
