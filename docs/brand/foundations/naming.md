@@ -4,9 +4,15 @@
 
 | Name | Use for | Not for |
 |---|---|---|
-| **KOOS-AYO** | The company. The full wordmark. Legal and formal contexts. | Running copy |
+| **KOOS-AYO** | The brand. The full wordmark. Legal and formal contexts. | Running copy |
 | **KOOS** | The product. Everything in running copy and in-product. (Brief v2, decision D6) | Legal documents |
 | **The AYO Relationship Study** | The research survey, and the processing activity named in the GDPR record | The product itself |
+| **Eben EIO Global OU** | The company that develops and operates KOOS, and the data controller. Footer attribution, privacy notice, GDPR record. | Anything a respondent reads as the product |
+| **Koos Ayo** | The copyright holder in the footer line only | Everywhere else, where the wordmark spelling applies |
+
+The copyright line reads **Koos Ayo**, with a space and no hyphen, because that
+is how the holder is named by the company. It is the one sanctioned exception to
+the KOOS-AYO spelling, and it is deliberate rather than drift.
 
 ## What it means
 **KOOS-AYO means "together, with joy."**

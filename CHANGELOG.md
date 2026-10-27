@@ -39,6 +39,46 @@ Verified no tracked file is shadowed by the new rules.
 
 ---
 
+## 27 Oct 2026
+
+### The data controller is now Eben EIO Global OU
+Estonian registration completed, so the controller named in the privacy notice
+changes from Victor Ibrahim, a natural person, to the company. Under GDPR that
+is a change of controller rather than a correction, so it is dated in the notice
+itself and in the ROPA in the private repository, and the two name the same
+entity because a regulator compares them.
+
+Why it mattered: the natural-person reading existed only because a company that
+is intended but not yet registered is not an identifiable legal person. It was
+always meant to be temporary, and leaving it in place after registration would
+have published a controller who is no longer the one responsible.
+
+The notice also gains a "Who operates KOOS" section carrying the operator line
+and the intellectual-property notice. Neither is a GDPR statement; they sit
+beside the notice rather than inside it.
+
+**The instrument did not move.** No question, option, helper line or the
+thank-you text changed.
+
+### The footer names the company, and carries the wordmark
+A new band under the crisis line: the KOOS-AYO wordmark and the copyright on the
+left, "Developed and operated by Eben EIO Global OU" on the right, stacked on a
+phone. The plain-text KOOS-AYO that used to head the footer is gone, because the
+real wordmark now sits below it.
+
+The company name lives in `src/lib/operator.ts` and nowhere else, and the
+no-hardcode guard fails the build on a second spelling of it. The footer and the
+published notice disagreeing about who runs the service is precisely the drift
+that guard exists to stop.
+
+### A defect the footer work surfaced
+`<Wordmark>` sizes itself inline at 1.6em, which beats any Tailwind height
+class. In 14px footer type that renders the mark at 99px wide, under the 120px
+minimum the brand guide sets. It now takes an explicit `width`, and an
+end-to-end test measures the rendered width rather than trusting the markup,
+because nothing short of a render catches this.
+
+
 ## 26 Oct 2026
 
 ### Warm purple theme, with a background wash

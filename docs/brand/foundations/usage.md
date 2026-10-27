@@ -16,6 +16,12 @@ negative space is the Reaction Interrupt.
 - **Clear space:** the height of the O on all four sides. Nothing intrudes.
 - **Wordmark minimum:** 120px wide on screen, 24mm in print. Below that the rays
   are dropped automatically in the app; in print, use the short form instead.
+- **Honouring that minimum in small type.** `<Wordmark>` sizes itself at 1.6em
+  by default, so it scales with the text around it. That is an inline style and
+  a Tailwind height class cannot beat it. In small type, pass `width` instead:
+  the footer uses `width="128px"`, because at 14px the default lands the mark at
+  99px, under the minimum. An end-to-end test measures the rendered width, since
+  this is only visible once the page is drawn.
 - **Icon minimum:** 16px, and only the small-size variant at that size,
   `09-favicon-pause-small.svg`. The standard icon loses its gap below 32px, and
   the gap is the entire idea.

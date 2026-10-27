@@ -30,6 +30,26 @@ respondent sees adds an entry to `CHANGELOG.md` under today's date, in the same
 PR. Say what changed and why it mattered, and state explicitly whether the
 instrument moved.
 
+## Attribution
+Product Owner rule, 27 Oct 2026. Commit messages and pull request descriptions
+end with:
+
+```
+Developed by Eben EIO Global (c)
+```
+
+No AI assistant attribution, no co-author trailer, no generated-with line. The
+work is the company's and is signed as the company's. This applies to both
+repositories.
+
+## Who operates KOOS
+**Eben EIO Global OU**, registered in Estonia at Paldiski mnt 227c, 13520
+Tallinn. It develops and operates KOOS, it holds the intellectual property, and
+it is the **data controller** for the research survey (changed 27 Oct 2026, was
+Victor Ibrahim as a natural person while registration was in progress). The
+published notice at `/privacy` and `docs/gdpr/ropa.md` in the private repository
+must keep naming the same entity, and they change in the same pass.
+
 ## Branches and releases
 - Never push directly to `main`. Work on `feature/*` branches.
 - `feature/*` → PR → human review → merge to `main` → production.
@@ -71,6 +91,10 @@ approval first.** Derive it instead, from the one place it is defined:
   use `EMAIL_QUESTION_ID`, `EMAIL_GATE_QUESTION_ID`, `consentQuestion.id`.
 - Table names come from `TABLES` in `supabase-server.ts`, schema names from
   `SCHEMAS`, environment names from `app-env.ts`.
+- The operating company comes from `operator.ts`: `OPERATOR_NAME`,
+  `OPERATOR_ADDRESS`, `COPYRIGHT_HOLDER`, `OPERATOR_LINE`, `IP_NOTICE`. The
+  footer and the privacy notice both read it, so they cannot name two different
+  entities. A regulator compares the published notice against the ROPA.
 - Selection limits and option lists are already derived from the instrument in
   `validation.ts`. Keep it that way.
 

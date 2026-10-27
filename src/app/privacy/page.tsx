@@ -3,30 +3,39 @@ import Link from 'next/link'
 import Eyebrow from '@/components/eyebrow'
 import SiteHeader from '@/components/site-header'
 import { CONTACT_EMAIL, RETENTION_PERIOD } from '@/lib/questions'
+import {
+  IP_NOTICE,
+  OPERATOR_ADDRESS,
+  OPERATOR_COUNTRY,
+  OPERATOR_NAME,
+} from '@/lib/operator'
 
 /**
  * GDPR privacy notice for the research survey (INF-57).
  *
- * STATUS (23 Oct 2026):
+ * STATUS (27 Oct 2026):
  *   [x] RETENTION_PERIOD  - 24 months (questions.ts)
  *   [x] CONTACT_EMAIL     - hello@koos-ayo.com (questions.ts)
  *   [x] Country           - Estonia
- *   [x] CONTROLLER_NAME   - Victor Ibrahim, a natural person (PO, 22 Oct 2026)
- *   [x] CONTROLLER_ADDRESS - Paldiski mnt 227c, 13520 Tallinn (PO, 23 Oct 2026)
+ *   [x] Controller        - Eben EIO Global OU, registered (PO, 27 Oct 2026)
+ *   [x] Address           - Paldiski mnt 227c, 13520 Tallinn
  *
- * Every blank in this notice is now filled. The one thing still outstanding
- * before the link is shared is the legal review (INF-67), and the controller
- * switch when the company is registered (INF-103).
+ * Every blank in this notice is now filled and INF-103 is closed: the company
+ * is registered, so the controller is the company rather than a natural person.
+ * The one thing still outstanding before the link is shared is the legal review
+ * (INF-67).
  *
  * This block must keep matching docs/gdpr/ropa.md section 1 in the PRIVATE repo
  * Victorsmilee/koos-ayo. A regulator compares the published notice against that
  * record, so the two change in the same pass, never separately.
  *
- * If the company is not yet registered when the survey goes live, the
- * controller is Victor Ibrahim as a natural person, at an Estonian address.
- * A controller must be an identifiable person or entity; "a company we are
- * about to form" is not one. Set CONTROLLER_NAME accordingly, then update it
- * when the company is registered.
+ * HISTORY. From 22 Oct to 27 Oct 2026 the controller named here was Victor
+ * Ibrahim, a natural person, because the company was not yet registered and
+ * "a company we are about to form" is not an identifiable person or entity.
+ * Registration completed, so on 27 Oct 2026 the controller became Eben EIO
+ * Global OU. GDPR treats that as a CHANGE OF CONTROLLER, not a correction:
+ * ropa.md section 10a carries the date and says which responses belong to
+ * which controller.
  *
  * Still needs review by someone legally qualified (INF-67) before the link is
  * shared.
@@ -38,12 +47,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Estonia confirmed 21 Oct 2026. Name set 22 Oct 2026. Address completed
-// 23 Oct 2026. No placeholder remains, so <Todo> now renders these as ordinary
-// prose rather than highlighting them.
-const CONTROLLER_NAME = 'Victor Ibrahim'
-const CONTROLLER_ADDRESS = 'Paldiski mnt 227c, 13520 Tallinn'
-const CONTROLLER_COUNTRY = 'Estonia'
 
 export default function PrivacyPage() {
   return (
@@ -61,8 +64,8 @@ export default function PrivacyPage() {
 
         <Block title="Who is responsible for your data">
           <p>
-            The data controller is <Todo>{CONTROLLER_NAME}</Todo>, registered in{' '}
-            {CONTROLLER_COUNTRY}, at <Todo>{CONTROLLER_ADDRESS}</Todo>.
+            The data controller is <Todo>{OPERATOR_NAME}</Todo>, registered in{' '}
+            {OPERATOR_COUNTRY}, at <Todo>{OPERATOR_ADDRESS}</Todo>.
           </p>
           <p className="mt-3">
             If you have any question about your data, or want to exercise any of the
@@ -74,6 +77,12 @@ export default function PrivacyPage() {
               {CONTACT_EMAIL}
             </a>
             . We answer within one month.
+          </p>
+        </Block>
+
+        <Block title="Who operates KOOS">
+          <p>
+            KOOS-AYO is developed and operated by {OPERATOR_NAME}. {IP_NOTICE}
           </p>
         </Block>
 
@@ -227,6 +236,12 @@ export default function PrivacyPage() {
           <p>
             If we change this notice we will update this page. The research survey itself
             will not be reused for a different purpose than the one described here.
+          </p>
+          <p className="mt-3">
+            <strong className="font-semibold text-ink">27 October 2026.</strong> The data
+            controller changed from Victor Ibrahim, a natural person, to {OPERATOR_NAME},
+            on completion of the company&rsquo;s registration in {OPERATOR_COUNTRY}.
+            Nothing else about how your answers are handled changed.
           </p>
         </Block>
 

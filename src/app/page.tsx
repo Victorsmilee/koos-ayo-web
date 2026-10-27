@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Eyebrow from '@/components/eyebrow'
 import SiteHeader from '@/components/site-header'
+import Wordmark from '@/components/wordmark'
+import { COPYRIGHT_HOLDER, OPERATOR_LINE } from '@/lib/operator'
 
 /**
  * KOOS marketing home page, first version.
@@ -240,9 +242,6 @@ export default function HomePage() {
       <footer className="border-t border-line px-4 py-10 sm:px-6">
         <div className="mx-auto max-w-5xl space-y-4 text-sm text-muted">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <span className="text-base font-semibold text-ink">
-              KOOS&#8209;AYO
-            </span>
             <span>together, with joy</span>
             <Link href="/privacy" className="underline underline-offset-4 hover:text-ink">
               Privacy
@@ -258,6 +257,29 @@ export default function HomePage() {
             KOOS is not a crisis service. If you are in immediate danger, contact your
             local emergency services.
           </p>
+
+          {/*
+            The operating company, named where anyone can find it. Stacked on a
+            phone and split left and right from sm upwards, so the attribution
+            never crowds the copyright at 390px. The hairline above it is the
+            three-layer rule: a new band needs an edge, not just a gap.
+
+            The wordmark carries an explicit width because footer type is 14px
+            and the mark's default 1.6em sizing would land it under the 120px
+            minimum in docs/brand/foundations/usage.md.
+          */}
+          <div
+            data-testid="site-footer-legal"
+            className="flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <span className="flex items-center gap-3 text-ink">
+              <Wordmark width="128px" />
+              <span className="text-muted">
+                &copy; {new Date().getFullYear()} {COPYRIGHT_HOLDER}
+              </span>
+            </span>
+            <span>{OPERATOR_LINE}</span>
+          </div>
         </div>
       </footer>
     </>

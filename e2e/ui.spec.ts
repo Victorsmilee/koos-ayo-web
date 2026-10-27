@@ -111,3 +111,39 @@ test('a chosen theme survives a reload with no flash of the wrong one', async ({
   // before first paint, which is the whole point of it not being an effect.
   expect(await html.getAttribute('data-theme')).toBe(after)
 })
+
+test('the privacy notice names the registered company as controller', async ({ page }) => {
+  // INF-103, the change of controller on 27 Oct 2026. The published notice and
+  // docs/gdpr/ropa.md in the private repo must name the same entity, because a
+  // regulator compares them. This is the published half of that pair.
+  await page.goto('/privacy')
+  await expect(
+    page.getByText(/The data controller is Eben EIO Global OÜ/),
+  ).toBeVisible()
+  // The previous controller survives only as a dated record of the change, so
+  // nobody reading the notice can think it was always the company.
+  await expect(page.getByText(/27 October 2026/)).toBeVisible()
+  await expect(
+    page.getByText(/Intellectual property rights in the service are owned by/),
+  ).toBeVisible()
+})
+
+test('the footer carries the logo, the copyright and the operating company', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const legal = page.getByTestId('site-footer-legal')
+  await expect(legal).toBeVisible()
+  await expect(legal).toContainText('Koos Ayo')
+  await expect(legal).toContainText('Developed and operated by Eben EIO Global OÜ')
+
+  // The wordmark sizes itself in em by default, which at 14px footer type lands
+  // it near 99px wide, under the 120px minimum in
+  // docs/brand/foundations/usage.md. Only a render catches that, so measure it
+  // rather than trusting the class.
+  const wordmark = legal.locator('svg[aria-label="KOOS-AYO"]')
+  await expect(wordmark).toBeVisible()
+  const box = await wordmark.boundingBox()
+  expect(box).not.toBeNull()
+  expect(box!.width).toBeGreaterThanOrEqual(120)
+})

@@ -17,6 +17,11 @@
  * the Y and turn the end of the word to mush. Same DOM either way, no file
  * swap, no flash.
  *
+ * Sizing: by default the mark is 1.6em tall, so it scales with the type around
+ * it. That is an inline style and beats any className, which is why `width`
+ * exists: small type (the footer, at 14px) would otherwise render the wordmark
+ * under the 120px minimum.
+ *
  * Live <text> is fine here because Inter is self-hosted by next/font. The
  * standalone files in docs/brand/logo/ are a different case: convert those to
  * outlines before sending them anywhere.
@@ -24,10 +29,18 @@
 export default function Wordmark({
   short = false,
   className = '',
+  width,
 }: {
   /** KOOS alone, the product name (Brief v2, D6). Full wordmark is the company. */
   short?: boolean
   className?: string
+  /**
+   * An explicit CSS width, for places where the surrounding type is too small
+   * to carry the mark. Sizing is inline, so a Tailwind height class cannot win
+   * against it; this is the way to override it. Below 120px the rays close up,
+   * so anything passed here should clear that (docs/brand/foundations/usage.md).
+   */
+  width?: string
 }) {
   const label = short ? 'KOOS' : 'KOOS-AYO'
   return (
@@ -36,7 +49,7 @@ export default function Wordmark({
       role="img"
       aria-label={label}
       className={className}
-      style={{ height: '1.6em', width: 'auto' }}
+      style={width ? { width, height: 'auto' } : { height: '1.6em', width: 'auto' }}
     >
       <defs>
         <clipPath id="koos-lens">
