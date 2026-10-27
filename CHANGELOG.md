@@ -21,6 +21,25 @@ whether the instrument moved. So far it never has.
 
 ## 27 Oct 2026
 
+### The instrument can now be exported as JSON
+`npm run instrument:json` prints every question, option and selection limit.
+Nothing secret: all of it is already served to anyone who opens the survey.
+
+Why it exists: the analysis of responses lives in the private repository,
+because what the answers say about what to build is roadmap and this repository
+is public. But the instrument lives here, and it is the only place question ids
+and option texts are defined. Without an export the analysis would have kept its
+own copy, and that copy would have been wrong the first time the instrument
+moved. It reads this instead, at runtime.
+
+That analysis tags answer options with the product experience they are evidence
+for, and it keys on **option text**. So a reworded option there does not just
+change a label, it silently stops counting. A test asserts the export carries
+every question and every option in order, which is what turns that silent
+failure into a red build.
+
+**The instrument did not move.** The export reads it, it does not touch it.
+
 ### `.gitignore` blocks private keys, because this repository is public
 No instrument change.
 
@@ -39,7 +58,6 @@ Verified no tracked file is shadowed by the new rules.
 
 ---
 
-## 27 Oct 2026
 
 ### The data controller is now Eben EIO Global OU
 Estonian registration completed, so the controller named in the privacy notice

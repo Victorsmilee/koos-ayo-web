@@ -318,3 +318,45 @@ test('no question id, table name or schema is hardcoded outside its source', () 
   walk('src')
   assert.deepEqual(offenders, [], 'hardcoded identifier; derive it instead')
 })
+
+test('the JSON export carries the whole instrument, derived not copied', async () => {
+  // The analysis of responses lives in the private repository and reads this
+  // export rather than holding its own copy of the instrument. If the export
+  // ever drops a question or an option, that analysis would quietly stop
+  // counting it, and nothing downstream would say so. This is the check that
+  // the export is complete.
+  const { execFileSync } = await import('node:child_process')
+  const raw = execFileSync('npx', ['tsx', 'scripts/export-instrument.ts'], {
+    encoding: 'utf8',
+    maxBuffer: 8 * 1024 * 1024,
+  })
+  const exported = JSON.parse(raw)
+
+  assert.equal(exported.totalSections, sections.length)
+  assert.equal(exported.totalQuestions, allQuestions.length)
+  assert.equal(exported.consent.id, consentQuestion.id)
+  assert.equal(exported.email.questionId, EMAIL_QUESTION_ID)
+
+  // Every question, in order, with its options intact. Options are what the
+  // feature tagging in the private repository keys on, so a dropped or
+  // reworded option breaks it loudly rather than silently.
+  //
+  // The consent gate is not inside a section, so it is exported separately and
+  // compared above. `allQuestions` leads with it, hence the slice.
+  const flat = exported.sections.flatMap((s: { questions: unknown[] }) => s.questions)
+  const inSections = allQuestions.slice(1)
+  assert.equal(flat.length, inSections.length)
+  assert.equal(exported.totalQuestions, flat.length + 1)
+  inSections.forEach((q, i) => {
+    const e = flat[i] as { id: string; text: string; options: string[]; maxSelections: number | null }
+    assert.equal(e.id, q.id)
+    assert.equal(e.text, q.text)
+    assert.deepEqual(e.options, q.options ?? [])
+    assert.equal(e.maxSelections, q.maxSelections ?? null)
+  })
+
+  // Nothing secret leaves: the export is JSON of values already served to
+  // anyone who opens the survey.
+  assert.ok(!raw.includes('SUPABASE'))
+  assert.ok(!raw.includes('sb_secret'))
+})
