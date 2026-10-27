@@ -25,3 +25,16 @@ playwright-report/
 
 # per-machine agent permissions, never shared
 .claude/settings.local.json
+
+# private keys, never committed. A placeholder pasted into ssh-keygen's file
+# prompt wrote a live key into the private repo's root on 24 Oct 2026. This
+# repository is public, so the same mistake here is unrecoverable: a key pushed
+# to a public repository is compromised the moment it lands, and deleting the
+# commit does not un-publish it.
+id_rsa
+id_ed25519
+*.pem
+*.key
+*_rsa
+*_ed25519
+ssh root@*

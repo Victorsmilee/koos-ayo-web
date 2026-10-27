@@ -19,6 +19,25 @@ whether the instrument moved. So far it never has.
 
 ---
 
+## 27 Oct 2026
+
+### `.gitignore` blocks private keys, because this repository is public
+No instrument change.
+
+On 24 Oct a `YOUR_SERVER_IP` placeholder from the go-live runbook was pasted
+into `ssh-keygen`'s interactive file prompt, which wrote a live ed25519 private
+key into the **private** repository's root. Nothing was committed and the
+runbook is fixed there.
+
+The guard belongs here more than there. A key committed to a private repository
+is a scare and a key rotation; a key committed to this one is public the moment
+it is pushed, and rewriting history does not un-publish it, because it is
+already in anyone's clone and in GitHub's caches. The patterns cost nothing and
+remove the possibility.
+
+Verified no tracked file is shadowed by the new rules.
+
+---
 
 ## 26 Oct 2026
 
