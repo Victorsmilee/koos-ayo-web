@@ -282,7 +282,11 @@ test('no question id, table name or schema is hardcoded outside its source', () 
   // real bug: 'q35' was spelled out in actions.ts and twice in
   // survey-client.tsx, so renumbering the instrument would have written
   // respondents' email addresses into the answers table.
-  const sources = ['src/lib/questions.ts', 'src/lib/supabase-server.ts']
+  const sources = [
+    'src/lib/questions.ts',
+    'src/lib/supabase-server.ts',
+    'src/lib/operator.ts',
+  ]
   const offenders: string[] = []
   const walk = (dir: string) => {
     for (const e of readdirSync(dir, { withFileTypes: true })) {
@@ -298,7 +302,12 @@ test('no question id, table name or schema is hardcoded outside its source', () 
               // Section indices count too. `screen === 4` pinned the concept box
               // to a section by number, and reordering sections would have
               // floated it onto the wrong one with nothing to catch it.
-              /\b(screen|sectionIndex)\s*[=!]==?\s*\d/.test(code)
+              /\b(screen|sectionIndex)\s*[=!]==?\s*\d/.test(code) ||
+              // The operating company. It is the data controller in the privacy
+              // notice and the attribution in the footer, and a regulator
+              // compares the published notice against the ROPA, so two spellings
+              // of it would read as two organisations. One source: operator.ts.
+              /Eben EIO Global|Koos Ayo/.test(code)
             ) {
               offenders.push(`${full}:${i + 1}`)
             }
