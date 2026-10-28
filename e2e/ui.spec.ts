@@ -167,3 +167,29 @@ test('the privacy notice names the processors that actually run the site', async
   // in the EU. It is the handling that crosses a border, and that is stated.
   await expect(section).toContainText('standard contractual clauses')
 })
+
+test('the results page withholds figures while the study is open', async ({ page }) => {
+  // The methodological rule, visible rather than only in a test. Publishing
+  // results during collection biases later respondents, worst of all on
+  // willingness to pay, which is the hardest signal in the instrument to get.
+  await page.goto('/results')
+  await expect(
+    page.getByRole('heading', { name: 'What the research found' }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: 'The study is still running' }),
+  ).toBeVisible()
+  await expect(page.getByRole('link', { name: /take part/i })).toBeVisible()
+
+  // The method note is on the page in both states, because a results page that
+  // does not say what it left out invites being read as the whole picture.
+  const method = page.getByText('How to read this').locator('..')
+  await expect(method).toContainText('faith or religion is not published')
+  await expect(method).toContainText('Nothing anyone typed appears here')
+})
+
+test('the results page is reachable from the home page', async ({ page }) => {
+  await page.goto('/')
+  await page.getByRole('link', { name: 'Research results' }).click()
+  await expect(page).toHaveURL(/\/results$/)
+})

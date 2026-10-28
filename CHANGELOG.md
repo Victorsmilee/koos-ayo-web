@@ -125,6 +125,40 @@ an entry to `CHANGELOG.md` under today's date insert at the same point and
 conflict every time. Three merges in a row have hit it. Naming which branch
 needs the rebase is cheaper than discovering it at the merge button.
 
+### A public results page, with the figures withheld until the study closes
+`/results` is new, linked from the footer. It renders a **committed JSON file**,
+so the public site never holds a credential and never queries the research
+tables. Publishing is a reviewed commit, not a runtime behaviour, and there is
+nothing on the page to leak.
+
+**It shows no figures yet, deliberately.** The file says the study is open, and
+the page says so too. Publishing results during collection biases the sample:
+later respondents anchor on what earlier ones said, and willingness to pay is
+both the most susceptible answer and the hardest signal in the instrument to
+get. The rule is in code, not in anyone's memory.
+
+**The schema is the privacy notice, enforced.** `src/lib/results.ts` validates
+the file at build time and fails the build on: the faith question appearing at
+all, a free-text question, a count published below the suppression threshold, a
+count larger than its own base, or a drop-off reach that rises. Two of those
+were verified failing before shipping.
+
+**Charts, and the ones deliberately not built.** A donut for completion, which
+is two slices of a real whole. A drop-off chart for how far people got, which is
+what keeping partial answers exists to produce. There is **no pie per question**:
+half the questions are "select up to three", where answers do not sum to the
+number of people and slices would add past 100%, and the rest have five to nine
+options, past the point where slices can be told apart.
+
+The eight section colours were tested as a chart palette and failed on chroma,
+colourblind separation and normal-vision separation, so they are not used for
+one. Every chart is single-series in the accent, which needs no palette.
+
+Inline SVG, no charting library: the page stays a server component, ships no
+JavaScript, and gains no third-party dependency.
+
+**The instrument did not move.**
+
 ## 27 Oct 2026
 
 ### The instrument can now be exported as JSON
