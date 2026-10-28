@@ -2,6 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { TABLES, getSupabase } from '@/lib/supabase-server'
+import { logSaveFailure } from '@/lib/save-failure'
 import {
   answersSchema,
   emailSchema,
@@ -85,7 +86,10 @@ async function mergeWithSaved(
     .eq('id', id)
     .maybeSingle()
 
-  if (error) return null
+  if (error) {
+    logSaveFailure('merge-saved', error)
+    return null
+  }
   return {
     answers: { ...((data?.answers as Record<string, unknown>) ?? {}), ...payload },
     lastSection: data?.last_section ?? 0,
@@ -151,7 +155,10 @@ export async function saveSection(input: unknown): Promise<ActionResult> {
       // NOTE: no .select() chained. With RLS on and no policies, asking
       // PostgREST to return the row would fail with 42501.
 
-      if (error) return { ok: false, message: GENERIC_ERROR }
+      if (error) {
+        logSaveFailure('save-section', error)
+        return { ok: false, message: GENERIC_ERROR }
+      }
       return { ok: true }
     }
 
@@ -164,12 +171,16 @@ export async function saveSection(input: unknown): Promise<ActionResult> {
       completed: false,
     })
 
-    if (error) return { ok: false, message: GENERIC_ERROR }
+    if (error) {
+      logSaveFailure('save-section', error)
+      return { ok: false, message: GENERIC_ERROR }
+    }
 
     await writeResponseId(id)
     return { ok: true }
-  } catch {
-    // Deliberately swallowing the cause: it can contain answer content.
+  } catch (error) {
+    // The cause is never logged, only its shape. See save-failure.ts.
+    logSaveFailure('save-section', error)
     return { ok: false, message: GENERIC_ERROR }
   }
 }
@@ -214,7 +225,10 @@ export async function submitSurvey(input: unknown): Promise<ActionResult> {
           updated_at: new Date().toISOString(),
         })
         .eq('id', existingId)
-      if (error) return { ok: false, message: GENERIC_ERROR }
+      if (error) {
+        logSaveFailure('submit-survey', error)
+        return { ok: false, message: GENERIC_ERROR }
+      }
     } else {
       const { error } = await supabase.from(TABLES.responses).insert({
         id,
@@ -223,12 +237,16 @@ export async function submitSurvey(input: unknown): Promise<ActionResult> {
         completed: true,
         last_section: sections.length,
       })
-      if (error) return { ok: false, message: GENERIC_ERROR }
+      if (error) {
+        logSaveFailure('submit-survey', error)
+        return { ok: false, message: GENERIC_ERROR }
+      }
       await writeResponseId(id)
     }
 
     return { ok: true }
-  } catch {
+  } catch (error) {
+    logSaveFailure('submit-survey', error)
     return { ok: false, message: GENERIC_ERROR }
   }
 }
@@ -260,9 +278,13 @@ export async function saveEmail(
       email: email.data,
       follow_up: followUp.data,
     })
-    if (error) return { ok: false, message: GENERIC_ERROR }
+    if (error) {
+      logSaveFailure('save-email', error)
+      return { ok: false, message: GENERIC_ERROR }
+    }
     return { ok: true }
-  } catch {
+  } catch (error) {
+    logSaveFailure('save-email', error)
     return { ok: false, message: GENERIC_ERROR }
   }
 }

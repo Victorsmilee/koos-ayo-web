@@ -21,6 +21,35 @@ whether the instrument moved. So far it never has.
 
 ## 28 Oct 2026
 
+### A failed save now says why, without saying what
+The first live save failure on Vercel produced "Sorry, that didn't save" and no
+trace anywhere. `actions.ts` caught every error and returned the generic message
+without logging, so the runtime logs were empty and the only way to diagnose it
+was curl against Supabase by hand. That cost days.
+
+The rule it was honouring is right: no answer text, no email, no payload, ever.
+The implementation was the blunt version of it, logging nothing at all.
+
+`src/lib/save-failure.ts` is the narrow fix, and it is an **allowlist** rather
+than a redaction, so a future error shape cannot leak content by being
+unanticipated:
+
+- a PostgREST failure logs its **code only**, `42501`, `PGRST106`. The message,
+  details and hint are withheld, because PostgREST echoes row values into
+  `details` on a constraint violation. That is the actual leak path.
+- a configuration failure logs its message, because we wrote it and it names an
+  environment variable rather than a value. `ConfigError` is a new type so this
+  can be told apart from a database error rather than guessed at.
+- anything else logs its type name and nothing more.
+
+Two tests, both verified failing before the fix: one feeds an error whose
+message, details and hint all contain answer text and asserts none of it
+survives, and one reads `actions.ts` and fails the build if any failure path
+swallows its cause silently again.
+
+**The instrument did not move.**
+
+
 ### How work is done here is now written down
 `docs/engineering-standards.md` is the Product Owner's universal project rules:
 reason as the senior expert for the discipline the task belongs to, inspect

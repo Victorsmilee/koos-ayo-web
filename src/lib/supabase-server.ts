@@ -1,5 +1,6 @@
 import 'server-only'
 import { createClient } from '@supabase/supabase-js'
+import { ConfigError } from './config-error'
 
 /**
  * Server-only Supabase client.
@@ -14,6 +15,8 @@ import { createClient } from '@supabase/supabase-js'
  */
 
 /** The only schemas this project uses. The migration creates exactly these. */
+export { ConfigError }
+
 export const SCHEMAS = ['public', 'staging'] as const
 export type DbSchema = (typeof SCHEMAS)[number]
 
@@ -29,7 +32,7 @@ export const TABLES = {
 function required(name: string): string {
   const value = process.env[name]
   if (!value) {
-    throw new Error(
+    throw new ConfigError(
       `Missing required environment variable ${name}. ` +
         `See .env.example. SUPABASE_DB_SCHEMA must be one of ` +
         `${SCHEMAS.map((s) => `'${s}'`).join(' or ')}.`,
@@ -51,7 +54,7 @@ function build() {
   const schema = required('SUPABASE_DB_SCHEMA')
 
   if (!SCHEMAS.includes(schema as DbSchema)) {
-    throw new Error(
+    throw new ConfigError(
       `SUPABASE_DB_SCHEMA must be one of ` +
         `${SCHEMAS.map((s) => `'${s}'`).join(' or ')}, received '${schema}'.`,
     )
