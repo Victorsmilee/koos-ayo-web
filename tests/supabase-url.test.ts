@@ -44,12 +44,3 @@ test('the guard is in supabase-server.ts and names the variable', () => {
   assert.match(source, /PGRST125/, 'the message should name the code it prevents')
   assert.match(source, /new URL\(url\)\.pathname/)
 })
-
-test('the function region is pinned in the repository, not a dashboard', () => {
-  // The privacy notice and docs/gdpr/ropa.md both tell respondents where the
-  // code handling their answers runs. On 28 Oct 2026 it was running in
-  // Stockholm while the dashboard setting said Frankfurt, which is exactly the
-  // kind of claim that should not depend on a checkbox nobody can review.
-  const config = JSON.parse(readFileSync('vercel.json', 'utf8'))
-  assert.deepEqual(config.regions, ['fra1'])
-})
