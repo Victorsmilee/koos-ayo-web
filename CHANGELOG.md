@@ -90,6 +90,37 @@ so it is always loaded rather than only on disk.
 No behaviour changed and no copy a respondent sees changed. **The instrument did
 not move.**
 
+### PGRST125: the save failure, and the three things that let it hide
+`SUPABASE_URL` in Vercel carried `/rest/v1` on the end. supabase-js appends
+`/rest/v1` itself, so every write went to `/rest/v1/rest/v1` and PostgREST
+answered PGRST125, an unrecognised path. The survey could not save for three
+days.
+
+Three things kept it hidden, and each has a fix here:
+
+**The error was swallowed.** Fixed separately, earlier today. The log line that
+finally named it, `koos: save-section failed, postgrest code PGRST125`, only
+existed because of that change.
+
+**The same variable was correct in GitHub Actions**, so the daily keep-alive
+stayed green throughout and pointed away from the cause. `supabase-server.ts`
+now rejects a `SUPABASE_URL` carrying any path, with a message that names the
+variable and the code it prevents. A wrong value fails loudly at the first call
+rather than looking like a connection problem.
+
+**The region was not what the dashboard said.** The notice told respondents the
+code runs in Frankfurt; the runtime log showed Stockholm. The region is now
+pinned in `vercel.json`, which is reviewed and in git rather than a checkbox,
+and a test asserts it.
+
+The published notice now says the code runs in **the European Union** rather
+than naming a city. Both are true today, but a claim about a city can become
+false when a region moves, and a claim about the EU cannot. Same reasoning the
+ROPA already applies to Supabase's region. The exact region stays recorded in
+`vercel.json` and in the ROPA, where precision belongs.
+
+**The instrument did not move.**
+
 ## 27 Oct 2026
 
 ### The instrument can now be exported as JSON

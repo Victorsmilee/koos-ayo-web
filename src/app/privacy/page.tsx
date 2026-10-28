@@ -175,8 +175,8 @@ export default function PrivacyPage() {
           <ul className="mt-3 space-y-2">
             <li>
               <strong className="font-semibold">Vercel Inc.</strong> (United States):
-              runs the website. The code that handles your answers executes in
-              Frankfurt, Germany.
+              runs the website. The code that handles your answers executes in the
+              European Union.
             </li>
             <li>
               <strong className="font-semibold">Supabase</strong>: hosts the database, in
@@ -186,9 +186,9 @@ export default function PrivacyPage() {
           <p className="mt-3">
             Your answers are <strong className="font-semibold">stored</strong> in the
             European Union. Vercel is an American company, so although your answers are
-            handled in Frankfurt and stored in the EU, it is possible for them to be
-            accessed from outside the EU. That is covered by standard contractual
-            clauses, the safeguard European law provides for this.
+            both handled and stored in the EU, it is possible for them to be accessed
+            from outside it. That is covered by standard contractual clauses, the
+            safeguard European law provides for this.
           </p>
         </Block>
 

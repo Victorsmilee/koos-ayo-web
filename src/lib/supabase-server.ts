@@ -53,6 +53,20 @@ function build() {
   const secretKey = required('SUPABASE_SECRET_KEY')
   const schema = required('SUPABASE_DB_SCHEMA')
 
+  // supabase-js appends /rest/v1 itself, so a URL that already carries a path
+  // produces /rest/v1/rest/v1 and PostgREST answers PGRST125, an unrecognised
+  // path. That looked like a generic save failure for three days on 28 Oct 2026,
+  // because the value was right in GitHub Actions and wrong in Vercel. Caught
+  // here, where the message can name the variable.
+  const path = new URL(url).pathname.replace(/\/+$/, '')
+  if (path) {
+    throw new ConfigError(
+      `SUPABASE_URL must be the project URL with no path, received one ending ` +
+        `'${path}'. The client appends /rest/v1 itself; leaving it on makes ` +
+        `PostgREST return PGRST125.`,
+    )
+  }
+
   if (!SCHEMAS.includes(schema as DbSchema)) {
     throw new ConfigError(
       `SUPABASE_DB_SCHEMA must be one of ` +

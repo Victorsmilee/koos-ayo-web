@@ -158,8 +158,13 @@ test('the privacy notice names the processors that actually run the site', async
   await page.goto('/privacy')
   const section = page.getByText('Who else can see it').locator('..')
   await expect(section).toContainText('Vercel Inc.')
-  await expect(section).toContainText('Frankfurt')
   await expect(section).toContainText('Supabase')
+  // Deliberately the European Union, not a named city. The exact region is
+  // pinned in vercel.json and recorded in the ROPA; the published claim stays
+  // at the level that cannot become false if a region ever moves. On
+  // 28 Oct 2026 the notice said Frankfurt while the code ran in Stockholm.
+  await expect(section).toContainText('European Union')
+  await expect(section).not.toContainText('Frankfurt')
   // Decommissioned. Neither may reappear here without the ROPA moving too.
   await expect(section).not.toContainText('Hetzner')
   await expect(section).not.toContainText('Cloudflare')
