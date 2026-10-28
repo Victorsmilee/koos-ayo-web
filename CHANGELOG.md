@@ -90,6 +90,26 @@ so it is always loaded rather than only on disk.
 No behaviour changed and no copy a respondent sees changed. **The instrument did
 not move.**
 
+### PGRST125: the save failure, and the two things that let it hide
+`SUPABASE_URL` in Vercel carried `/rest/v1` on the end. supabase-js appends
+`/rest/v1` itself, so every write went to `/rest/v1/rest/v1` and PostgREST
+answered PGRST125, an unrecognised path. The survey could not save for three
+days.
+
+Two things kept it hidden, and each has a fix.
+
+**The error was swallowed.** Fixed separately, earlier today. The log line that
+finally named it, `koos: save-section failed, postgrest code PGRST125`, only
+existed because of that change.
+
+**The same variable was correct in GitHub Actions**, so the daily keep-alive
+stayed green throughout and pointed away from the cause. `supabase-server.ts`
+now rejects a `SUPABASE_URL` carrying any path, with a message that names the
+variable and the code it prevents. A wrong value now fails loudly at the first
+call rather than looking like a connection problem.
+
+**The instrument did not move.**
+
 ### Every pull request now ships with a merge order
 Product Owner rule. Opening the work is not finishing it: the handover has to
 say which order things land in and why.
