@@ -19,6 +19,22 @@ whether the instrument moved. So far it never has.
 
 ---
 
+## 28 Oct 2026
+
+### How work is done here is now written down
+`docs/engineering-standards.md` is the Product Owner's universal project rules:
+reason as the senior expert for the discipline the task belongs to, inspect
+before acting, verify before concluding, gate the answer before giving it,
+challenge your own solution, label what is verified against what is inferred,
+and treat infrastructure and production as high impact.
+
+The canonical copy is in the private repository. This copy exists so this
+repository is workable on its own, and `CLAUDE.md` carries the operative summary
+so it is always loaded rather than only on disk.
+
+No behaviour changed and no copy a respondent sees changed. **The instrument did
+not move.**
+
 ## 27 Oct 2026
 
 ### The instrument can now be exported as JSON
