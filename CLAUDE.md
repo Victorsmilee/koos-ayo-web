@@ -113,6 +113,27 @@ must keep naming the same entity, and they change in the same pass.
 - Release PRs use **Create a merge commit**, never Squash and merge.
 - Never merge or push without the user asking.
 
+## Merge order
+**Product Owner rule, 28 Oct 2026.** Every pull request, or set of them, is
+delivered with **the order to merge in and the reason**. Opening the work is not
+finishing it; saying how it lands safely is part of the handover.
+
+- **A change that spans both repositories says which goes first, and what is
+  wrong in between.** The privacy notice and `docs/gdpr/ropa.md` are the
+  standing example: merging one without the other leaves the published notice
+  and the Article 30 record naming different processors, which is the exact
+  mismatch a regulator looks for. It happened on 28 Oct 2026.
+- **Two open pull requests touching the same file say so**, and name which one
+  will need a rebase after the other lands. `CHANGELOG.md` is the usual
+  offender, because every branch adds an entry under today's date and both
+  insert at the same point.
+- **One pull request still gets an order.** "This one, on its own, nothing
+  waiting on it" is an answer, and it tells the reader nothing else is in
+  flight.
+- **The order is given with the reason**, not as a bare list. "A before B"
+  without "because B publishes what A records" is not a merge order, it is a
+  preference.
+
 ## Hosting
 **Vercel, from 28 Oct 2026.** `koos-ayo.com` is the canonical host; `www`
 redirects to it with a 308, because the resume cookie is host-only and a

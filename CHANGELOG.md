@@ -90,6 +90,21 @@ so it is always loaded rather than only on disk.
 No behaviour changed and no copy a respondent sees changed. **The instrument did
 not move.**
 
+### Every pull request now ships with a merge order
+Product Owner rule. Opening the work is not finishing it: the handover has to
+say which order things land in and why.
+
+It is written down because the gap had already cost something. The ROPA half of
+the host move merged while the privacy notice half sat open, so for a while the
+Article 30 record named Vercel and the published notice still named Hetzner and
+Cloudflare. That is the exact mismatch a regulator compares for, and nothing in
+the process had said "these two merge together".
+
+The rule also covers the smaller recurring case: two open branches both adding
+an entry to `CHANGELOG.md` under today's date insert at the same point and
+conflict every time. Three merges in a row have hit it. Naming which branch
+needs the rebase is cheaper than discovering it at the merge button.
+
 ## 27 Oct 2026
 
 ### The instrument can now be exported as JSON
