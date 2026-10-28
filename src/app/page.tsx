@@ -243,6 +243,9 @@ export default function HomePage() {
         <div className="mx-auto max-w-5xl space-y-4 text-sm text-muted">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <span>together, with joy</span>
+            <Link href="/results" className="underline underline-offset-4 hover:text-ink">
+              Research results
+            </Link>
             <Link href="/privacy" className="underline underline-offset-4 hover:text-ink">
               Privacy
             </Link>

@@ -1,0 +1,485 @@
+{
+  "note": "Aggregates only. Review before publishing. Never contains free text or special-category data.",
+  "schema": "public",
+  "status": "open",
+  "surveyVersion": "v3",
+  "generatedOn": "2026-10-28",
+  "collectionWindow": {},
+  "responsesStarted": 0,
+  "responsesCompleted": 0,
+  "minCell": 20,
+  "dropOff": [
+    {
+      "section": 1,
+      "title": "About you",
+      "reached": 0
+    },
+    {
+      "section": 2,
+      "title": "Your real relationship experience",
+      "reached": 0
+    },
+    {
+      "section": 3,
+      "title": "Support you use today",
+      "reached": 0
+    },
+    {
+      "section": 4,
+      "title": "A new kind of support",
+      "reached": 0
+    },
+    {
+      "section": 5,
+      "title": "Trust, privacy and safety",
+      "reached": 0
+    },
+    {
+      "section": 6,
+      "title": "How you would use it",
+      "reached": 0
+    },
+    {
+      "section": 7,
+      "title": "Value",
+      "reached": 0
+    },
+    {
+      "section": 8,
+      "title": "One last thing",
+      "reached": 0
+    }
+  ],
+  "questions": [
+    {
+      "number": 2,
+      "text": "What is your age range?",
+      "base": 0,
+      "counts": {
+        "18–24": null,
+        "25–34": null,
+        "35–44": null,
+        "45–54": null,
+        "55–64": null,
+        "65 or older": null,
+        "Prefer not to say": null
+      }
+    },
+    {
+      "number": 3,
+      "text": "What is your current relationship status?",
+      "base": 0,
+      "counts": {
+        "Dating": null,
+        "In a committed relationship": null,
+        "Engaged": null,
+        "Married": null,
+        "Separated": null,
+        "Divorced": null,
+        "Single": null,
+        "Prefer not to say": null
+      }
+    },
+    {
+      "number": 4,
+      "text": "How long have you been in your current (or most recent) relationship?",
+      "base": 0,
+      "counts": {
+        "Less than 6 months": null,
+        "6–12 months": null,
+        "1–2 years": null,
+        "3–5 years": null,
+        "6–10 years": null,
+        "11–20 years": null,
+        "More than 20 years": null,
+        "Prefer not to say": null
+      }
+    },
+    {
+      "number": 5,
+      "text": "Do you have children?",
+      "base": 0,
+      "counts": {
+        "No": null,
+        "Expecting a child": null,
+        "Yes, under 5 years old": null,
+        "Yes, 5 years or older": null,
+        "Prefer not to say": null
+      }
+    },
+    {
+      "number": 7,
+      "text": "How often do you experience misunderstandings, disagreements or emotionally difficult moments in your relationship?",
+      "base": 0,
+      "counts": {
+        "Very frequently": null,
+        "Frequently": null,
+        "Sometimes": null,
+        "Rarely": null,
+        "Almost never": null
+      }
+    },
+    {
+      "number": 8,
+      "text": "Do the same disagreements come up again and again?",
+      "base": 0,
+      "counts": {
+        "Yes, often": null,
+        "Sometimes": null,
+        "Rarely": null,
+        "Never": null,
+        "Not sure": null
+      }
+    },
+    {
+      "number": 9,
+      "text": "When a difficult moment happens, what do you actually do in the moment?",
+      "base": 0,
+      "counts": {
+        "Raise my voice": null,
+        "Criticise or blame": null,
+        "Get defensive": null,
+        "Go quiet or withdraw": null,
+        "Leave the room": null,
+        "Give the silent treatment": null,
+        "Send a message I later regret": null,
+        "Keep pushing until it is resolved": null,
+        "Take time to calm down first": null,
+        "Stay calm and talk it through": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 10,
+      "text": "How do difficult moments usually end?",
+      "base": 0,
+      "counts": {
+        "We talk it through and resolve it": null,
+        "One of us apologises": null,
+        "We move on without discussing it": null,
+        "It comes back in a later argument": null,
+        "It stays unresolved": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 11,
+      "text": "After a difficult moment, how long does it usually take until things feel okay again?",
+      "base": 0,
+      "counts": {
+        "Within an hour": null,
+        "The same day": null,
+        "1–2 days": null,
+        "Several days": null,
+        "A week or more": null,
+        "It often never fully feels okay": null
+      }
+    },
+    {
+      "number": 12,
+      "text": "How often do you later think, \"I wish I had handled that differently\"?",
+      "base": 0,
+      "counts": {
+        "Never": null,
+        "Rarely": null,
+        "Sometimes": null,
+        "Often": null,
+        "Very often": null
+      }
+    },
+    {
+      "number": 13,
+      "text": "In those moments, what do you wish you could do differently?",
+      "base": 0,
+      "counts": {
+        "Stay calm instead of reacting": null,
+        "Explain what I need clearly": null,
+        "Understand my partner's side": null,
+        "Not say things I regret": null,
+        "Repair faster afterwards": null,
+        "Raise issues before they build up": null,
+        "Nothing, I am usually happy with how I respond": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 15,
+      "text": "When you need help with a relationship problem, where do you currently turn?",
+      "base": 0,
+      "counts": {
+        "Partner": null,
+        "Friends or family": null,
+        "Therapist or counsellor": null,
+        "Religious or faith leader": null,
+        "Books, podcasts or YouTube": null,
+        "Google or other search engines": null,
+        "ChatGPT or another AI tool": null,
+        "Relationship apps": null,
+        "I usually deal with it myself": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 16,
+      "text": "In the past 12 months, have you tried anything to improve how you handle relationship difficulties (for example a book, course, counselling, coaching or an app)?",
+      "base": 0,
+      "counts": {
+        "No": null,
+        "Yes, only free things": null,
+        "Yes, and I paid for at least one of them": null
+      }
+    },
+    {
+      "number": 17,
+      "text": "How satisfied are you with the support currently available to you?",
+      "base": 0,
+      "counts": {
+        "Very dissatisfied": null,
+        "Dissatisfied": null,
+        "Neutral": null,
+        "Satisfied": null,
+        "Very satisfied": null,
+        "I don't use any support": null
+      }
+    },
+    {
+      "number": 19,
+      "text": "How useful would this type of support be to you?",
+      "base": 0,
+      "counts": {
+        "Not useful at all": null,
+        "Slightly useful": null,
+        "Moderately useful": null,
+        "Very useful": null,
+        "Extremely useful": null
+      }
+    },
+    {
+      "number": 20,
+      "text": "Which parts would be most useful to you?",
+      "base": 0,
+      "counts": {
+        "Understanding my feelings and my automatic reaction": null,
+        "Separating facts from my assumptions": null,
+        "Seeing my partner's possible perspective": null,
+        "Being challenged on my own thinking": null,
+        "Preparing or reviewing what I want to say": null,
+        "Reflecting after a difficult interaction": null,
+        "Spotting patterns that keep repeating": null,
+        "Learning over time what works for me": null,
+        "Short guided relationship exercises": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 21,
+      "text": "When would you realistically open it?",
+      "base": 0,
+      "counts": {
+        "Before a difficult conversation": null,
+        "During a difficult moment, while I am still upset": null,
+        "Right after a difficult moment": null,
+        "Later that day or the next day": null,
+        "Regularly, not only when something goes wrong": null,
+        "Not sure": null
+      }
+    },
+    {
+      "number": 22,
+      "text": "How comfortable would you be using a short guided process such as: What happened? → What are you feeling? → What are you assuming? → What outcome do you want? → How do you want to respond?",
+      "base": 0,
+      "counts": {
+        "Very uncomfortable": null,
+        "Uncomfortable": null,
+        "Neutral": null,
+        "Comfortable": null,
+        "Very comfortable": null
+      }
+    },
+    {
+      "number": 23,
+      "text": "After using it, would you come back later to note what happened and whether it helped, so it can learn what works for you?",
+      "base": 0,
+      "counts": {
+        "Yes, regularly": null,
+        "Sometimes": null,
+        "Only if it takes less than a minute": null,
+        "Probably not": null,
+        "Not sure": null
+      }
+    },
+    {
+      "number": 24,
+      "text": "Would you use it even if your partner never did?",
+      "base": 0,
+      "counts": {
+        "Yes": null,
+        "Probably": null,
+        "Only if my partner used it too": null,
+        "No": null,
+        "Not sure": null
+      }
+    },
+    {
+      "number": 25,
+      "text": "Do you think your partner would be open to using something like this?",
+      "base": 0,
+      "counts": {
+        "Yes": null,
+        "Maybe": null,
+        "No": null,
+        "Not sure": null,
+        "I would prefer to use it privately": null
+      }
+    },
+    {
+      "number": 26,
+      "text": "What would make you trust a relationship-support app like this?",
+      "base": 0,
+      "counts": {
+        "Strong privacy and security controls": null,
+        "Clear explanation of how my data is used": null,
+        "Being able to see, correct and delete what the app remembers": null,
+        "Private use without involving my partner": null,
+        "No judgement": null,
+        "Balanced perspectives rather than automatically taking my side": null,
+        "Being open about what AI can and cannot do": null,
+        "Evidence-based exercises": null,
+        "Human or professional support when needed": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 27,
+      "text": "What would be your biggest concerns about using an AI-powered relationship-support app?",
+      "base": 0,
+      "counts": {
+        "Privacy": null,
+        "Data security": null,
+        "AI giving bad advice": null,
+        "AI misunderstanding my situation": null,
+        "AI taking my partner's side": null,
+        "AI taking my side without enough context": null,
+        "Becoming too dependent on the app": null,
+        "My partner accessing my information": null,
+        "Information being sold or shared": null,
+        "The app being too generic": null,
+        "Cost": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 28,
+      "text": "How comfortable would you be sharing private relationship experiences with an AI-powered app if you had clear control over what it remembers?",
+      "base": 0,
+      "counts": {
+        "Very uncomfortable": null,
+        "Uncomfortable": null,
+        "Neutral": null,
+        "Comfortable": null,
+        "Very comfortable": null
+      }
+    },
+    {
+      "number": 29,
+      "text": "How often do you think you would realistically use something like this?",
+      "base": 0,
+      "counts": {
+        "Several times a week": null,
+        "About once a week": null,
+        "A few times a month": null,
+        "Once a month or less": null,
+        "Only during serious relationship problems": null,
+        "I probably would not use it": null
+      }
+    },
+    {
+      "number": 30,
+      "text": "What would make you come back to it regularly?",
+      "base": 0,
+      "counts": {
+        "It helped in a real situation": null,
+        "It remembered my situation, so I did not have to repeat myself": null,
+        "It showed my patterns or progress over time": null,
+        "Short exercises I can do quickly": null,
+        "Gentle reminders or check-ins": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 31,
+      "text": "What would make you stop using it?",
+      "base": 0,
+      "counts": {
+        "Advice felt generic": null,
+        "It felt like it was taking sides": null,
+        "It took too much time": null,
+        "Privacy worries": null,
+        "I did not see any improvement": null,
+        "My partner found out I was using it": null,
+        "Cost": null,
+        "Other": null
+      }
+    },
+    {
+      "number": 32,
+      "text": "If it genuinely helped you handle difficult situations better and improve your relationship over time, would you consider paying for it?",
+      "base": 0,
+      "counts": {
+        "Definitely yes": null,
+        "Probably yes": null,
+        "Maybe": null,
+        "Probably not": null,
+        "Definitely not": null
+      }
+    },
+    {
+      "number": 33,
+      "text": "What monthly price would feel reasonable if it delivered that value?",
+      "base": 0,
+      "counts": {
+        "I would only use a free version": null,
+        "Less than €5 per month": null,
+        "€5–10 per month": null,
+        "€10–20 per month": null,
+        "More than €20 per month": null,
+        "Not sure": null
+      }
+    },
+    {
+      "number": 34,
+      "text": "What is the most you would pay per month before it stops feeling worth it?",
+      "base": 0,
+      "counts": {
+        "I would not pay anything": null,
+        "Up to €5 per month": null,
+        "Up to €10 per month": null,
+        "Up to €20 per month": null,
+        "More than €20 per month": null,
+        "Not sure": null
+      }
+    },
+    {
+      "number": 35,
+      "text": "If it genuinely helped you, would you recommend it to a friend or family member?",
+      "base": 0,
+      "counts": {
+        "Definitely yes": null,
+        "Probably yes": null,
+        "Maybe": null,
+        "Probably not": null,
+        "Definitely not": null
+      }
+    },
+    {
+      "number": 36,
+      "text": "Would you be interested in a short follow-up interview or testing an early version?",
+      "base": 0,
+      "counts": {
+        "Yes": null,
+        "Maybe": null,
+        "No": null
+      }
+    }
+  ]
+}
