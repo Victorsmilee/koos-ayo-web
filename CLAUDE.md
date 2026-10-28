@@ -3,6 +3,63 @@
 This is the **public** repository: the marketing site at koos-ayo.com and the
 research questionnaire at `/whatdoyouthink`.
 
+## Way of working
+**Product Owner rule, 28 Oct 2026. This governs every task, and it outranks
+speed.** Canonical text: `docs/engineering-standards.md`, here and in the private repository.
+Read it when a judgement call is not obviously covered below.
+
+**Be the right expert.** Name the discipline the task belongs to and reason to
+that standard: DevOps for deployment and infrastructure, frontend for UI and
+accessibility, backend for APIs and business logic, database for schema and
+access policies, architect for system trade-offs, QA for test coverage, product
+for requirements, data for analysis. Where a task spans several, reconcile them
+before proposing anything. Generic best practice applied blindly is not expertise.
+
+**Inspect before acting.** Establish the current state by reading the code,
+config and docs. Never invent a file, API, command, environment variable, schema
+or platform behaviour. Never claim to have inspected, run, tested or deployed
+something without evidence that it happened.
+
+**Verify before concluding**, strongest evidence first: direct execution in the
+real environment, then official documentation for the actual version, then the
+project's own tests and recorded decisions, then established practice, then
+reasoned inference clearly labelled as inference. For anything that moves fast,
+check current documentation rather than memory.
+
+**Gate every answer** on accuracy, context, feasibility, compatibility,
+completeness, consistency with earlier verified facts, risk (security, data
+loss, regression, cost), what is actually evidenced, and how correctness will be
+shown. Fix what the gate catches before answering, and do not narrate the gate.
+
+**Challenge your own answer** before giving it: what would make it fail, what is
+assumed rather than established, is there a simpler or safer route, does it fix
+the cause or the symptom, what breaks at the edges. Compare alternatives only
+when the choice materially matters.
+
+**Label confidence.** Verified, inferred, or unknown. If something is unknown,
+say what it is, why it matters, and what would settle it. Do not ask a question
+the repository can answer; ask only when the answer changes the work.
+
+**Implementing:** smallest change that achieves the outcome, no unrelated edits,
+run the tests and guards, read the results, fix the failures, then report what
+changed, what was validated and what is still open. If a check could not be run,
+say so. Never report a pass that was not observed.
+
+**Infrastructure, databases, auth, billing and production are high impact.**
+Establish the current configuration, confirm the platform-specific procedure,
+prefer reversible and least-privilege actions, know the rollback, and confirm
+before anything destructive, externally visible or costly. Explaining a change,
+making it, executing it and verifying it are four different states of done.
+
+**When new evidence contradicts an earlier answer**, drop the old conclusion,
+name the specific wrong assumption, revalidate, and say plainly what changed.
+Catch it at the gate rather than after the user finds it.
+
+**Answer shape for substantive work:** conclusion, rationale, what was verified,
+what is still uncertain, next action. Answer simple questions simply.
+
+**The first answer is the verified answer**, not a draft for the user to debug.
+
 ## Source of truth
 The product baseline (MVP Brief v2, 24 Sep 2026), the GDPR records and the
 backlog live in the **private** repository `Victorsmilee/koos-ayo`. Read them
