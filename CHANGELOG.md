@@ -21,6 +21,35 @@ whether the instrument moved. So far it never has.
 
 ## 28 Oct 2026
 
+### Hetzner and Coolify are gone, and the privacy notice says so
+The site now runs on Vercel, with functions pinned to Frankfurt, DNS at
+Namecheap and no Cloudflare in the path. Cloudflare was planned but never
+actually used.
+
+The part that mattered most was not the deletion. **The published privacy
+notice named Hetzner and Cloudflare as processors**, and from the moment the
+site moved that was not a stale document but an inaccurate disclosure. It now
+names Vercel Inc. and Supabase, states that the code handling answers runs in
+Frankfurt, and says plainly that Vercel is an American company so access from
+outside the EU is possible under standard contractual clauses.
+
+The storage claim is kept and kept **narrow**: answers are stored in the EU,
+because Supabase did not move. It is the handling that crosses a border, and
+conflating the two would have been the easy way to say something untrue.
+
+An end-to-end test now asserts the processor list, at both viewports, and fails
+if Hetzner or Cloudflare reappear. `docs/gdpr/ropa.md` in the private repository
+changes in the same pass, because a regulator compares the two.
+
+Deleted with the host: the `Dockerfile`, `.dockerignore` and
+`output: 'standalone'`, which existed only to build a small image for Coolify
+and had no remaining reader. `CLAUDE.md` gains a Hosting section recording the
+canonical host, the `fra1` region, and why the Namecheap nameservers must not
+be moved.
+
+**The instrument did not move.**
+
+
 ### How work is done here is now written down
 `docs/engineering-standards.md` is the Product Owner's universal project rules:
 reason as the senior expert for the discipline the task belongs to, inspect

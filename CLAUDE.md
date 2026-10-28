@@ -113,6 +113,25 @@ must keep naming the same entity, and they change in the same pass.
 - Release PRs use **Create a merge commit**, never Squash and merge.
 - Never merge or push without the user asking.
 
+## Hosting
+**Vercel, from 28 Oct 2026.** `koos-ayo.com` is the canonical host; `www`
+redirects to it with a 308, because the resume cookie is host-only and a
+respondent who moved between the two would lose their saved answers.
+
+- **Function region is `fra1`, Frankfurt.** Not cosmetic: the privacy notice and
+  `docs/gdpr/ropa.md` both tell respondents the code handling their answers runs
+  in the EU. Hobby allows one region. The region binds at deploy time, so
+  changing it does nothing until the next deployment.
+- DNS is **Namecheap BasicDNS**, an `A` on `@` and a `CNAME` on `www`. Never
+  switch to Custom DNS: Private Email's MX records are managed by Namecheap and
+  delegating the zone takes them with it.
+- Environment variables are scoped per environment in Vercel, which is what
+  keeps `SUPABASE_DB_SCHEMA` at `staging` for previews. They bind at build time,
+  so a change needs a redeploy.
+- **Hetzner and Coolify are gone** (28 Oct 2026), and so are the Dockerfile and
+  `output: 'standalone'` that existed only for them. Cloudflare was never used.
+  See `docs/infra-decisions.md` in the private repository.
+
 ## Environments
 - local, preview → `staging` schema
 - production (`main`) → `public` schema

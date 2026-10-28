@@ -147,3 +147,23 @@ test('the footer carries the logo, the copyright and the operating company', asy
   expect(box).not.toBeNull()
   expect(box!.width).toBeGreaterThanOrEqual(120)
 })
+
+test('the privacy notice names the processors that actually run the site', async ({
+  page,
+}) => {
+  // The host moved to Vercel on 28 Oct 2026. A notice naming a processor that
+  // no longer touches the data is not a stale document, it is an inaccurate
+  // disclosure, and it must match docs/gdpr/ropa.md in the private repo
+  // because a regulator compares the two.
+  await page.goto('/privacy')
+  const section = page.getByText('Who else can see it').locator('..')
+  await expect(section).toContainText('Vercel Inc.')
+  await expect(section).toContainText('Frankfurt')
+  await expect(section).toContainText('Supabase')
+  // Decommissioned. Neither may reappear here without the ROPA moving too.
+  await expect(section).not.toContainText('Hetzner')
+  await expect(section).not.toContainText('Cloudflare')
+  // The storage claim stays true and must stay narrow: storage is Supabase,
+  // in the EU. It is the handling that crosses a border, and that is stated.
+  await expect(section).toContainText('standard contractual clauses')
+})
