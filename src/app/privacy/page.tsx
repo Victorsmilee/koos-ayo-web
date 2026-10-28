@@ -169,27 +169,26 @@ export default function PrivacyPage() {
         <Block title="Who else can see it">
           <p>
             Only the KOOS research team. Published summaries are aggregates. No one
-            outside the team sees an individual response. Three service providers process
-            data on our behalf under data processing agreements, and none of them use it
-            for their own purposes:
+            outside the team sees an individual response. Two service providers process
+            data on our behalf, and neither uses it for their own purposes:
           </p>
           <ul className="mt-3 space-y-2">
             <li>
-              <strong className="font-semibold">Hetzner Online GmbH</strong> (Germany):
-              hosts the website.
+              <strong className="font-semibold">Vercel Inc.</strong> (United States):
+              runs the website. The code that handles your answers executes in
+              Frankfurt, Germany.
             </li>
             <li>
               <strong className="font-semibold">Supabase</strong>: hosts the database, in
               the European Union.
             </li>
-            <li>
-              <strong className="font-semibold">Cloudflare</strong>: serves and protects
-              the site.
-            </li>
           </ul>
           <p className="mt-3">
-            Your answers are stored in the European Union and are not transferred
-            outside it for storage.
+            Your answers are <strong className="font-semibold">stored</strong> in the
+            European Union. Vercel is an American company, so although your answers are
+            handled in Frankfurt and stored in the EU, it is possible for them to be
+            accessed from outside the EU. That is covered by standard contractual
+            clauses, the safeguard European law provides for this.
           </p>
         </Block>
 
