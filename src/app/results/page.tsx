@@ -3,6 +3,13 @@ import Link from 'next/link'
 import Eyebrow from '@/components/eyebrow'
 import SiteHeader from '@/components/site-header'
 import { CompletionDonut, DropOffChart } from '@/components/charts'
+import {
+  CLOSES_ON,
+  type Progress,
+  SHOW_COUNT_FROM,
+  TARGET,
+  getProgress,
+} from '@/lib/progress'
 import { results, share, showFigures } from '@/lib/results'
 
 /**
@@ -18,6 +25,9 @@ import { results, share, showFigures } from '@/lib/results'
  * earlier ones said, and willingness to pay is both the most susceptible
  * answer and the hardest signal to get.
  */
+
+/** The live count refreshes at most once an hour, not once per visitor. */
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'What the research found',
@@ -36,7 +46,8 @@ function formatDate(iso: string): string {
   })
 }
 
-export default function ResultsPage() {
+export default async function ResultsPage() {
+  const progress = await getProgress()
   return (
     <>
       <SiteHeader />
@@ -51,7 +62,7 @@ export default function ResultsPage() {
             response, never anything anyone typed.
           </p>
 
-          {showFigures ? <Figures /> : <StillRunning />}
+          {showFigures ? <Figures /> : <StillRunning progress={progress} />}
 
           <Method />
         </article>
@@ -64,10 +75,48 @@ export default function ResultsPage() {
  * The state this page is in until the survey closes, and the honest thing to
  * show. An empty results page with a promise is better than a biased one.
  */
-function StillRunning() {
+function StillRunning({ progress }: { progress: Progress }) {
+  const { count, daysLeft, closed } = progress
+  const showCount = count !== null && count >= SHOW_COUNT_FROM
+  const percent = count === null ? 0 : Math.min(100, (100 * count) / TARGET)
+
   return (
     <section className="mt-10 rounded-koos border border-line bg-surface p-5">
       <h2 className="text-xl font-bold sm:text-2xl">The study is still running</h2>
+
+      <div className="mt-5">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+          <span className="text-base font-semibold text-ink">
+            {showCount ? `${count} of ${TARGET} people so far` : `Aiming for ${TARGET} people`}
+          </span>
+          <span className="text-sm text-muted">
+            {closed
+              ? 'Closed'
+              : daysLeft === 0
+                ? 'Closes today'
+                : `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} left`}
+          </span>
+        </div>
+        {showCount ? (
+          <div
+            className="mt-2 h-3 w-full overflow-hidden rounded-full bg-raised ring-1 ring-inset ring-line"
+            role="img"
+            aria-label={`${count} of ${TARGET} people have taken part`}
+          >
+            <div
+              className="h-full rounded-full bg-accent"
+              style={{ width: `${percent}%` }}
+            />
+          </div>
+        ) : null}
+        <p className="mt-2 text-sm text-muted">
+          Open until {formatDate(CLOSES_ON)}.{' '}
+          {showCount
+            ? 'Anyone who has answered at least one question is counted.'
+            : 'The running count appears once a few more people have taken part.'}
+        </p>
+      </div>
+
       <p className="mt-3 text-base text-ink">
         We publish the summary once collection closes, not while it is open. Showing
         results as they arrive changes the answers people give: it is hard to say what

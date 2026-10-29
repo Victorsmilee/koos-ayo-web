@@ -19,7 +19,32 @@ whether the instrument moved. So far it never has.
 
 ---
 
-## 28 Oct 2026
+## 29 Oct 2026
+
+### The results page shows how the study is going
+Product Owner: 150 respondents, closing 15 November 2026, running count shown
+from 10. The page now carries the target, the days left and a progress bar
+instead of only saying the study is open.
+
+**The count is live; the figures are not.** A respondent count is not an
+answer, so it anchors nobody: knowing forty people have taken part does not
+change what you would say you would pay. The results themselves stay a reviewed
+commit behind `status: closed`.
+
+**Below ten, the count is hidden and only the closing date shows.** Social proof
+runs both ways, and "3 of 150" tells a visitor that nobody is doing this, which
+is the opposite of what the bar is for.
+
+**Correction to what was written yesterday.** The results page was described as
+never querying the research tables. It now does, once an hour, for `count(*)`
+with `head: true`, so no row and no answer is returned. The credential was
+already on the site for the survey's own writes, so this adds no exposure, and
+the alternative, a daily job committing the number, would have had to push past
+branch protection on `main`.
+
+A failed count never takes the page down: it renders without the number.
+
+
 
 ### A failed save now says why, without saying what
 The first live save failure on Vercel produced "Sorry, that didn't save" and no
