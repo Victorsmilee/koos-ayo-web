@@ -139,3 +139,87 @@ export function DropOffChart({
     </figure>
   )
 }
+
+/**
+ * How the study is going: respondents so far against the target, and how long
+ * is left.
+ *
+ * It sits in the "still running" panel, where the alternative is an empty page,
+ * so it is doing real work: it says the study is alive, that it ends, and that
+ * taking part moves something. The bar is the chart; a donut would imply a part
+ * of a whole that is already fixed, and this whole is a target we may miss.
+ */
+export function SurveyProgress({
+  count,
+  target,
+  daysLeft,
+  closed,
+  showCount,
+  closesOn,
+}: {
+  count: number | null
+  target: number
+  daysLeft: number
+  closed: boolean
+  showCount: boolean
+  closesOn: string
+}) {
+  const percent = count === null ? 0 : Math.min(100, (100 * count) / target)
+  const remaining = closed
+    ? 'Closed'
+    : daysLeft === 0
+      ? 'Closes today'
+      : `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} left`
+
+  return (
+    <figure className="m-0 rounded-koos border border-line bg-raised p-5">
+      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
+        <div className="min-w-0">
+          {showCount ? (
+            <p className="flex items-baseline gap-2">
+              <span className="text-4xl font-bold leading-none text-ink">
+                {count}
+              </span>
+              <span className="text-base text-muted">
+                respondents of {target} so far
+              </span>
+            </p>
+          ) : (
+            <p className="text-base font-semibold text-ink">
+              Aiming for {target} respondents
+            </p>
+          )}
+        </div>
+        <span className="shrink-0 rounded-full bg-accent-soft px-3 py-1 text-sm font-semibold text-accent">
+          {remaining}
+        </span>
+      </div>
+
+      {showCount ? (
+        <div className="mt-4">
+          <div
+            className="h-3 w-full overflow-hidden rounded-full bg-surface ring-1 ring-inset ring-line"
+            role="img"
+            aria-label={`${count} of ${target} respondents so far`}
+          >
+            <div
+              className="h-full rounded-full bg-accent transition-[width]"
+              style={{ width: `${percent}%` }}
+            />
+          </div>
+          <div className="mt-1.5 flex justify-between text-xs text-muted">
+            <span>{Math.round(percent)}% of the target</span>
+            <span>{target}</span>
+          </div>
+        </div>
+      ) : null}
+
+      <figcaption className="mt-4 text-sm text-muted">
+        Open until {closesOn}.{' '}
+        {showCount
+          ? 'Anyone who has answered at least one question is counted.'
+          : 'The running count appears once a few more people have taken part.'}
+      </figcaption>
+    </figure>
+  )
+}
