@@ -26,7 +26,8 @@ test('a count below the floor is hidden, not drawn as an empty bar', () => {
   // "3 of 150" tells a visitor nobody is doing this, which is the opposite of
   // what the bar is for. The closing date still shows.
   assert.match(page, /count !== null && count >= SHOW_COUNT_FROM/)
-  assert.match(page, /showCount \? \(/)
+  assert.match(page, /showCount=\{showCount\}/)
+  assert.match(readFileSync("src/components/charts.tsx", "utf8"), /showCount \? \(/)
 })
 
 test('an unreadable count never takes down the page', () => {

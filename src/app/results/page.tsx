@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import Eyebrow from '@/components/eyebrow'
 import SiteHeader from '@/components/site-header'
-import { CompletionDonut, DropOffChart } from '@/components/charts'
+import { CompletionDonut, DropOffChart, SurveyProgress } from '@/components/charts'
 import {
   CLOSES_ON,
   type Progress,
@@ -78,43 +78,20 @@ export default async function ResultsPage() {
 function StillRunning({ progress }: { progress: Progress }) {
   const { count, daysLeft, closed } = progress
   const showCount = count !== null && count >= SHOW_COUNT_FROM
-  const percent = count === null ? 0 : Math.min(100, (100 * count) / TARGET)
 
   return (
     <section className="mt-10 rounded-koos border border-line bg-surface p-5">
       <h2 className="text-xl font-bold sm:text-2xl">The study is still running</h2>
 
       <div className="mt-5">
-        <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
-          <span className="text-base font-semibold text-ink">
-            {showCount ? `${count} of ${TARGET} people so far` : `Aiming for ${TARGET} people`}
-          </span>
-          <span className="text-sm text-muted">
-            {closed
-              ? 'Closed'
-              : daysLeft === 0
-                ? 'Closes today'
-                : `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} left`}
-          </span>
-        </div>
-        {showCount ? (
-          <div
-            className="mt-2 h-3 w-full overflow-hidden rounded-full bg-raised ring-1 ring-inset ring-line"
-            role="img"
-            aria-label={`${count} of ${TARGET} people have taken part`}
-          >
-            <div
-              className="h-full rounded-full bg-accent"
-              style={{ width: `${percent}%` }}
-            />
-          </div>
-        ) : null}
-        <p className="mt-2 text-sm text-muted">
-          Open until {formatDate(CLOSES_ON)}.{' '}
-          {showCount
-            ? 'Anyone who has answered at least one question is counted.'
-            : 'The running count appears once a few more people have taken part.'}
-        </p>
+        <SurveyProgress
+          count={count}
+          target={TARGET}
+          daysLeft={daysLeft}
+          closed={closed}
+          showCount={showCount}
+          closesOn={formatDate(CLOSES_ON)}
+        />
       </div>
 
       <p className="mt-3 text-base text-ink">

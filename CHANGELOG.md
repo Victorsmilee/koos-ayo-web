@@ -31,6 +31,10 @@ answer, so it anchors nobody: knowing forty people have taken part does not
 change what you would say you would pay. The results themselves stay a reviewed
 commit behind `status: closed`.
 
+It reads **"47 respondents of 150 so far"** with a progress bar, the share of
+the target, and the days left as a chip. Respondents, not people: the word
+matches what the rest of the page calls them.
+
 **Below ten, the count is hidden and only the closing date shows.** Social proof
 runs both ways, and "3 of 150" tells a visitor that nobody is doing this, which
 is the opposite of what the bar is for.
