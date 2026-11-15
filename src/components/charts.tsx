@@ -145,31 +145,25 @@ export function DropOffChart({
  * is left.
  *
  * It sits in the "still running" panel, where the alternative is an empty page,
- * so it is doing real work: it says the study is alive, that it ends, and that
- * taking part moves something. The bar is the chart; a donut would imply a part
- * of a whole that is already fixed, and this whole is a target we may miss.
+ * so it is doing real work: it says the study is alive and that taking part
+ * moves something. The bar is the chart; a donut would imply a part of a whole
+ * that is already fixed, and this whole is a target we may miss.
+ *
+ * There is no countdown. A closing date was shown until 15 November 2026 and
+ * nothing enforced it, so the page would have said "Closed" over a survey that
+ * was still collecting. A date is a promise to a respondent; it comes back only
+ * when something actually closes the survey on it.
  */
 export function SurveyProgress({
   count,
   target,
-  daysLeft,
-  closed,
   showCount,
-  closesOn,
 }: {
   count: number | null
   target: number
-  daysLeft: number
-  closed: boolean
   showCount: boolean
-  closesOn: string
 }) {
   const percent = count === null ? 0 : Math.min(100, (100 * count) / target)
-  const remaining = closed
-    ? 'Closed'
-    : daysLeft === 0
-      ? 'Closes today'
-      : `${daysLeft} ${daysLeft === 1 ? 'day' : 'days'} left`
 
   return (
     <figure className="m-0 rounded-koos border border-line bg-raised p-5">
@@ -191,7 +185,7 @@ export function SurveyProgress({
           )}
         </div>
         <span className="shrink-0 rounded-full bg-accent-soft px-3 py-1 text-sm font-semibold text-accent">
-          {remaining}
+          Open now
         </span>
       </div>
 
@@ -215,7 +209,6 @@ export function SurveyProgress({
       ) : null}
 
       <figcaption className="mt-4 text-sm text-muted">
-        Open until {closesOn}.{' '}
         {showCount
           ? 'Anyone who has answered at least one question is counted.'
           : 'The running count appears once a few more people have taken part.'}

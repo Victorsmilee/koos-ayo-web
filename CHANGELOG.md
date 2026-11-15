@@ -19,7 +19,24 @@ whether the instrument moved. So far it never has.
 
 ---
 
-## 29 Oct 2026
+## 15 Nov 2026
+
+### The closing date is dropped and collection stays open
+The results page published 15 November as the last day to take part, and
+**nothing enforced it**. The date lived only on that page; `/whatdoyouthink`
+had no check and would have gone on taking answers. From today the page would
+have said "Closed" over a survey that was still collecting.
+
+Rather than let the page contradict the survey, the claim is withdrawn.
+Collection continues and the panel reads "Open now" beside the running count.
+
+A date is a promise to a respondent, so it comes back only when something
+actually closes the survey on it. A test now fails the build if a closing date
+reappears on the page without a matching check in the survey route.
+
+**The instrument did not move.**
+
+
 
 ### The results page shows how the study is going
 Product Owner: 150 respondents, closing 15 November 2026, running count shown

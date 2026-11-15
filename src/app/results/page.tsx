@@ -4,7 +4,6 @@ import Eyebrow from '@/components/eyebrow'
 import SiteHeader from '@/components/site-header'
 import { CompletionDonut, DropOffChart, SurveyProgress } from '@/components/charts'
 import {
-  CLOSES_ON,
   type Progress,
   SHOW_COUNT_FROM,
   TARGET,
@@ -76,7 +75,7 @@ export default async function ResultsPage() {
  * show. An empty results page with a promise is better than a biased one.
  */
 function StillRunning({ progress }: { progress: Progress }) {
-  const { count, daysLeft, closed } = progress
+  const { count } = progress
   const showCount = count !== null && count >= SHOW_COUNT_FROM
 
   return (
@@ -87,10 +86,7 @@ function StillRunning({ progress }: { progress: Progress }) {
         <SurveyProgress
           count={count}
           target={TARGET}
-          daysLeft={daysLeft}
-          closed={closed}
           showCount={showCount}
-          closesOn={formatDate(CLOSES_ON)}
         />
       </div>
 
