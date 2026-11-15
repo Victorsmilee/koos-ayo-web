@@ -3,8 +3,10 @@ import { test } from 'node:test'
 import { readFileSync } from 'node:fs'
 
 /**
- * The survey progress counter, Product Owner 29 Oct 2026: 150 people, closing
- * 15 November, count shown from 10.
+ * The survey progress counter, Product Owner 29 Oct 2026: 150 respondents,
+ * count shown from 10. The closing date was dropped on 15 November 2026,
+ * because nothing enforced it and the page would have said "Closed" over a
+ * survey that was still collecting.
  *
  * `progress.ts` is server-only, so it cannot be imported here. These assert the
  * published commitments and the two rules that are easy to break silently: the
@@ -15,10 +17,18 @@ import { readFileSync } from 'node:fs'
 const source = readFileSync('src/lib/progress.ts', 'utf8')
 const page = readFileSync('src/app/results/page.tsx', 'utf8')
 
+test('no closing date is published while nothing enforces one', () => {
+  // A date on this page is a promise to a respondent. It comes back only when
+  // the survey route actually refuses answers after it.
+  assert.ok(!/CLOSES_ON/.test(source), 'remove the date, or enforce it in the survey')
+  assert.ok(!/days left|Closes today/.test(source))
+  const survey = readFileSync('src/app/whatdoyouthink/page.tsx', 'utf8')
+  assert.ok(!/CLOSES_ON/.test(survey))
+})
+
 test('the published commitments are what the Product Owner approved', () => {
   // These are shown to respondents, so they are not values to drift.
   assert.match(source, /export const TARGET = 150\b/)
-  assert.match(source, /export const CLOSES_ON = '2026-11-15'/)
   assert.match(source, /export const SHOW_COUNT_FROM = 10\b/)
 })
 
