@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import OptionRow from '@/components/option-row'
 import QuietSound from '@/components/quiet-sound'
+import QuizMark from '@/components/quiz-mark'
 import {
   PATHS,
   QUIZ,
@@ -106,14 +107,16 @@ export default function QuizClient() {
   if (step === 'consent') {
     return (
       <Shell progress={0}>
+        <QuizMark className="mx-auto mb-7 h-20 w-auto sm:h-24" />
+
         <h1
           ref={heading}
           tabIndex={-1}
-          className="font-serif text-3xl leading-tight focus-visible:[outline:none] sm:text-4xl"
+          className="text-center font-serif text-3xl leading-tight focus-visible:[outline:none] sm:text-4xl"
         >
           Eight questions about what happens when you disagree
         </h1>
-        <p className="mt-4 text-base text-muted">
+        <p className="mt-4 text-center text-base text-muted">
           About two minutes. At the end you get the one thing most likely to
           change how your next disagreement goes.
         </p>
@@ -285,7 +288,22 @@ function Shell({
   children: React.ReactNode
 }) {
   return (
-    <div className="mx-auto w-full max-w-xl px-4 py-10 sm:py-14">
+    <div className="relative mx-auto w-full max-w-xl px-4 py-10 sm:py-14">
+      {/*
+        Concentric rings, the same two overlapping circles opened out. Quiet
+        enough to read as texture rather than as a picture, and placed behind
+        the card so no text ever sits on a gradient. aria-hidden and
+        pointer-events-none: it is decoration and must not be reachable.
+      */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 -top-10 -z-10 mx-auto h-[26rem] max-w-2xl opacity-70 motion-reduce:hidden"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 30% 30%, var(--koos-accent-soft), transparent 58%),' +
+            'radial-gradient(circle at 72% 38%, rgb(160 84 104 / 0.14), transparent 55%)',
+        }}
+      />
       <div
         className="h-1.5 w-full overflow-hidden rounded-full bg-line"
         role="progressbar"
