@@ -21,12 +21,15 @@ export const SCHEMAS = ['public', 'staging'] as const
 export type DbSchema = (typeof SCHEMAS)[number]
 
 /**
- * Table names, defined once. They must match supabase/migrations/0001_research.sql,
- * which is the other place they exist; nothing else may spell them out.
+ * Table names, defined once. They must match the migrations in supabase/migrations/,
+ * which are the other place they exist; nothing else may spell them out.
  */
 export const TABLES = {
   responses: 'research_responses',
   contacts: 'research_contacts',
+  // The onboarding quiz. A separate activity from the study, with its own
+  // migration (0002_quiz.sql), its own retention and its own lawful basis.
+  quiz: 'quiz_responses',
 } as const
 
 function required(name: string): string {

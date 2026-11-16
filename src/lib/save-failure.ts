@@ -40,6 +40,9 @@ export type SaveOperation =
   | 'merge-saved'
   | 'submit-survey'
   | 'save-email'
+  | 'quiz-start'
+  | 'quiz-save'
+  | 'quiz-complete'
 
 /** The shape PostgREST errors arrive in. Only `code` is ever read. */
 function postgrestCode(error: unknown): string | null {

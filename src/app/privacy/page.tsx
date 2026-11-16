@@ -43,7 +43,8 @@ import {
 
 export const metadata: Metadata = {
   title: 'Privacy notice',
-  description: 'How KOOS handles the answers you give in The AYO Relationship Study.',
+  description:
+    'How KOOS handles the answers you give in The AYO Relationship Study, and in the quiz at /your-pattern.',
   robots: { index: false, follow: false },
 }
 
@@ -54,13 +55,30 @@ export default function PrivacyPage() {
       <SiteHeader />
       <main id="main" className="px-4 py-10 sm:px-6 sm:py-14">
       <article className="mx-auto max-w-2xl">
-        <Eyebrow>Research survey</Eyebrow>
+        <Eyebrow>Privacy</Eyebrow>
         <h1 className="mt-2 text-3xl font-bold leading-tight sm:text-4xl">
           Privacy notice
         </h1>
         <p className="mt-3 text-base text-muted">
-          How we handle the answers you give in The AYO Relationship Study.
+          This page covers two different things we do on this site. They are
+          kept apart here because they are kept apart in the database.
         </p>
+
+        <div className="mt-6 rounded-koos border border-line bg-surface p-5 text-base">
+          <p className="text-ink">
+            <strong className="font-semibold">The AYO Relationship Study</strong>,
+            the research survey. Everything from here down to{' '}
+            <em>Changes</em> is about the survey, and nothing else.
+          </p>
+          <p className="mt-3 text-ink">
+            <strong className="font-semibold">Your pattern</strong>, the eight
+            question quiz. That has its own section at the end of this page.
+          </p>
+          <p className="mt-3 text-muted">
+            Survey answers and quiz answers are stored in separate tables with
+            nothing joining them. Taking one tells us nothing about the other.
+          </p>
+        </div>
 
         <Block title="Who is responsible for your data">
           <p>
@@ -228,6 +246,93 @@ export default function PrivacyPage() {
             is strictly necessary for the survey to work, it contains nothing about you,
             and it is not used for tracking or advertising. There are no other cookies on
             this site.
+          </p>
+        </Block>
+
+        {/*
+          The quiz is a SECOND processing activity, and it is written as one.
+          Different purpose, different basis, different retention, different
+          table. Folding it into the survey's sections above would make both
+          descriptions vague, and the survey's promise of anonymity is the
+          thing that would quietly stop being true.
+        */}
+        <Block title="The quiz: Your pattern">
+          <p>
+            Everything above is about the research survey. This section is
+            about the eight question quiz at{' '}
+            <Link href="/your-pattern" className="text-accent underline underline-offset-4">
+              /your-pattern
+            </Link>
+            , which is a different thing with different rules.
+          </p>
+
+          <p className="mt-4">
+            <strong className="font-semibold text-ink">What we collect.</strong>{' '}
+            The options you choose, and which question you stopped at. No name,
+            no email address, no IP address, no device information, and nothing
+            you type, because there is nothing to type: every answer is one of
+            the options shown.
+          </p>
+
+          <p className="mt-4">
+            <strong className="font-semibold text-ink">
+              Why we are allowed to hold it.
+            </strong>{' '}
+            Your consent, under Article 6(1)(a). You give it by starting the
+            quiz, after reading what is on that first screen, and nothing is
+            stored before you do. You can withdraw it at any time by asking us
+            to delete your answers.
+          </p>
+
+          <p className="mt-4">
+            <strong className="font-semibold text-ink">What we use it for.</strong>{' '}
+            To show you where to start, and, if you create an account, to shape
+            what KOOS does on your first day rather than starting you from
+            nothing. We also ask one of the questions again later, so you can
+            see whether it has changed. We do not use it for advertising, we do
+            not build a profile for advertising, and we do not sell it.
+          </p>
+
+          <p className="mt-4">
+            <strong className="font-semibold text-ink">
+              The quiz does not ask about faith.
+            </strong>{' '}
+            The survey does, and that is special category data under Article 9,
+            which is why the survey asks for your explicit consent first and
+            why that question is optional. The quiz asks nothing in that
+            category at all. If KOOS ever offers guidance shaped by faith, it
+            will be a setting you turn on inside your account, with its own
+            consent, and never a question on a public page.
+          </p>
+
+          <p className="mt-4">
+            <strong className="font-semibold text-ink">How long we keep it.</strong>{' '}
+            If you create an account, for as long as that account exists. If you
+            do not, <Todo>12 months</Todo> from the day you took it, after
+            which it is deleted.
+          </p>
+
+          <p className="mt-4">
+            <strong className="font-semibold text-ink">Cookies.</strong> One
+            cookie, holding a random identifier, so that a refresh does not lose
+            your answers. It contains nothing about you and is not used for
+            tracking or advertising. There are no analytics and no advertising
+            pixels on the quiz page, in the same way there are none on the
+            survey.
+          </p>
+
+          <p className="mt-4">
+            <strong className="font-semibold text-ink">Your rights.</strong>{' '}
+            Unlike the survey, quiz answers can actually be found, because the
+            cookie in your browser points at them. Write to{' '}
+            <a
+              href="mailto:hello@koos-ayo.com"
+              className="text-accent underline underline-offset-4"
+            >
+              hello@koos-ayo.com
+            </a>{' '}
+            from the same browser session, or tell us roughly when you took it,
+            and we will find it, send it to you, or delete it.
           </p>
         </Block>
 

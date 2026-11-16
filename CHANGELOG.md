@@ -19,6 +19,68 @@ whether the instrument moved. So far it never has.
 
 ---
 
+## 16 Nov 2026
+
+### An onboarding quiz at /your-pattern, and a notice that covers it
+Eight questions about how someone argues, one per screen, ending on the single
+thing most likely to change how their next disagreement goes. An advertisement
+can point at it, and the result screen hands people to sign-up.
+
+**It is not the research instrument, and the code says so loudly.**
+`questions.ts` is a measuring device: 38 questions, verbatim, guarded so one
+reworded option fails the build, because comparison across responses depends on
+the wording never moving. The quiz is a funnel and will be edited often. Held
+to the instrument's rules nobody could improve it; sharing the instrument's
+ground would produce two datasets that disagree and a respondent answering the
+same thing twice.
+
+**The draft had fifteen questions and now has eight.** Every one that remains
+changes what KOOS does on someone's first day; duration, past challenges,
+feelings during conversations, habit to improve and what progress looks like
+either overlapped something kept or changed nothing. Options are capped at five
+a screen: a ten-option list is survey grammar and it is what makes a funnel feel
+long.
+
+**One question is new and is the reason the rest exists.** How often a
+disagreement ends up being about something worse than it started as. It is
+behavioural rather than attitudinal, so unlike "how would you describe your
+relationship" it actually moves inside eight weeks, and it is precisely what
+Reaction Interrupt targets. It is the question to ask again at week 4 and week
+12, which is what starting longitudinal at onboarding means in practice.
+
+**The quiz does not ask about faith, and a test fails if it ever does.** The
+draft did. That is special category data under Article 9: explicit consent, and
+a higher bar on the whole record, which is why the survey's own faith question
+is handled the way it is. A public landing page reached before anyone has read
+anything is the worst place to ask. It belongs in the product, after sign-in, as
+a setting with its own consent.
+
+**The published notice was extended in the same pull request, not afterwards.**
+It covered the study only, so storing quiz answers under it would have been
+processing beyond the purpose anyone was told about. The quiz now has its own
+section: consent under Article 6(1)(a), given by starting and never before,
+what is kept, how long, and the cookie. Survey answers and quiz answers sit in
+separate tables with nothing joining them, and the notice says so, because the
+survey's promise of anonymity is the thing that would quietly stop being true.
+
+`0002_quiz.sql` locks `quiz_responses` exactly as the research tables are
+locked: RLS on, zero policies, `anon` and `authenticated` revoked, only the
+server's secret key writes. A test asserts the migration contains no
+`create policy`.
+
+The footer moved out of the homepage into a component and now appears on every
+page. A page an advertisement points at is exactly where someone wants to see
+who is asking, and the company name still comes from `operator.ts`, so the
+footer and the privacy notice cannot name two different entities.
+
+No analytics and no advertising pixel, on this page or any other. The survey's
+own respondents put data security and privacy first and second among their
+objections, and about half said a privacy concern would stop them using a
+product like this. A tracking pixel on the page where we ask how someone argues
+would be the cheapest possible way to prove them right.
+
+The instrument did not move. No survey copy changed.
+
 ## 15 Nov 2026
 
 ### The closing date is dropped and collection stays open
