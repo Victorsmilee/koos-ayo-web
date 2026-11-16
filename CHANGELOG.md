@@ -127,6 +127,33 @@ sees a box drawn round text they did not tab to.
 
 The instrument did not move. No survey copy changed.
 
+### Next.js and zod upgraded, two advisories closed
+`npm audit` reported two vulnerabilities, the same two in both repositories: a
+moderate one in Next.js 16.4.2 and a high one in zod 3.23.8, where oversized
+constrained collections can exhaust memory during validation. Next.js was also
+refusing to build without first showing a security notice.
+
+`next` 16.4.2 to **16.4.6**, `zod` 3.23.8 to **4.6.7**, both pinned exactly.
+`npm audit` now reports **0 vulnerabilities**.
+
+**zod 4 is a major version and it broke exactly one thing.** `z.record()` now
+requires the key schema as well as the value schema. The single-argument form
+used to infer `Record<string, T>`; without the key, zod 4 infers a partial
+record whose values are possibly undefined. All ten type errors after the
+upgrade traced back to one call in `results.ts`, and supplying `z.string()` as
+the key fixed every one of them. That call describes the published counts, where
+`null` means "suppressed, the cell is too small to publish safely" and `0` means
+"nobody chose this", so the distinction the schema protects is the one that
+matters most on that page.
+
+`.string().email()` is deprecated in zod 4 but still works, and the survey's
+validation is exercised by the end-to-end suite rather than assumed.
+
+Verified: typecheck, 64 unit tests, both guards, the build, and the full
+Playwright suite across a phone and a desktop viewport.
+
+**The instrument did not move.** No respondent-facing copy changed.
+
 ## 15 Nov 2026
 
 ### The closing date is dropped and collection stays open
