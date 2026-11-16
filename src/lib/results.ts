@@ -42,7 +42,12 @@ const questionSchema = z.object({
    * too small to publish safely". Collapsing them would publish a false
    * finding, which is worse than publishing nothing.
    */
-  counts: z.record(z.number().int().nonnegative().nullable()),
+  // Zod 4 requires the KEY schema as well. The single-argument form inferred
+  // `Record<string, T>`; the two-argument form says the same thing explicitly,
+  // and without it zod 4 infers a partial record whose values are possibly
+  // undefined, which is what every downstream type error after the upgrade
+  // was really about.
+  counts: z.record(z.string(), z.number().int().nonnegative().nullable()),
 })
 
 const resultsSchema = z
