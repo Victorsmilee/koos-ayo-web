@@ -30,17 +30,17 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://koos-ayo.com'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'KOOS: learn how your relationship works',
-    template: '%s · KOOS',
+    default: 'KooS: learn how your relationship works',
+    template: '%s · KooS',
   },
   description:
-    'KOOS helps you pause before you react, choose a better response, and learn over time what actually works in your relationship.',
+    'KooS helps you pause before you react, choose a better response, and learn over time what actually works in your relationship.',
   openGraph: {
-    title: 'KOOS: learn how your relationship works',
+    title: 'KooS: learn how your relationship works',
     description:
       'Pause before you react, choose a better response, and learn what actually works.',
     url: siteUrl,
-    siteName: 'KOOS',
+    siteName: 'KooS',
     type: 'website',
   },
 }
