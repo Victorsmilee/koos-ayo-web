@@ -17,7 +17,6 @@ import { test } from 'node:test'
  */
 
 const WORDMARK = 'src/components/wordmark.tsx'
-const INSTRUMENT = 'src/lib/questions.ts'
 
 function sources(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
@@ -32,7 +31,7 @@ function sources(dir: string): string[] {
 test('the product is written KooS, never KOOS', () => {
   const offenders: string[] = []
   for (const file of sources('src')) {
-    if (file === WORDMARK || file === INSTRUMENT) continue
+    if (file === WORDMARK) continue
     readFileSync(file, 'utf8')
       .split('\n')
       .forEach((line, i) => {
@@ -52,21 +51,24 @@ test('the logo keeps its own letterforms', () => {
   assert.ok(!mark.includes('KooS'), 'the drawn mark is not running copy')
 })
 
-test('the instrument is untouched, and the exception is recorded', () => {
-  // questions.ts reproduces questionnaire v3 verbatim. Its privacy box says
-  // "the KOOS research team", and respondents have already answered under that
-  // wording. Changing respondent-facing text mid-collection is exactly what
-  // the instrument rules exist to prevent. It stays until the Product Owner
-  // decides otherwise knowing that cost.
-  assert.ok(readFileSync(INSTRUMENT, 'utf8').includes('KOOS research team'))
+test('the survey helper copy follows the rule, and the instrument did not move', () => {
+  // The privacy box bullet is HELPER COPY, not the instrument. The backlog
+  // records that classification, and the bullet was already rewritten once on
+  // that basis when the results page was added. The instrument rule protects
+  // questions, options and the thank-you text, and none of those contain the
+  // product name at all.
+  const src = readFileSync('src/lib/questions.ts', 'utf8')
+  assert.ok(src.includes('KooS research team'), 'the helper copy was not updated')
+
+  // What must NOT have moved. If any of these ever changes, comparison across
+  // responses breaks and no spelling rule is worth that.
+  assert.ok(src.includes("title: 'The AYO Relationship Study'"))
+  assert.ok(src.includes("eyebrow: 'KOOS-AYO'"), 'the eyebrow is the wordmark')
+
   const guide = readFileSync('docs/brand/foundations/naming.md', 'utf8')
   assert.ok(
     guide.includes('KooS'),
     'the brand guide must carry the rule this test enforces',
-  )
-  assert.ok(
-    guide.includes('research instrument'),
-    'the brand guide must record why the instrument is exempt',
   )
 })
 

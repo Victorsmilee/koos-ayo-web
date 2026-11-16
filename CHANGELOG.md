@@ -29,12 +29,22 @@ everywhere the name is set as text.
 overlapping O's are the whole idea of the mark, so it keeps its own
 letterforms. `tests/naming.test.ts` fails the build on `KOOS` anywhere else.
 
-**The research instrument is exempt, and that is a decision rather than an
-oversight.** Its privacy box says "the KOOS research team", and respondents
-have already answered under that wording. Changing respondent-facing text
-partway through collection is exactly what the instrument rules exist to
-prevent, so it stays until the Product Owner says otherwise knowing that cost.
-The brand guide and the test both record why.
+**The survey follows the rule too, and that cost nothing.** Its privacy box
+bullet now reads "the KooS research team".
+
+I first held this back, on the grounds that respondents had already answered
+under the old wording and changing respondent-facing text mid-collection
+invalidates comparison. That was wrong, and the repository already said so:
+`build_jira_csv.py` records this exact bullet as **"helper copy in the privacy
+box, not the instrument. No question, option or the thank-you text moved"**, and
+it was rewritten once before on that basis, when the public results page was
+added. The instrument rule protects questions, options and the thank-you text,
+and none of those contain the product name at all.
+
+So **the instrument did not move**, and no comparison is affected. The naming
+test now carries one exemption, `wordmark.tsx`, instead of two, and asserts
+positively that the study title and the eyebrow are unchanged. `intro.eyebrow`
+keeps `KOOS-AYO`, because that is the wordmark.
 
 ### An onboarding quiz at /your-pattern, and a notice that covers it
 Eight questions about what happens when someone disagrees, one per screen,

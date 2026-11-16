@@ -29,11 +29,15 @@ Three other things are unchanged, and each for its own reason:
   formally. It is a lockup, not running copy.
 - **Koos Ayo**, the copyright holder, because that is how the company names the
   holder.
-- **The research instrument.** `src/lib/questions.ts` reproduces questionnaire
-  v3 verbatim and its privacy box says "the KOOS research team". Respondents
-  have already answered under that wording. Changing respondent-facing text
-  mid-collection is what the instrument rules exist to prevent, so it stays
-  until the Product Owner decides otherwise knowing that cost.
+**The survey follows the rule too.** The privacy box bullet reads "the KooS
+research team". That bullet is **helper copy, not the instrument**: the backlog
+records the classification, and it was already rewritten once on that basis when
+the public results page was added. The instrument rule protects questions,
+options and the thank-you text, and none of those contain the product name at
+all, so nothing a respondent was measured on has moved.
+
+The one survey value that keeps the old spelling is `intro.eyebrow`, which is
+set to `KOOS-AYO`, because that is the wordmark.
 
 `tests/naming.test.ts` fails the build on `KOOS` outside those exceptions.
 

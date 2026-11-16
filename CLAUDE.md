@@ -241,10 +241,13 @@ the short form used in running copy and as the product name (Brief v2, D6).
 Owner rule, 16 Nov 2026. **The logo is the only exception**: the wordmark draws
 KOOS-AYO and the two overlapping O's are the whole idea of the mark, so it
 keeps its own letterforms. `tests/naming.test.ts` fails the build on `KOOS`
-anywhere else, with two recorded exemptions: `wordmark.tsx`, which draws it,
-and `questions.ts`, whose privacy box says "the KOOS research team" and cannot
-be reworded mid-collection without invalidating comparison across the responses
-already given.
+anywhere else, with **one** exemption: `wordmark.tsx`, which draws it.
+
+The survey follows the rule as well. Its privacy box bullet is helper copy
+rather than the instrument, which the backlog records and which was already
+acted on once when the results page was added. No question, option or the
+thank-you text contains the product name, so nothing respondents were measured
+on has moved. `intro.eyebrow` keeps `KOOS-AYO` because that is the wordmark.
 When copy must choose between clinical and warm, the name settles it: this is a
 togetherness product that takes conflict seriously, not a conflict tool with a
 friendly coat of paint.

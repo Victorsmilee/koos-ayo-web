@@ -59,7 +59,7 @@ export const CONTACT_EMAIL = 'hello@koos-ayo.com'
 
 export const intro = {
   // Framing only. The study was renamed on 21 Oct 2026; no question, option,
-  // helper or the thank-you text changed. "AYO" rather than "KOOS" keeps the
+  // helper or the thank-you text changed. "AYO" rather than "KooS" keeps the
   // research identity separate from the product, so respondents are less likely
   // to read it as a sales form, which matters most for Q32/Q33.
   eyebrow: 'KOOS-AYO',
@@ -72,7 +72,7 @@ export const intro = {
   privacyPoints: [
     'This survey is anonymous. Please do not include names or identifying details about yourself, your partner or anyone else.',
     'We are interested in what actually happens in relationships, and in patterns across many people. There are no right or wrong answers.',
-    `Your answers are seen only by the KOOS research team. We use them for this research, and we may publish anonymous summary statistics: counts and percentages across all respondents, never your individual answers, never anything you typed, and never the faith question. They are kept for ${RETENTION_PERIOD}, then deleted.`,
+    `Your answers are seen only by the KooS research team. We use them for this research, and we may publish anonymous summary statistics: counts and percentages across all respondents, never your individual answers, never anything you typed, and never the faith question. They are kept for ${RETENTION_PERIOD}, then deleted.`,
     'You can skip any question and stop at any time.',
     'If you leave your email at the end, it is stored separately from your answers and used only to contact you about follow-up research.',
     `Questions about your data: ${CONTACT_EMAIL}`,
