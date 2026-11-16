@@ -12,11 +12,24 @@ import { useCallback, useEffect, useRef, useState } from 'react'
  * version would fail silently on most first loads and only work for the people
  * who least expected it.
  *
- * GENERATED, NOT A FILE. Two detuned sine waves through a low-pass filter, a
- * few hundred bytes of code instead of a megabyte of audio, nothing to
+ * GENERATED, NOT A FILE. A soft chord of sine waves through a low-pass filter,
+ * a few hundred bytes of code instead of a megabyte of audio, nothing to
  * download on a phone, and no third-party host to request it from. That last
  * point is the one that matters: this page carries no third-party connection
  * of any kind, and a hosted audio file would have been the first.
+ *
+ * WHY THE FIRST VERSION WAS SILENT, because all three are easy to repeat:
+ *
+ *   1. It played at 110Hz. Laptop and phone speakers roll off hard below about
+ *      200Hz, so the note existed and nothing reproduced it. The chord now
+ *      sits at 196 to 392Hz, which small speakers actually carry.
+ *   2. The level was 0.045, roughly -27dBFS, under a 420Hz low-pass that was
+ *      also cutting most of what little was there.
+ *   3. It never called resume(). A context can be created suspended; Chrome
+ *      usually resumes it on a gesture but Safari and iOS do not, and a
+ *      suspended context produces silence with no error anywhere.
+ *
+ * It is still quiet on purpose. The target is "noticed only when it stops".
  *
  * The choice is remembered per browser in localStorage, wrapped in try/catch
  * because reading it throws in some private browsing modes. On failure the
@@ -66,23 +79,36 @@ export default function QuietSound() {
     if (!Ctor) return false
 
     const c = new Ctor()
+
+    // A context can be created suspended even inside a click handler. Without
+    // this it produces silence and reports no error at all.
+    if (c.state === 'suspended') void c.resume()
+
     const g = c.createGain()
     g.gain.setValueAtTime(0, c.currentTime)
-    // Deliberately far below speech level. It should be noticed only when it
-    // stops.
-    g.gain.setTargetAtTime(0.045, c.currentTime, 1.5)
+    // Quiet, but above the floor of a phone speaker. The time constant is
+    // short enough that the toggle feels connected to the sound: at 1.5s the
+    // first version read as "nothing happened" even when it worked.
+    g.gain.setTargetAtTime(0.1, c.currentTime, 0.35)
 
     const filter = c.createBiquadFilter()
     filter.type = 'lowpass'
-    filter.frequency.value = 420
+    filter.frequency.value = 1200
 
-    // Two close frequencies beat slowly against each other, which is what
-    // stops a held tone sounding like a test signal.
-    for (const hz of [110, 110.3]) {
+    // G3, D4, G4: an open fifth and its octave, which is about as close to
+    // "no emotional direction" as a chord gets. The 0.4Hz offset on one voice
+    // beats slowly against its neighbour, and that slow movement is what stops
+    // a held chord sounding like a test signal.
+    for (const hz of [196, 294, 294.4, 392]) {
       const osc = c.createOscillator()
       osc.type = 'sine'
       osc.frequency.value = hz
-      osc.connect(filter)
+      const voice = c.createGain()
+      // The upper voices sit back, so the chord reads as one soft sound
+      // rather than three tones.
+      voice.gain.value = hz > 300 ? 0.45 : 1
+      osc.connect(voice)
+      voice.connect(filter)
       osc.start()
     }
     filter.connect(g)

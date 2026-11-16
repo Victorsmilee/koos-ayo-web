@@ -21,6 +21,48 @@ whether the instrument moved. So far it never has.
 
 ## 16 Nov 2026
 
+### The quiz gets an end-to-end suite, a working sound, and a face
+**The sound was silent, and three separate things were wrong with it.** It
+played at 110Hz, which laptop and phone speakers roll off hard below; at a
+level of 0.045, roughly -27dBFS; under a 420Hz low-pass that cut most of what
+little was there. And it never called `resume()`, so on Safari and iOS the
+context stayed suspended and produced nothing at all, with no error anywhere.
+
+It is now a soft chord at 196 to 392Hz, an open fifth and its octave, through a
+1200Hz low-pass at 0.1, with a fade short enough that the toggle feels connected
+to the sound. Still quiet on purpose: the target is "noticed only when it
+stops". Still off by default.
+
+**The quiz now has an end-to-end suite**, which it should have had when it
+shipped. Eight specs across a phone and a desktop viewport: nothing is stored
+before consent, the consent screen says what is kept, all eight questions walk
+through to a result, **the result actually follows the answers**, Back returns
+the previous answer rather than losing it, the multi-select stops at its limit,
+no third-party request is made, and the sound starts when asked.
+
+The sound spec asserts on the audio graph itself, because that is the only way
+to tell "playing quietly" from "not playing". It was checked against the broken
+version: it fails on 0.045 and passes on the fix.
+
+**A mark, and a less empty page.** Two overlapping circles with the lens picked
+out, which is the wordmark's own idea rather than a new one, plus a soft wash
+behind the card. Deliberately not an illustration of a couple: the brand guide
+rules out the stock-photography cliche, and a drawing of two people has the
+same problem of telling someone what their relationship should look like before
+they have answered anything. The wash is scoped to this route rather than added
+to `globals.css`, which is the shared token file copied into `apps/app`.
+
+The naming guard caught the new component's own doc comment writing KOOS. That
+is the guard doing exactly what it was added for.
+
+This work sits on top of the Next.js and zod upgrade rather than beside it,
+because it has to: on 16.4.2 `next build` now fails with a `SecurityFatalError`
+on every run rather than once, so the branch could not build at all until the
+upgrade was underneath it.
+
+The instrument did not move. No survey copy changed.
+
+
 ### The product is written KooS
 **Product Owner rule, 16 Nov 2026.** Capital K, two lower-case o's, capital S,
 everywhere the name is set as text.
