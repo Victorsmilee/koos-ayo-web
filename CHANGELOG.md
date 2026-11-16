@@ -21,9 +21,29 @@ whether the instrument moved. So far it never has.
 
 ## 16 Nov 2026
 
+### The product is written KooS
+**Product Owner rule, 16 Nov 2026.** Capital K, two lower-case o's, capital S,
+everywhere the name is set as text.
+
+**The logo is the only exception.** The wordmark draws KOOS-AYO and the two
+overlapping O's are the whole idea of the mark, so it keeps its own
+letterforms. `tests/naming.test.ts` fails the build on `KOOS` anywhere else.
+
+**The research instrument is exempt, and that is a decision rather than an
+oversight.** Its privacy box says "the KOOS research team", and respondents
+have already answered under that wording. Changing respondent-facing text
+partway through collection is exactly what the instrument rules exist to
+prevent, so it stays until the Product Owner says otherwise knowing that cost.
+The brand guide and the test both record why.
+
 ### An onboarding quiz at /your-pattern, and a notice that covers it
-Eight questions about how someone argues, one per screen, ending on the single
-thing most likely to change how their next disagreement goes. An advertisement
+Eight questions about what happens when someone disagrees, one per screen,
+ending on the single thing most likely to change how the next one goes.
+
+The first draft called it "eight questions about how you argue". That labels
+the person rather than the moment, which is the opposite of voice rule 2 in the
+brand guide: describe behaviour and impact, never character. A test now fails
+on the phrase. An advertisement
 can point at it, and the result screen hands people to sign-up.
 
 **It is not the research instrument, and the code says so loudly.**
@@ -35,7 +55,7 @@ ground would produce two datasets that disagree and a respondent answering the
 same thing twice.
 
 **The draft had fifteen questions and now has eight.** Every one that remains
-changes what KOOS does on someone's first day; duration, past challenges,
+changes what KooS does on someone's first day; duration, past challenges,
 feelings during conversations, habit to improve and what progress looks like
 either overlapped something kept or changed nothing. Options are capped at five
 a screen: a ten-option list is survey grammar and it is what makes a funnel feel
@@ -78,6 +98,22 @@ own respondents put data security and privacy first and second among their
 objections, and about half said a privacy concern would stop them using a
 product like this. A tracking pixel on the page where we ask how someone argues
 would be the cheapest possible way to prove them right.
+
+**An optional background tone, off by default.** Two detuned sine waves
+generated in the browser, a few hundred bytes of code rather than a megabyte of
+audio: nothing to download on a phone, and no third-party host to request it
+from, which is the point on a page that otherwise has no third-party connection
+at all. Off until someone asks, because audio that starts by itself is blocked
+by browsers on most first loads and unwelcome on a train. The choice is
+remembered per browser.
+
+Checked at 390, 768 and 1280 pixels: no horizontal scroll at any width.
+
+A focus ring was appearing around the question heading on load. The heading
+takes focus on every step so a screen reader announces the new question, and
+Tailwind's `outline-none` loses on specificity to the global focus rule. It is
+suppressed properly now: a keyboard user still hears the heading, and nobody
+sees a box drawn round text they did not tab to.
 
 The instrument did not move. No survey copy changed.
 

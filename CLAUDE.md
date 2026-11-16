@@ -1,4 +1,4 @@
-# KOOS, marketing site and research survey
+# KooS, marketing site and research survey
 
 This is the **public** repository: the marketing site at koos-ayo.com and the
 research questionnaire at `/whatdoyouthink`.
@@ -99,9 +99,9 @@ No AI assistant attribution, no co-author trailer, no generated-with line. The
 work is the company's and is signed as the company's. This applies to both
 repositories.
 
-## Who operates KOOS
+## Who operates KooS
 **Eben EIO Global OU**, registered in Estonia at Paldiski mnt 227c, 13520
-Tallinn. It develops and operates KOOS, it holds the intellectual property, and
+Tallinn. It develops and operates KooS, it holds the intellectual property, and
 it is the **data controller** for the research survey (changed 27 Oct 2026, was
 Victor Ibrahim as a natural person while registration was in progress). The
 published notice at `/privacy` and `docs/gdpr/ropa.md` in the private repository
@@ -213,7 +213,7 @@ would have written respondents' email addresses into the answers table.
   The email question is stripped from the answers payload on every write, by
   `EMAIL_QUESTION_ID` rather than a literal id.
 - Never write code that lets one partner see another's private content.
-- KOOS never sends messages on a user's behalf.
+- KooS never sends messages on a user's behalf.
 - No analytics, tracking pixels or third-party scripts on `/whatdoyouthink`.
 - Use product terms exactly as written: Reaction Interrupt, Before You Send,
   Challenge Me, Two Truths, Outcome Feedback, Relationship Playbook.
@@ -234,8 +234,17 @@ the export carries every question and option. Nothing secret is exported; every
 field is already served to anyone who opens the survey.
 
 ## The name
-KOOS-AYO means "together, with joy." The full wordmark is KOOS-AYO; **KOOS** is
+KOOS-AYO means "together, with joy." The full wordmark is KOOS-AYO; **KooS** is
 the short form used in running copy and as the product name (Brief v2, D6).
+
+**In writing it is KooS**, capital K, two lower-case o's, capital S. Product
+Owner rule, 16 Nov 2026. **The logo is the only exception**: the wordmark draws
+KOOS-AYO and the two overlapping O's are the whole idea of the mark, so it
+keeps its own letterforms. `tests/naming.test.ts` fails the build on `KOOS`
+anywhere else, with two recorded exemptions: `wordmark.tsx`, which draws it,
+and `questions.ts`, whose privacy box says "the KOOS research team" and cannot
+be reworded mid-collection without invalidating comparison across the responses
+already given.
 When copy must choose between clinical and warm, the name settles it: this is a
 togetherness product that takes conflict seriously, not a conflict tool with a
 friendly coat of paint.

@@ -4,7 +4,7 @@ import SiteHeader from '@/components/site-header'
 import SiteFooter from '@/components/site-footer'
 
 /**
- * KOOS marketing home page, first version.
+ * KooS marketing home page, first version.
  *
  * Every claim here traces to an approved document:
  *   positioning + loop ... MVP Brief v2 §3, §4
@@ -14,7 +14,7 @@ import SiteFooter from '@/components/site-footer'
  *
  * The product does not exist yet, so the copy stays in the conditional and the
  * only call to action is the research survey. Nothing here promises
- * availability, and nothing claims KOOS is therapy.
+ * availability, and nothing claims KooS is therapy.
  *
  * Mobile-first: single column by default, multi-column only from `sm:` upward.
  */
@@ -42,7 +42,7 @@ export default function HomePage() {
             </p>
 
             <p className="mt-4 max-w-2xl text-base text-muted lg:text-lg">
-              KOOS is a private relationship coach being built for the moments that
+              KooS is a private relationship coach being built for the moments that
               actually go wrong, and for learning, over time, what helps you.
             </p>
 
@@ -94,7 +94,7 @@ export default function HomePage() {
         {/* ---------------------------------------------------------------- */}
         {/* How it works: MVP Brief v2 §4, §5                               */}
         {/* ---------------------------------------------------------------- */}
-        <Section title="How KOOS would work" tint>
+        <Section title="How KooS would work" tint>
           <p className="max-w-2xl text-lg">
             Not a chatbot you have to know what to ask. A short guided path through the
             moment itself.
@@ -106,7 +106,7 @@ export default function HomePage() {
             </Step>
             <Step n={2} title="Understand it">
               Separate the feeling from the fact, and both from the story you&rsquo;re
-              telling yourself. KOOS can hold your experience and your
+              telling yourself. KooS can hold your experience and your
               partner&rsquo;s possible experience at the same time, without picking a
               winner.
             </Step>
@@ -115,9 +115,9 @@ export default function HomePage() {
               one, or edit it into your own words.
             </Step>
             <Step n={4} title="Act in real life">
-              You act, not the app. If it&rsquo;s a message, KOOS can show you how it
+              You act, not the app. If it&rsquo;s a message, KooS can show you how it
               might land before you send it.{' '}
-              <strong className="font-semibold">KOOS never sends anything.</strong>
+              <strong className="font-semibold">KooS never sends anything.</strong>
             </Step>
             <Step n={5} title="Say what happened">
               Come back and tell it how things actually went. Better, same or worse.
@@ -140,7 +140,7 @@ export default function HomePage() {
           <div className="mt-6 grid gap-3 md:grid-cols-3 md:gap-4">
             <Compare label="General AI">Ask → Answer</Compare>
             <Compare label="Couples apps">Prompt → Activity → Connection</Compare>
-            <Compare label="KOOS" highlight>
+            <Compare label="KooS" highlight>
               Experience → Understand → Choose → Act → Measure → Learn → Improve
             </Compare>
           </div>
@@ -160,10 +160,10 @@ export default function HomePage() {
           <PointGrid>
             <Point>Private by default. Your account is yours alone.</Point>
             <Point>
-              You can see everything KOOS remembers about you, correct it, or delete it.
+              You can see everything KooS remembers about you, correct it, or delete it.
             </Point>
             <Point>
-              Before KOOS remembers anything lasting, it asks you first.
+              Before KooS remembers anything lasting, it asks you first.
             </Point>
             <Point>
               No hidden monitoring and no partner access. There is no way for someone
@@ -179,7 +179,7 @@ export default function HomePage() {
         {/* ---------------------------------------------------------------- */}
         {/* Boundaries: Blueprint §5, MVP Brief v2 §13                      */}
         {/* ---------------------------------------------------------------- */}
-        <Section title="What KOOS is not">
+        <Section title="What KooS is not">
           <ul className="grid gap-4 md:grid-cols-2 md:gap-x-12 md:gap-y-5">
             <Point>
               <strong className="font-semibold">Not therapy.</strong> It is coaching,
@@ -200,7 +200,7 @@ export default function HomePage() {
             </Point>
             <Point>
               <strong className="font-semibold">Not a promise.</strong> No app can
-              guarantee a relationship. KOOS helps you change what&rsquo;s yours to
+              guarantee a relationship. KooS helps you change what&rsquo;s yours to
               change.
             </Point>
           </ul>

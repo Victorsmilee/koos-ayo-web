@@ -13,7 +13,7 @@
  * study.
  *
  * WHY EIGHT, AND WHY THESE
- * Every question here changes what KOOS does on someone's first day. The
+ * Every question here changes what KooS does on someone's first day. The
  * fifteen-question draft was cut on that test alone: duration, past challenges,
  * feelings during conversations, habit to improve and what progress looks like
  * all overlapped something kept, or changed nothing.
@@ -25,7 +25,7 @@
  * is the question to re-ask at week 4 and week 12.
  *
  * WHAT IS DELIBERATELY ABSENT
- * Faith. The draft asked whether KOOS should offer faith-based perspectives.
+ * Faith. The draft asked whether KooS should offer faith-based perspectives.
  * That is special-category data under Article 9, which needs EXPLICIT consent
  * and raises the bar on the whole processing record, as docs/gdpr/ in the
  * private repository sets out for the survey's own faith question. An ad
@@ -121,7 +121,7 @@ export const QUESTIONS = [
   },
   {
     id: 'when',
-    text: 'When would you want KOOS there?',
+    text: 'When would you want KooS there?',
     help: 'Choose up to three.',
     multiple: true,
     maxSelections: 3,
@@ -135,7 +135,7 @@ export const QUESTIONS = [
   },
   {
     id: 'guide',
-    text: 'How should KOOS talk to you?',
+    text: 'How should KooS talk to you?',
     options: [
       'Short questions that make me think',
       'Clear steps to follow',
@@ -179,7 +179,7 @@ export const PATHS = {
     headline: 'You answer fast, and you pay for it afterwards',
     body:
       'The gap between feeling something and saying it is where most of the damage happens. ' +
-      'KOOS starts there: a short pause, two questions, and the thing you actually meant.',
+      'KooS starts there: a short pause, two questions, and the thing you actually meant.',
   },
   beforeYouSend: {
     id: 'beforeYouSend',
@@ -187,7 +187,7 @@ export const PATHS = {
     headline: 'The message you are about to send is the one to look at',
     body:
       'Written words land harder than spoken ones and they stay there. ' +
-      'KOOS reads it with you first, and asks what you want them to feel when they read it.',
+      'KooS reads it with you first, and asks what you want them to feel when they read it.',
   },
   twoTruths: {
     id: 'twoTruths',
@@ -195,7 +195,7 @@ export const PATHS = {
     headline: 'You are both right about something',
     body:
       'Most arguments are two reasonable people describing different halves of the same thing. ' +
-      'KOOS helps you hold both at once, which is harder than it sounds and changes everything.',
+      'KooS helps you hold both at once, which is harder than it sounds and changes everything.',
   },
   playbook: {
     id: 'playbook',
@@ -203,7 +203,7 @@ export const PATHS = {
     headline: 'It is the same argument, wearing different clothes',
     body:
       'A pattern you can name is a pattern you can interrupt. ' +
-      'KOOS keeps track of what keeps coming back, and what actually worked last time.',
+      'KooS keeps track of what keeps coming back, and what actually worked last time.',
   },
 } as const
 

@@ -10,7 +10,7 @@ import { TABLES, getSupabase } from '@/lib/supabase-server'
  * Saving the onboarding quiz.
  *
  * WHAT IS STORED AND WHY IT IS ALLOWED
- * Answers are kept so that someone's first day in KOOS is shaped by what they
+ * Answers are kept so that someone's first day in KooS is shaped by what they
  * said here, and so that the escalation question can be re-asked later and
  * compared. That is processing before any account exists, so the basis is
  * CONSENT, taken on the first screen, not contract. The published notice and

@@ -5,14 +5,37 @@
 | Name | Use for | Not for |
 |---|---|---|
 | **KOOS-AYO** | The brand. The full wordmark. Legal and formal contexts. | Running copy |
-| **KOOS** | The product. Everything in running copy and in-product. (Brief v2, decision D6) | Legal documents |
+| **KooS** | The product, in writing. Everything in running copy and in-product. (Brief v2, decision D6; spelling set by the Product Owner, 16 Nov 2026) | Legal documents, and the logo |
 | **The AYO Relationship Study** | The research survey, and the processing activity named in the GDPR record | The product itself |
-| **Eben EIO Global OU** | The company that develops and operates KOOS, and the data controller. Footer attribution, privacy notice, GDPR record. | Anything a respondent reads as the product |
+| **Eben EIO Global OU** | The company that develops and operates KooS, and the data controller. Footer attribution, privacy notice, GDPR record. | Anything a respondent reads as the product |
 | **Koos Ayo** | The copyright holder in the footer line only | Everywhere else, where the wordmark spelling applies |
 
 The copyright line reads **Koos Ayo**, with a space and no hyphen, because that
-is how the holder is named by the company. It is the one sanctioned exception to
-the KOOS-AYO spelling, and it is deliberate rather than drift.
+is how the holder is named by the company. It is deliberate rather than drift.
+
+## The product is written KooS
+
+**Product Owner rule, 16 Nov 2026.** In writing, the product is **KooS**: capital
+K, two lower-case o's, capital S. Not KOOS.
+
+**The logo is the exception, and it is the only one.** The wordmark draws
+KOOS-AYO, and the two overlapping O's are the whole idea of the mark, so it
+keeps its own letterforms. Anywhere the name is set as text rather than drawn
+as a mark, it is KooS.
+
+Three other things are unchanged, and each for its own reason:
+
+- **KOOS-AYO**, the full wordmark, in the logo and where the brand is named
+  formally. It is a lockup, not running copy.
+- **Koos Ayo**, the copyright holder, because that is how the company names the
+  holder.
+- **The research instrument.** `src/lib/questions.ts` reproduces questionnaire
+  v3 verbatim and its privacy box says "the KOOS research team". Respondents
+  have already answered under that wording. Changing respondent-facing text
+  mid-collection is what the instrument rules exist to prevent, so it stays
+  until the Product Owner decides otherwise knowing that cost.
+
+`tests/naming.test.ts` fails the build on `KOOS` outside those exceptions.
 
 ## What it means
 **KOOS-AYO means "together, with joy."**

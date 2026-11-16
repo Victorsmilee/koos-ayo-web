@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import OptionRow from '@/components/option-row'
+import QuietSound from '@/components/quiet-sound'
 import {
   PATHS,
   QUIZ,
@@ -108,9 +109,9 @@ export default function QuizClient() {
         <h1
           ref={heading}
           tabIndex={-1}
-          className="font-serif text-3xl leading-tight outline-none sm:text-4xl"
+          className="font-serif text-3xl leading-tight focus-visible:[outline:none] sm:text-4xl"
         >
-          Eight questions about how you argue
+          Eight questions about what happens when you disagree
         </h1>
         <p className="mt-4 text-base text-muted">
           About two minutes. At the end you get the one thing most likely to
@@ -119,7 +120,7 @@ export default function QuizClient() {
 
         <div className="mt-8 rounded-koos border border-line bg-surface p-5 text-sm">
           <p className="text-ink">
-            We keep your answers so KOOS can be useful to you from the first
+            We keep your answers so KooS can be useful to you from the first
             day, and so we can ask you the hard one again later and show you
             what changed.
           </p>
@@ -170,7 +171,7 @@ export default function QuizClient() {
         <h1
           ref={heading}
           tabIndex={-1}
-          className="mt-3 font-serif text-3xl leading-tight outline-none sm:text-4xl"
+          className="mt-3 font-serif text-3xl leading-tight focus-visible:[outline:none] sm:text-4xl"
         >
           {p.headline}
         </h1>
@@ -190,7 +191,7 @@ export default function QuizClient() {
           Create an account and start here
         </a>
         <p className="mt-4 text-sm text-muted">
-          KOOS never sends messages for you, and never shows your partner what
+          KooS never sends messages for you, and never shows your partner what
           you write.
         </p>
       </Shell>
@@ -221,9 +222,14 @@ export default function QuizClient() {
 
       <h1
         ref={heading}
+        // Focused on every step so a screen reader announces the new
+        // question instead of staying silent where the old option was. The
+        // ring is suppressed because this is a heading, not a control: a
+        // keyboard user hears it, and nobody needs to see a box drawn round
+        // text they did not tab to.
         tabIndex={-1}
         id={`q-${question.id}`}
-        className="mt-5 font-serif text-2xl leading-tight outline-none sm:text-3xl"
+        className="mt-5 font-serif text-2xl leading-tight focus-visible:[outline:none] sm:text-3xl"
       >
         {question.text}
       </h1>
@@ -295,6 +301,11 @@ function Shell({
       </div>
       <div className="mt-8 rounded-koos border border-line bg-surface p-5 sm:p-7">
         {children}
+      </div>
+      {/* Below the card, not in the header: it is an option, not a control
+          anyone needs to find before they start. Off until asked for. */}
+      <div className="mt-4 flex justify-center">
+        <QuietSound />
       </div>
     </div>
   )

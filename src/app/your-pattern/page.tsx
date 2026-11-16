@@ -24,7 +24,7 @@ import QuizClient from './quiz-client'
 export const metadata: Metadata = {
   title: 'Your pattern',
   description:
-    'Eight questions about how you argue, and the one thing most likely to change how the next one goes.',
+    'Eight questions about what happens when you disagree, and the one thing most likely to change how the next one goes.',
   openGraph: {
     title: 'Your pattern, in eight questions',
     description:
@@ -38,7 +38,7 @@ export default function YourPattern() {
     <>
       <header className="border-b border-line px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-5xl justify-center sm:justify-start">
-          <a href="/" aria-label="KOOS home">
+          <a href="/" aria-label="KooS home">
             <Wordmark width="140px" />
           </a>
         </div>

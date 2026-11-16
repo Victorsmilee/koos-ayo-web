@@ -36,7 +36,7 @@ export default function SiteFooter() {
           </a>
         </div>
         <p>
-          KOOS is not a crisis service. If you are in immediate danger, contact your
+          KooS is not a crisis service. If you are in immediate danger, contact your
           local emergency services.
         </p>
 

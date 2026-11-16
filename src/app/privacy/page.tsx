@@ -44,7 +44,7 @@ import {
 export const metadata: Metadata = {
   title: 'Privacy notice',
   description:
-    'How KOOS handles the answers you give in The AYO Relationship Study, and in the quiz at /your-pattern.',
+    'How KooS handles the answers you give in The AYO Relationship Study, and in the quiz at /your-pattern.',
   robots: { index: false, follow: false },
 }
 
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
           </p>
         </Block>
 
-        <Block title="Who operates KOOS">
+        <Block title="Who operates KooS">
           <p>
             KOOS-AYO is developed and operated by {OPERATOR_NAME}. {IP_NOTICE}
           </p>
@@ -186,7 +186,7 @@ export default function PrivacyPage() {
 
         <Block title="Who else can see it">
           <p>
-            Only the KOOS research team. Published summaries are aggregates. No one
+            Only the KooS research team. Published summaries are aggregates. No one
             outside the team sees an individual response. Two service providers process
             data on our behalf, and neither uses it for their own purposes:
           </p>
@@ -287,7 +287,7 @@ export default function PrivacyPage() {
           <p className="mt-4">
             <strong className="font-semibold text-ink">What we use it for.</strong>{' '}
             To show you where to start, and, if you create an account, to shape
-            what KOOS does on your first day rather than starting you from
+            what KooS does on your first day rather than starting you from
             nothing. We also ask one of the questions again later, so you can
             see whether it has changed. We do not use it for advertising, we do
             not build a profile for advertising, and we do not sell it.
@@ -300,7 +300,7 @@ export default function PrivacyPage() {
             The survey does, and that is special category data under Article 9,
             which is why the survey asks for your explicit consent first and
             why that question is optional. The quiz asks nothing in that
-            category at all. If KOOS ever offers guidance shaped by faith, it
+            category at all. If KooS ever offers guidance shaped by faith, it
             will be a setting you turn on inside your account, with its own
             consent, and never a question on a public page.
           </p>
@@ -350,7 +350,7 @@ export default function PrivacyPage() {
         </Block>
 
         <p className="mt-12 rounded-koos border border-line bg-surface p-4 text-sm text-muted">
-          KOOS is not a crisis service. If anything in the survey raised concerns about
+          KooS is not a crisis service. If anything in the survey raised concerns about
           your safety or wellbeing, please contact your local emergency services or a
           support service in your country.
         </p>

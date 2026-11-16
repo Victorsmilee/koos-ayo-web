@@ -1,5 +1,5 @@
 /**
- * Who operates KOOS, in one place.
+ * Who operates KooS, in one place.
  *
  * Eben EIO Global OÜ is both the company that runs the service and the data
  * controller for the research survey. The footer names it on every page and the
