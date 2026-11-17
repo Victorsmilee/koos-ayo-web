@@ -306,6 +306,17 @@ export default function PrivacyPage() {
           </p>
 
           <p className="mt-4">
+            <strong className="font-semibold text-ink">
+              If you create an account.
+            </strong>{' '}
+            The link from your result carries a random reference to your
+            answers, so they can be attached to the account you make. That
+            reference is just a number pointing at one set of answers: it
+            contains nothing about you, and it can only be used once. If you do
+            not create an account, nothing is ever attached to anything.
+          </p>
+
+          <p className="mt-4">
             <strong className="font-semibold text-ink">How long we keep it.</strong>{' '}
             If you create an account, for as long as that account exists. If you
             do not, <Todo>12 months</Todo> from the day you took it, after

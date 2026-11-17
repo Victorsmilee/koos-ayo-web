@@ -32,6 +32,15 @@ export interface QuizResult {
   ok: boolean
   /** Set only on completion, so the client can show the right path. */
   path?: string
+  /**
+   * The row's claim_token, returned only on completion so the result screen
+   * can carry it to sign-up on app.koos-ayo.com. A random uuid that says
+   * nothing about the person or their answers: it is a handle on one row and
+   * nothing more. Absent whenever the row could not be written, because a
+   * token for a row that does not exist would send someone to an account
+   * screen promising answers that were never saved.
+   */
+  claimToken?: string
   message?: string
 }
 
@@ -160,11 +169,19 @@ export async function complete(input: unknown): Promise<QuizResult> {
     const existing = await readId()
     const id = existing ?? crypto.randomUUID()
 
+    // Generated here rather than read back, because reading the row would mean
+    // chaining .select() onto a write, and with RLS on and no policies
+    // PostgREST answers 42501. The column has a default for rows written any
+    // other way; this sets it explicitly so the value is known without a
+    // second round trip.
+    const claimToken = crypto.randomUUID()
+
     const row = {
       answers: payload,
       last_question: QUESTIONS.length,
       completed: true,
       result_path: path,
+      claim_token: claimToken,
       updated_at: new Date().toISOString(),
     }
 
@@ -177,11 +194,12 @@ export async function complete(input: unknown): Promise<QuizResult> {
     if (error) {
       logSaveFailure('quiz-complete', error)
       // The result is still shown. Someone who answered eight questions should
-      // not be handed an error because our database had a bad minute.
+      // not be handed an error because our database had a bad minute. No token
+      // though: there is no row for it to refer to.
       return { ok: true, path }
     }
     if (!existing) await writeId(id)
-    return { ok: true, path }
+    return { ok: true, path, claimToken }
   } catch (error) {
     logSaveFailure('quiz-complete', error)
     return { ok: true, path }

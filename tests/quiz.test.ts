@@ -175,3 +175,42 @@ test('the published notice describes the quiz as its own activity', () => {
     'the notice does not say which page the quiz section is about',
   )
 })
+
+test('the claim token is returned only on completion, and only when a row exists', () => {
+  // The token is a handle on a row. Handing one out when the write failed
+  // would send someone to a sign-up screen promising answers that were never
+  // saved, which is a worse outcome than a quiet link.
+  const actions = readFileSync('src/app/your-pattern/actions.ts', 'utf8')
+  const code = actions.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1')
+
+  // saveProgress must never return one: it is called on every step, and a
+  // token before the quiz is finished is a token for an incomplete row.
+  const progress = code.slice(code.indexOf('export async function saveProgress'), code.indexOf('export async function complete'))
+  assert.ok(!/claimToken/.test(progress), 'progress saves must not hand out a token')
+
+  const complete = code.slice(code.indexOf('export async function complete'))
+  // Returned on the success path, withheld on the failure path.
+  assert.ok(/return \{ ok: true, path, claimToken \}/.test(complete))
+  assert.ok(/return \{ ok: true, path \}/.test(complete), 'no token when the write failed')
+})
+
+test('the token is generated, never read back from the row', () => {
+  // Reading it back means chaining .select() onto a write, and with RLS on and
+  // zero policies PostgREST answers 42501. This is the rule that has already
+  // cost a day once.
+  const code = readFileSync('src/app/your-pattern/actions.ts', 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1')
+  assert.ok(/crypto\.randomUUID\(\)/.test(code))
+  assert.ok(!/\.insert\([^)]*\)[\s.]*\.select\(/.test(code))
+  assert.ok(!/\.update\([^)]*\)[\s.]*\.select\(/.test(code))
+})
+
+test('the result link carries the token to the app, and survives its absence', () => {
+  const client = readFileSync('src/app/your-pattern/quiz-client.tsx', 'utf8')
+  assert.ok(client.includes('app.koos-ayo.com/signin?quiz='))
+  // Encoded, not interpolated raw: it is a value in a query string.
+  assert.ok(client.includes('encodeURIComponent(claimToken)'))
+  // And a plain link when there is no token, rather than `?quiz=null`.
+  assert.ok(/'https:\/\/app\.koos-ayo\.com\/signin'/.test(client))
+})
