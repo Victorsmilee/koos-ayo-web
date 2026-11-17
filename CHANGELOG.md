@@ -28,10 +28,21 @@ level of 0.045, roughly -27dBFS; under a 420Hz low-pass that cut most of what
 little was there. And it never called `resume()`, so on Safari and iOS the
 context stayed suspended and produced nothing at all, with no error anywhere.
 
-It is now a soft chord at 196 to 392Hz, an open fifth and its octave, through a
-1200Hz low-pass at 0.1, with a fade short enough that the toggle feels connected
-to the sound. Still quiet on purpose: the target is "noticed only when it
-stops". Still off by default.
+It is now **music rather than a tone**, which the held chord never was: a held
+chord reads as a test signal, which is the opposite of calming. Four chords in
+a slow loop, nine seconds each, each one breathing in over about four seconds
+and out again, with single notes falling across them at a pace closer to a
+resting heartbeat than to a melody. A generated reverb, noise with an
+exponential decay rather than an impulse file, so notes end by fading instead
+of stopping.
+
+The progression is i, VI, III, VII in A minor. It never lands firmly on home,
+so it does not ask for attention, and it carries no major-key brightness
+telling someone to feel better than they do: a quiz about difficult
+conversations should not sound cheerful at them.
+
+Still generated in the browser, so still no file to download and no third-party
+host. Still quiet, and still off by default.
 
 **The quiz now has an end-to-end suite**, which it should have had when it
 shipped. Eight specs across a phone and a desktop viewport: nothing is stored
