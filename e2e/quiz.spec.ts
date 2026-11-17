@@ -190,3 +190,60 @@ test('the sound is off by default and actually starts when asked', async ({ page
   await toggle.click()
   await expect(toggle).toHaveAttribute('aria-pressed', 'false')
 })
+
+test('the sound is music: it moves on rather than holding one chord', async ({ page }) => {
+  // A held chord was the first version and it read as a test signal, which is
+  // the opposite of calming. This asserts the thing that makes it music: the
+  // harmony changes on its own, and stopping stops the scheduler rather than
+  // merely muting it, which would leave notes queued into a closing context.
+  test.slow() // one bar is nine seconds, so this one deliberately waits.
+
+  await page.addInitScript(() => {
+    const w = window as unknown as { __m: { freqs: number[]; osc: number } }
+    w.__m = { freqs: [], osc: 0 }
+    const Real = window.AudioContext
+    class Spy extends Real {
+      createOscillator() {
+        const o = super.createOscillator()
+        w.__m.osc++
+        const start = o.start.bind(o)
+        o.start = (t?: number) => {
+          w.__m.freqs.push(Math.round(o.frequency.value * 100) / 100)
+          return start(t)
+        }
+        return o
+      }
+    }
+    window.AudioContext = Spy as unknown as typeof AudioContext
+  })
+
+  await page.goto('/your-pattern')
+  const toggle = page.getByRole('button', { name: /Sound/ })
+  await toggle.click()
+  await page.waitForTimeout(1500)
+
+  const read = () =>
+    page.evaluate(
+      () => JSON.parse(JSON.stringify((window as unknown as { __m: unknown }).__m)) as { freqs: number[]; osc: number },
+    )
+
+  const first = await read()
+  expect(first.osc, 'a chord is more than one voice').toBeGreaterThan(2)
+
+  // Past the bar boundary: the next chord must not be the first one again.
+  await page.waitForTimeout(10_000)
+  const second = await read()
+  const opening = new Set(first.freqs)
+  const next = second.freqs.slice(first.freqs.length)
+  expect(next.length, 'nothing was scheduled for the next bar').toBeGreaterThan(0)
+  expect(
+    next.some((f) => !opening.has(f)),
+    'the next bar repeated the opening chord, so it is a loop rather than a progression',
+  ).toBe(true)
+
+  // Stopping must clear the scheduler, not just drop the volume.
+  await toggle.click()
+  const atStop = (await read()).osc
+  await page.waitForTimeout(10_000)
+  expect((await read()).osc, 'the scheduler kept running after stop').toBe(atStop)
+})
