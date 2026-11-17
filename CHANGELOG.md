@@ -19,6 +19,31 @@ whether the instrument moved. So far it never has.
 
 ---
 
+## 17 Nov 2026
+
+### A quiz taken before signing up follows you into the account
+The result screen now links to sign-up carrying the row's `claim_token`, so
+answers given on koos-ayo.com before anyone had an account are attached to the
+account they then create. That is what makes the escalation question worth
+asking again later: without it, every account starts from nothing and there is
+no baseline to compare against.
+
+**The token is opaque and single use.** A random uuid that says nothing about
+the person and nothing about their answers, generated when the row is written
+rather than read back, because reading it back would mean chaining `.select()`
+onto a write and PostgREST answers `42501` on a table with RLS on and no
+policies.
+
+**No token when the write failed.** The link is then a plain one. Promising
+someone their answers are waiting when no row was written would be worse than
+saying nothing at all.
+
+The published notice gains a paragraph describing exactly this, because it is
+the one part of the quiz where answers stop being a loose record and become
+attached to a person.
+
+The instrument did not move.
+
 ## 16 Nov 2026
 
 ### The quiz gets an end-to-end suite, a working sound, and a face

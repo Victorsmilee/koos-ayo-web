@@ -40,6 +40,7 @@ export default function QuizClient() {
   const [step, setStep] = useState<Step>('consent')
   const [answers, setAnswers] = useState<QuizAnswers>({})
   const [path, setPath] = useState<PathId | null>(null)
+  const [claimToken, setClaimToken] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const heading = useRef<HTMLHeadingElement | null>(null)
@@ -68,6 +69,7 @@ export default function QuizClient() {
           complete({ answers: next, questionIndex: TOTAL_QUESTIONS })
             .then((r) => {
               setPath((r.path as PathId) ?? 'interrupt')
+              setClaimToken(r.claimToken ?? null)
               setStep('result')
             })
             .finally(() => setBusy(false))
@@ -187,12 +189,31 @@ export default function QuizClient() {
           <p className="mt-2 font-serif text-2xl text-ink">{p.name}</p>
         </div>
 
+        {/*
+          The claim token travels in the URL because sign-up is on a different
+          origin: app.koos-ayo.com cannot read a cookie set here. It is an
+          opaque handle on one row, and the app validates it as a uuid before
+          it stores anything.
+
+          Absent when the save failed, and then the link simply has no token:
+          promising someone their answers are waiting when no row was written
+          would be worse than saying nothing.
+        */}
         <a
-          href="https://app.koos-ayo.com/signin"
+          href={
+            claimToken
+              ? `https://app.koos-ayo.com/signin?quiz=${encodeURIComponent(claimToken)}`
+              : 'https://app.koos-ayo.com/signin'
+          }
           className="mt-8 block min-h-[52px] rounded-koos bg-accent px-6 py-3.5 text-center text-base font-semibold text-on-accent transition-colors hover:bg-accent-hover"
         >
           Create an account and start here
         </a>
+        {claimToken ? (
+          <p className="mt-3 text-center text-sm text-muted">
+            Your answers come with you.
+          </p>
+        ) : null}
         <p className="mt-4 text-sm text-muted">
           KooS never sends messages for you, and never shows your partner what
           you write.
