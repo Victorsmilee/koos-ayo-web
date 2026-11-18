@@ -146,6 +146,106 @@ export const QUESTIONS = [
 ] as const satisfies readonly QuizQuestion[]
 
 /**
+ * THE SOLO PATH.
+ *
+ * Someone who answers the first question with "Single at the moment" or
+ * "Separated or divorced" does not get the rest of the main path. They used
+ * to, and it was the worst thing about the quiz: six screens asking how a
+ * relationship feels, ending on "If one thing changed, what would it be?"
+ * whose options all begin with "We". Offering those two answers and then
+ * ignoring them is worse than not offering them.
+ *
+ * Four questions instead of seven, about patterns rather than a partner, and
+ * all of it in the past tense. The last one ends where the Product Owner's
+ * original question 9 ended, on preparing for a healthier future relationship,
+ * because that is the honest version of what KooS offers someone who is not
+ * with anyone right now.
+ *
+ * Separate ids, not reworded versions of the main ones. "What was hardest"
+ * answered about a relationship that ended is not the same measurement as
+ * "what is hardest" answered about one that is happening, and putting both
+ * under one id would quietly average two different questions together.
+ */
+export const SOLO_QUESTIONS = [
+  {
+    id: 'soloLooking',
+    text: 'Looking back, what came up most often?',
+    options: [
+      'Not being able to talk about the hard things',
+      'Trust, once it was damaged',
+      'The same argument, over and over',
+      'Drifting apart without a row',
+      'I could not say what I actually needed',
+    ],
+  },
+  {
+    id: 'soloReaction',
+    text: 'When it got difficult, what did you usually do?',
+    options: [
+      'Answered straight away, sometimes heated',
+      'Explained myself, or defended my side',
+      'Went quiet, or walked away',
+      'Tried to fix it right there',
+      'Took time before I said anything',
+    ],
+  },
+  {
+    id: 'soloPattern',
+    text: 'Has any of that shown up with more than one person?',
+    help: 'An honest answer here is more useful than a flattering one.',
+    options: [
+      'Yes, more than once',
+      'Once or twice',
+      'Not that I have noticed',
+      'I have not thought about it that way',
+    ],
+  },
+  {
+    id: 'soloGoal',
+    text: 'What would you want to be different next time?',
+    options: [
+      'Say what I mean, earlier',
+      'Stay steady when it gets heated',
+      'Notice a pattern before it repeats',
+      'Understand myself and what I need',
+      'Prepare myself for a healthier future relationship',
+    ],
+  },
+] as const satisfies readonly QuizQuestion[]
+
+/**
+ * The answers to the first question that send someone down the solo path.
+ *
+ * Derived from the instrument rather than written out: these strings are
+ * options on `status`, and a test asserts each one still exists there. If an
+ * option is reworded and this is not, the branch silently stops firing and
+ * everybody gets the partnered path again.
+ */
+export const SOLO_STATUSES = [
+  'Single at the moment',
+  'Separated or divorced',
+] as const
+
+/** Whether an answer to the first question means the solo path. */
+export function isSolo(answers: QuizAnswers): boolean {
+  const status = (answers[QUESTIONS[0].id] ?? [])[0]
+  return (SOLO_STATUSES as readonly string[]).includes(status ?? '')
+}
+
+/**
+ * The questions actually asked, given what has been answered so far.
+ *
+ * The first question is always the same one; everything after it depends on
+ * the answer to it. The client reads its length for "3 of 5", so a branch
+ * cannot leave the counter claiming a total nobody will reach.
+ */
+export function questionsFor(answers: QuizAnswers): readonly QuizQuestion[] {
+  return isSolo(answers)
+    ? [QUESTIONS[0] as QuizQuestion, ...(SOLO_QUESTIONS as readonly QuizQuestion[])]
+    : (QUESTIONS as readonly QuizQuestion[])
+}
+
+/**
  * The same list, widened.
  *
  * `QUESTIONS` is `as const` so that `QuestionId` is a union of the real ids
@@ -158,8 +258,17 @@ export const QUIZ: readonly QuizQuestion[] = QUESTIONS
 
 export const TOTAL_QUESTIONS = QUESTIONS.length
 
+/** The solo path: the first question, then four. */
+export const TOTAL_SOLO_QUESTIONS = 1 + SOLO_QUESTIONS.length
+
 /** Every id, derived. Nothing downstream may spell one out. */
-export const QUESTION_IDS = QUESTIONS.map((q) => q.id)
+export const QUESTION_IDS = [...QUESTIONS, ...SOLO_QUESTIONS].map((q) => q.id)
+
+/** Every question on either path, for validating an answers payload. */
+export const ALL_QUESTIONS: readonly QuizQuestion[] = [
+  ...(QUESTIONS as readonly QuizQuestion[]),
+  ...(SOLO_QUESTIONS as readonly QuizQuestion[]),
+]
 export type QuestionId = (typeof QUESTIONS)[number]['id']
 
 /** Answers in progress. A single-select holds one string, a multi holds many. */
@@ -210,6 +319,42 @@ export const PATHS = {
 export type PathId = keyof typeof PATHS
 
 /**
+ * The result copy for the solo path.
+ *
+ * The partnered version says "your next disagreement" and "your partner",
+ * which is the wrong tense and the wrong person for somebody who is not with
+ * anyone. Same four destinations, because they are product features and they
+ * apply either way; different sentences, because the situation is different.
+ */
+export const SOLO_PATHS: Record<PathId, { headline: string; body: string }> = {
+  interrupt: {
+    headline: 'The gap between feeling it and saying it',
+    body:
+      'That gap is where most of the damage happened, and it is the most practical thing to change ' +
+      'before the next relationship rather than during it. KooS starts there: a short pause, two ' +
+      'questions, and the thing you actually meant.',
+  },
+  beforeYouSend: {
+    headline: 'The message you are about to send is the one to look at',
+    body:
+      'Written words land harder than spoken ones and they stay there. KooS reads it with you ' +
+      'first, and asks what you want them to feel when they read it.',
+  },
+  twoTruths: {
+    headline: 'Going quiet is a position too',
+    body:
+      'Withdrawing feels like avoiding a fight, and it usually reads as leaving. KooS helps you ' +
+      'say the thing that is actually true for you while there is still a conversation to have.',
+  },
+  playbook: {
+    headline: 'It followed you, and that is worth knowing',
+    body:
+      'A pattern that turns up with more than one person is the most useful thing you can bring ' +
+      'to the next relationship. A pattern you can name is one you can interrupt.',
+  },
+}
+
+/**
  * Which path someone lands on.
  *
  * Deliberately simple and deliberately readable. This is a funnel, not a
@@ -223,6 +368,36 @@ export type PathId = keyof typeof PATHS
 export function resultPath(answers: QuizAnswers): PathId {
   const has = (id: string, text: string) => (answers[id] ?? []).includes(text)
   const first = (id: string) => (answers[id] ?? [])[0]
+
+  /*
+   * The solo path first, and separately, because the same words mean different
+   * things in the past tense. "Went quiet, or walked away" about a
+   * relationship that ended is a pattern to notice; the present-tense version
+   * is a conversation to get through tonight.
+   */
+  if (isSolo(answers)) {
+    if (
+      first('soloPattern') === 'Yes, more than once' ||
+      has('soloLooking', 'The same argument, over and over') ||
+      has('soloGoal', 'Notice a pattern before it repeats')
+    ) {
+      return 'playbook'
+    }
+    const past = first('soloReaction')
+    if (
+      past === 'Answered straight away, sometimes heated' ||
+      past === 'Explained myself, or defended my side'
+    ) {
+      return 'interrupt'
+    }
+    if (
+      past === 'Went quiet, or walked away' ||
+      has('soloLooking', 'Drifting apart without a row')
+    ) {
+      return 'twoTruths'
+    }
+    return 'playbook'
+  }
 
   // Said outright that the same thing keeps returning. Nothing beats being told.
   if (

@@ -3,11 +3,17 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 import { test } from 'node:test'
 import {
+  ALL_QUESTIONS,
   PATHS,
   QUESTIONS,
   QUIZ,
   QUIZ_VERSION,
+  SOLO_PATHS,
+  SOLO_QUESTIONS,
+  SOLO_STATUSES,
   TOTAL_QUESTIONS,
+  TOTAL_SOLO_QUESTIONS,
+  questionsFor,
   resultPath,
   type QuizAnswers,
 } from '../src/lib/quiz'
@@ -92,7 +98,8 @@ test('every branch references an option that actually exists', () => {
   // second argument of has(), and the right-hand side of an equality. A naive
   // sweep for quoted strings also picks up the path ids being returned, which
   // are not options and never were.
-  const all = new Set(QUIZ.flatMap((q) => [...q.options]))
+  // BOTH paths: the solo branches match on solo options.
+  const all = new Set(ALL_QUESTIONS.flatMap((q) => [...q.options]))
   const body = readFileSync('src/lib/quiz.ts', 'utf8')
     .slice(readFileSync('src/lib/quiz.ts', 'utf8').indexOf('export function resultPath'))
     .replace(/\/\*[\s\S]*?\*\//g, '')
@@ -213,4 +220,101 @@ test('the result link carries the token to the app, and survives its absence', (
   assert.ok(client.includes('encodeURIComponent(claimToken)'))
   // And a plain link when there is no token, rather than `?quiz=null`.
   assert.ok(/'https:\/\/app\.koos-ayo\.com\/signin'/.test(client))
+})
+
+/* ------------------------------ the solo path ----------------------------- */
+
+test('the solo path is shorter, and starts from the same first question', () => {
+  const solo = questionsFor({ [QUESTIONS[0].id]: [SOLO_STATUSES[0]] })
+  const partnered = questionsFor({ [QUESTIONS[0].id]: ['Dating someone'] })
+  assert.equal(solo.length, TOTAL_SOLO_QUESTIONS)
+  assert.equal(partnered.length, TOTAL_QUESTIONS)
+  assert.ok(solo.length < partnered.length, 'the solo path must be the shorter one')
+  // The first question is asked of everybody; it is what chooses the path.
+  assert.equal(solo[0].id, partnered[0].id)
+})
+
+test('both branching answers are real options on the first question', () => {
+  // The branch matches on option TEXT. If an option is reworded and
+  // SOLO_STATUSES is not, the branch silently stops firing and everyone gets
+  // the partnered path again, with nothing failing.
+  const options = QUESTIONS[0].options as readonly string[]
+  for (const status of SOLO_STATUSES) {
+    assert.ok(options.includes(status), `"${status}" is no longer an option`)
+  }
+})
+
+test('nobody single is asked about a partner they do not have', () => {
+  // The bug this path exists to fix: the main path says "We talk more openly"
+  // and "How does it feel at the moment?" to someone who answered that they
+  // are single.
+  const solo = questionsFor({ [QUESTIONS[0].id]: [SOLO_STATUSES[0]] })
+  for (const q of solo.slice(1)) {
+    for (const text of [q.text, q.help ?? '', ...q.options]) {
+      assert.ok(
+        !/\b(we|our|your partner|my partner)\b/i.test(text),
+        `the solo path says "${text}", which assumes a partner`,
+      )
+    }
+  }
+})
+
+test('the solo path is written in the past tense, and ends looking forward', () => {
+  const solo = questionsFor({ [QUESTIONS[0].id]: [SOLO_STATUSES[1]] })
+  const last = solo[solo.length - 1]
+  assert.ok(
+    (last.options as readonly string[]).includes(
+      'Prepare myself for a healthier future relationship',
+    ),
+    'the solo path must end where the Product Owner question 9 ended',
+  )
+})
+
+test('every solo answer reaches a result', () => {
+  const base = { [QUESTIONS[0].id]: [SOLO_STATUSES[0]] }
+  assert.ok(resultPath(base) in PATHS, 'a solo visitor who skipped everything got nothing')
+  for (const q of SOLO_QUESTIONS) {
+    for (const option of q.options) {
+      assert.ok(
+        resultPath({ ...base, [q.id]: [option] }) in PATHS,
+        `${q.id}=${option} produced nothing`,
+      )
+    }
+  }
+})
+
+test('a pattern across more than one person reaches the Relationship Playbook', () => {
+  // The most useful thing a solo visitor can be told, and the reason the
+  // question is asked at all.
+  assert.equal(
+    resultPath({
+      [QUESTIONS[0].id]: [SOLO_STATUSES[0]],
+      soloPattern: ['Yes, more than once'],
+    }),
+    'playbook',
+  )
+})
+
+test('solo and partnered answers are never merged under one id', () => {
+  // "What was hardest" about a relationship that ended is not the same
+  // measurement as "what is hardest" about one that is happening. Sharing an
+  // id would quietly average two different questions together.
+  const main = new Set(QUESTIONS.map((q) => q.id))
+  for (const q of SOLO_QUESTIONS) {
+    assert.ok(!main.has(q.id as never), `${q.id} collides with the main path`)
+  }
+})
+
+test('the result copy covers every path on both routes', () => {
+  // A missing entry would render undefined on the screen.
+  for (const id of Object.keys(PATHS)) {
+    assert.ok(SOLO_PATHS[id as keyof typeof SOLO_PATHS], `no solo copy for ${id}`)
+  }
+  for (const copy of Object.values(SOLO_PATHS)) {
+    assert.ok(copy.headline.length > 0 && copy.body.length > 0)
+    assert.ok(
+      !/\byour partner\b/i.test(copy.body),
+      'solo result copy must not mention a partner',
+    )
+  }
 })

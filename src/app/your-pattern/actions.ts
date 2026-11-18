@@ -2,7 +2,14 @@
 
 import { cookies } from 'next/headers'
 import { z } from 'zod'
-import { QUESTIONS, QUIZ, QUIZ_VERSION, resultPath, type QuizAnswers } from '@/lib/quiz'
+import {
+  ALL_QUESTIONS,
+  QUESTIONS,
+  QUIZ_VERSION,
+  questionsFor,
+  resultPath,
+  type QuizAnswers,
+} from '@/lib/quiz'
 import { logSaveFailure } from '@/lib/save-failure'
 import { TABLES, getSupabase } from '@/lib/supabase-server'
 
@@ -59,6 +66,8 @@ const answersSchema = z.record(z.string(), z.array(z.string()))
 
 const payloadSchema = z.object({
   answers: answersSchema,
+  // The longest path either branch can produce. The solo path is shorter, so
+  // the main one sets the ceiling.
   questionIndex: z.number().int().min(0).max(QUESTIONS.length),
   /** Hidden field. A human never fills it in. */
   honeypot: z.string().optional(),
@@ -66,7 +75,10 @@ const payloadSchema = z.object({
 
 function clean(raw: Record<string, string[]>): QuizAnswers {
   const out: QuizAnswers = {}
-  for (const q of QUIZ) {
+  // Both paths. Validating against the main path only would silently drop
+  // every solo answer: they would pass through the client, fail the `includes`
+  // check here, and be written as an empty object with nothing reporting it.
+  for (const q of ALL_QUESTIONS) {
     const given = raw[q.id]
     if (!Array.isArray(given)) continue
     const allowed = given.filter((v) => q.options.includes(v))
@@ -178,7 +190,9 @@ export async function complete(input: unknown): Promise<QuizResult> {
 
     const row = {
       answers: payload,
-      last_question: QUESTIONS.length,
+      // How far they actually went, on the path they were actually on, so
+      // drop-off on the shorter path is not reported as abandonment.
+      last_question: questionsFor(payload).length,
       completed: true,
       result_path: path,
       claim_token: claimToken,

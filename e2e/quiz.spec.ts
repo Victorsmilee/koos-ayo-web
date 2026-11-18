@@ -1,5 +1,12 @@
 import { expect, test } from '@playwright/test'
-import { PATHS, QUIZ, TOTAL_QUESTIONS } from '../src/lib/quiz'
+import {
+  PATHS,
+  QUIZ,
+  SOLO_QUESTIONS,
+  SOLO_STATUSES,
+  TOTAL_QUESTIONS,
+  TOTAL_SOLO_QUESTIONS,
+} from '../src/lib/quiz'
 
 /**
  * The quiz at /your-pattern.
@@ -246,4 +253,55 @@ test('the sound is music: it moves on rather than holding one chord', async ({ p
   const atStop = (await read()).osc
   await page.waitForTimeout(10_000)
   expect((await read()).osc, 'the scheduler kept running after stop').toBe(atStop)
+})
+
+test('someone single takes a shorter path and is never asked about a partner', async ({
+  page,
+}) => {
+  // The bug this exists to catch: the main path asked six questions about a
+  // relationship somebody had just said they are not in, ending on options
+  // that all begin with "We".
+  await start(page)
+
+  // Answer the first question with the branching option.
+  await page.getByText(SOLO_STATUSES[0], { exact: true }).click()
+  await page.waitForTimeout(600)
+
+  // The counter must now describe the SHORTER path, or it promises a total
+  // nobody will reach.
+  await expect(page.getByText(`2 of ${TOTAL_SOLO_QUESTIONS}`)).toBeVisible()
+
+  for (let i = 1; i < TOTAL_SOLO_QUESTIONS; i++) {
+    const q = SOLO_QUESTIONS[i - 1]
+    await expect(page.getByRole('heading', { name: q.text })).toBeVisible()
+    // Nothing on screen may assume a partner.
+    const body = await page.locator('main').innerText()
+    expect(
+      /\byour partner\b/i.test(body),
+      `screen ${i + 1} mentions a partner`,
+    ).toBe(false)
+    await page.getByText(q.options[0], { exact: true }).click()
+    await page.waitForTimeout(600)
+  }
+
+  await expect(page.getByText('Where to start')).toBeVisible()
+  await expect(page.getByRole('link', { name: /Create an account/i })).toBeVisible()
+  const result = await page.locator('main').innerText()
+  expect(/\byour partner\b/i.test(result), 'the result mentions a partner').toBe(false)
+})
+
+test('changing the first answer re-routes instead of stranding someone', async ({
+  page,
+}) => {
+  // Someone picks single, goes back, picks dating. They must get the main
+  // path, not four solo questions followed by a result that does not fit.
+  await start(page)
+  await page.getByText(SOLO_STATUSES[0], { exact: true }).click()
+  await page.waitForTimeout(600)
+  await expect(page.getByText(`2 of ${TOTAL_SOLO_QUESTIONS}`)).toBeVisible()
+
+  await page.getByRole('button', { name: 'Back' }).click()
+  await page.getByText(QUIZ[0].options[0], { exact: true }).click()
+  await page.waitForTimeout(600)
+  await expect(page.getByText(`2 of ${TOTAL_QUESTIONS}`)).toBeVisible()
 })
