@@ -21,6 +21,37 @@ whether the instrument moved. So far it never has.
 
 ## 18 Nov 2026
 
+### The starting point is the loudest thing on the result screen
+It was a quiet outline box holding two words, sitting under a headline three
+times its size. The one thing a person is meant to leave with was the thing
+they scrolled past.
+
+It is now a tinted panel with an accent outline, carrying the product name,
+**one line on what it actually does**, and three concrete things they get.
+"A quiet warning when it starts again" is something a person can picture
+happening to them on a Tuesday. "Understand your patterns" is what every other
+app says.
+
+`ink` and `accent` on `accent-soft` are now both guarded pairs in
+`contrast.py`, which is why the fill is that colour and not a new one: 5.53:1
+in light, 6.29:1 in dark, and the outline clears 3:1 against the card behind
+it. Fifty-eight pairs pass.
+
+**It reveals once and then stops, rather than pulsing.** A loop lasting more
+than five seconds needs a control to stop it under WCAG 2.2.2, it reads as an
+advertisement on a page about something personal, and attention that is
+demanded continuously stops being attention after the second repeat. One
+movement does the same job and then leaves the person alone to read. Reduced
+motion is honoured, and a test asserts the panel's opacity is identical across
+two reads a second apart.
+
+The benefit copy is `[PROPOSED]`: the six feature names come from MVP Brief v2
+and are fixed, but these descriptions of them are new and need Product Owner
+approval before they count as baseline.
+
+The instrument did not move.
+
+
 ### A shorter path for someone who is not with anyone
 The first question offered "Single at the moment" and "Separated or divorced",
 and then asked six more questions about a relationship the person had just said

@@ -281,10 +281,27 @@ export type QuizAnswers = Partial<Record<string, string[]>>
  * Reaction Interrupt, Before You Send, Challenge Me, Two Truths, Outcome
  * Feedback, Relationship Playbook. They are never paraphrased in copy.
  */
+/*
+ * [PROPOSED] `does` and `gives` are new product claims, written for the result
+ * screen so that someone reads what they actually get rather than a feature
+ * name they have never heard. The six feature NAMES come from MVP Brief v2 and
+ * are fixed. These descriptions of them do not, and need Product Owner
+ * approval before they count as baseline.
+ *
+ * They are deliberately concrete and small. "Understand your patterns" is the
+ * kind of promise that sounds like every other app; "a warning when it starts
+ * again" is something a person can picture happening to them on a Tuesday.
+ */
 export const PATHS = {
   interrupt: {
     id: 'interrupt',
     name: 'Reaction Interrupt',
+    does: 'Catches you in the ten seconds before you say the thing you cannot take back.',
+    gives: [
+      'A pause, right when you feel it rising',
+      'Two questions that get you to what you actually mean',
+      'The sentence you meant, ready to say',
+    ],
     headline: 'You answer fast, and you pay for it afterwards',
     body:
       'The gap between feeling something and saying it is where most of the damage happens. ' +
@@ -293,6 +310,12 @@ export const PATHS = {
   beforeYouSend: {
     id: 'beforeYouSend',
     name: 'Before You Send',
+    does: 'Reads the message with you before it goes, while you can still change it.',
+    gives: [
+      'How it is likely to land when they read it',
+      'What it says that you did not mean to say',
+      'The same point, without the part that wounds',
+    ],
     headline: 'The message you are about to send is the one to look at',
     body:
       'Written words land harder than spoken ones and they stay there. ' +
@@ -301,6 +324,12 @@ export const PATHS = {
   twoTruths: {
     id: 'twoTruths',
     name: 'Two Truths',
+    does: 'Separates what actually happened from what you concluded about it.',
+    gives: [
+      'Your side, written down clearly',
+      'Their side, taken seriously',
+      'The part you both already agree on',
+    ],
     headline: 'You are both right about something',
     body:
       'Most arguments are two reasonable people describing different halves of the same thing. ' +
@@ -309,6 +338,12 @@ export const PATHS = {
   playbook: {
     id: 'playbook',
     name: 'Relationship Playbook',
+    does: 'Keeps track of the argument you keep having, and what ended it last time.',
+    gives: [
+      'The pattern, named, so you can see it coming',
+      'What worked last time, and what made it worse',
+      'A quiet warning when it starts again',
+    ],
     headline: 'It is the same argument, wearing different clothes',
     body:
       'A pattern you can name is a pattern you can interrupt. ' +

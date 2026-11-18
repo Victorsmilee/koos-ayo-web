@@ -43,6 +43,16 @@ export default function QuizClient() {
   const [path, setPath] = useState<PathId | null>(null)
   const [claimToken, setClaimToken] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  /*
+   * Draws the eye to the starting point once, when the result appears.
+   *
+   * NOT a pulse. Anything that moves on a loop for more than five seconds has
+   * to come with a way to stop it (WCAG 2.2.2), it reads as an advertisement
+   * on a page about something personal, and attention that is demanded
+   * continuously stops being attention after the second repeat. One movement
+   * does the same job and then leaves the person alone to read.
+   */
+  const [revealed, setRevealed] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const heading = useRef<HTMLHeadingElement | null>(null)
 
@@ -57,6 +67,15 @@ export default function QuizClient() {
   }, [step])
 
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current) }, [])
+
+  // One frame after the result mounts, so the transition has a start state to
+  // move from. Under prefers-reduced-motion the classes do not animate, and
+  // the card is simply there.
+  useEffect(() => {
+    if (step !== 'result') return
+    const id = setTimeout(() => setRevealed(true), 250)
+    return () => clearTimeout(id)
+  }, [step])
 
   /*
    * Which questions get asked depends on the first answer. Someone single or
@@ -200,11 +219,58 @@ export default function QuizClient() {
         </h1>
         <p className="mt-5 text-lg text-muted">{copy.body}</p>
 
-        <div className="mt-8 rounded-koos border border-line bg-surface p-5">
-          <p className="text-sm font-semibold uppercase tracking-eyebrow text-muted">
+        {/*
+          The starting point, made the loudest thing on the screen.
+
+          It used to be a quiet outline box holding two words, below a headline
+          that was three times its size, which meant the one piece of the page
+          a person is meant to leave with was the piece they scrolled past.
+
+          Tinted rather than outlined, and carrying what the thing actually
+          DOES. `ink` on `accent-soft` is a pair the contrast guard already
+          proves in both themes, which is why the fill is that one and not a
+          new colour.
+
+          It reveals once, a moment after the result lands, instead of
+          pulsing. See `revealed` below.
+        */}
+        <div
+          className={[
+            'mt-8 rounded-koos border-2 border-accent bg-accent-soft p-5 sm:p-6',
+            'transition-all duration-500 ease-out motion-reduce:transition-none',
+            revealed ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0',
+          ].join(' ')}
+        >
+          <p className="text-sm font-semibold uppercase tracking-eyebrow text-accent">
             Your starting point
           </p>
-          <p className="mt-2 font-serif text-2xl text-ink">{p.name}</p>
+          <p className="mt-1.5 font-serif text-3xl leading-tight text-ink">
+            {p.name}
+          </p>
+          <p className="mt-3 text-base text-ink">{p.does}</p>
+
+          <ul className="mt-4 space-y-2.5">
+            {p.gives.map((line) => (
+              <li key={line} className="flex gap-2.5 text-base text-ink">
+                <svg
+                  viewBox="0 0 16 16"
+                  aria-hidden="true"
+                  className="mt-1 h-4 w-4 shrink-0"
+                  fill="none"
+                >
+                  <circle cx="8" cy="8" r="7.25" stroke="var(--koos-accent)" strokeWidth="1.5" />
+                  <path
+                    d="M4.8 8.3l2.2 2.2 4.2-4.6"
+                    stroke="var(--koos-accent)"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/*

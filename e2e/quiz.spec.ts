@@ -305,3 +305,30 @@ test('changing the first answer re-routes instead of stranding someone', async (
   await page.waitForTimeout(600)
   await expect(page.getByText(`2 of ${TOTAL_QUESTIONS}`)).toBeVisible()
 })
+
+test('the starting point says what you get, and settles rather than pulsing', async ({
+  page,
+}) => {
+  await start(page)
+  for (let i = 0; i < TOTAL_QUESTIONS; i++) await answer(page, i)
+  await expect(page.getByText('Where to start')).toBeVisible()
+
+  const panel = page.getByText('Your starting point').locator('..')
+  await expect(panel).toBeVisible()
+
+  // The name, what it does, and three concrete things, all on screen.
+  const text = await panel.innerText()
+  const chosen = Object.values(PATHS).find((p) => text.includes(p.name))
+  expect(chosen, 'no product name on the card').toBeTruthy()
+  expect(text).toContain(chosen!.does)
+  for (const line of chosen!.gives) expect(text).toContain(line)
+
+  // It arrives, then stops. Two reads a second apart must be identical: a
+  // pulsing panel would differ, and would need a control to stop it.
+  await page.waitForTimeout(1200)
+  const first = await panel.evaluate((el) => getComputedStyle(el).opacity)
+  await page.waitForTimeout(1200)
+  const second = await panel.evaluate((el) => getComputedStyle(el).opacity)
+  expect(first).toBe(second)
+  expect(Number(first)).toBe(1)
+})

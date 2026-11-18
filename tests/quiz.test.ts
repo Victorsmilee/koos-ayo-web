@@ -318,3 +318,50 @@ test('the result copy covers every path on both routes', () => {
     )
   }
 })
+
+/* --------------------------- the result card ------------------------------ */
+
+test('every path says what it does and what you get', () => {
+  // The card used to hold two words. A feature name someone has never heard
+  // is not a reason to create an account.
+  for (const p of Object.values(PATHS)) {
+    assert.ok(p.does.length > 20, `${p.id} does not say what it does`)
+    assert.ok(p.gives.length >= 3, `${p.id} gives fewer than three things`)
+    for (const line of p.gives) {
+      assert.ok(line.length > 10 && line.length < 70, `"${line}" is the wrong length for a bullet`)
+    }
+  }
+})
+
+test('the benefits are concrete, not the usual promises', () => {
+  // "Understand your patterns" sounds like every other app. The test cannot
+  // judge writing, but it can refuse the words that signal the generic
+  // version, which is most of the battle.
+  const banned = /\b(unlock|empower|journey|transform your|revolutionis|seamless|holistic|synergy)\b/i
+  for (const p of Object.values(PATHS)) {
+    for (const line of [p.does, ...p.gives]) {
+      assert.ok(!banned.test(line), `"${line}" is marketing filler`)
+    }
+  }
+})
+
+test('the starting point does not pulse', () => {
+  // Anything looping for more than five seconds needs a way to stop it
+  // (WCAG 2.2.2), it reads as an advertisement on a page about something
+  // personal, and attention demanded continuously stops being attention. One
+  // movement, then left alone.
+  const client = readFileSync('src/app/your-pattern/quiz-client.tsx', 'utf8')
+  const code = client.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1')
+  assert.ok(!/animate-pulse|animate-ping|animate-bounce/.test(code), 'no looping animation')
+  assert.ok(!/infinite/.test(code))
+  // And the one movement it does make must stop for anyone who asked it to.
+  assert.ok(/motion-reduce:transition-none/.test(code), 'reduced motion is not honoured')
+})
+
+test('the tinted panel uses a pair the contrast guard proves', () => {
+  // ink and accent on accent-soft are both in scripts/contrast.py, so the
+  // card cannot quietly fall below AA when a token moves.
+  const guard = readFileSync('scripts/contrast.py', 'utf8')
+  assert.ok(guard.includes('"ink",         "accent-soft"'))
+  assert.ok(guard.includes('"accent",      "accent-soft"'))
+})
