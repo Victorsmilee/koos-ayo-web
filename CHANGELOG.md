@@ -19,6 +19,45 @@ whether the instrument moved. So far it never has.
 
 ---
 
+## 18 Nov 2026
+
+### A shorter path for someone who is not with anyone
+The first question offered "Single at the moment" and "Separated or divorced",
+and then asked six more questions about a relationship the person had just said
+they are not in. The worst of them was "If one thing changed, what would it
+be?", whose options all begin with **We**.
+
+Offering those two answers and ignoring them is worse than not offering them.
+
+Either one now leads to **four questions instead of seven**, about patterns
+rather than a partner and written in the past tense, ending where the Product
+Owner's original question 9 ended: *prepare myself for a healthier future
+relationship*.
+
+**Separate ids, not reworded versions of the main ones.** "What was hardest"
+answered about a relationship that ended is not the same measurement as "what
+is hardest" answered about one that is happening, and putting both under one id
+would quietly average two different questions together. A test asserts they
+never collide.
+
+The result copy branches too, because the partnered version says "your next
+disagreement" to somebody who is not having one. Same four destinations, since
+those are product features and they apply either way.
+
+**The counter follows the branch.** It reads "2 of 5" on the short path, not
+"2 of 8": a progress bar promising a total nobody will reach is its own small
+betrayal. Changing the first answer re-routes immediately rather than stranding
+someone part way down a path that no longer applies, and an e2e spec covers
+exactly that.
+
+Two guards earned their keep. The branch guard rejected the new rules until it
+was taught about the solo options, which is what it is for. And the new
+no-partner test caught one of my own options, "We could not talk about the hard
+things", which presumes a couple; the option was rewritten rather than the test
+relaxed.
+
+The instrument did not move. The survey is untouched.
+
 ## 17 Nov 2026
 
 ### A quiz taken before signing up follows you into the account

@@ -7,8 +7,9 @@ import QuietSound from '@/components/quiet-sound'
 import QuizMark from '@/components/quiz-mark'
 import {
   PATHS,
-  QUIZ,
-  TOTAL_QUESTIONS,
+  SOLO_PATHS,
+  isSolo,
+  questionsFor,
   type PathId,
   type QuizAnswers,
 } from '@/lib/quiz'
@@ -57,16 +58,30 @@ export default function QuizClient() {
 
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current) }, [])
 
+  /*
+   * Which questions get asked depends on the first answer. Someone single or
+   * separated takes a shorter path about past patterns, because the main path
+   * asks six questions about a relationship they are not in.
+   *
+   * Recomputed on every render rather than stored, so going Back to the first
+   * question and changing the answer re-routes immediately instead of leaving
+   * someone part way down a path that no longer applies.
+   */
+  const questions = questionsFor(answers)
+  const total = questions.length
   const index = typeof step === 'number' ? step : 0
-  const question = QUIZ[index]
+  const question = questions[Math.min(index, total - 1)]
 
   const advance = useCallback(
     (next: QuizAnswers, from: number) => {
-      const done = from + 1 >= TOTAL_QUESTIONS
+      // The length of the path THIS answer set implies, not the one on screen
+      // a moment ago: answering the first question is what chooses the path.
+      const length = questionsFor(next).length
+      const done = from + 1 >= length
       const go = () => {
         if (done) {
           setBusy(true)
-          complete({ answers: next, questionIndex: TOTAL_QUESTIONS })
+          complete({ answers: next, questionIndex: length })
             .then((r) => {
               setPath((r.path as PathId) ?? 'interrupt')
               setClaimToken(r.claimToken ?? null)
@@ -87,7 +102,7 @@ export default function QuizClient() {
   )
 
   function choose(optionId: string, value: string) {
-    const q = QUIZ[index]
+    const q = question
     if (q.multiple) {
       const current = answers[q.id] ?? []
       const has = current.includes(value)
@@ -168,6 +183,9 @@ export default function QuizClient() {
 
   if (step === 'result' && path) {
     const p = PATHS[path]
+    // Same destination, different sentences: the partnered copy says "your
+    // next disagreement" to somebody who is not having one.
+    const copy = isSolo(answers) ? SOLO_PATHS[path] : p
     return (
       <Shell progress={1}>
         <p className="text-sm font-semibold uppercase tracking-eyebrow text-accent">
@@ -178,9 +196,9 @@ export default function QuizClient() {
           tabIndex={-1}
           className="mt-3 font-serif text-3xl leading-tight focus-visible:[outline:none] sm:text-4xl"
         >
-          {p.headline}
+          {copy.headline}
         </h1>
-        <p className="mt-5 text-lg text-muted">{p.body}</p>
+        <p className="mt-5 text-lg text-muted">{copy.body}</p>
 
         <div className="mt-8 rounded-koos border border-line bg-surface p-5">
           <p className="text-sm font-semibold uppercase tracking-eyebrow text-muted">
@@ -215,8 +233,9 @@ export default function QuizClient() {
           </p>
         ) : null}
         <p className="mt-4 text-sm text-muted">
-          KooS never sends messages for you, and never shows your partner what
-          you write.
+          {isSolo(answers)
+            ? 'KooS never sends messages for you, and nobody else sees what you write.'
+            : 'KooS never sends messages for you, and never shows your partner what you write.'}
         </p>
       </Shell>
     )
@@ -228,10 +247,10 @@ export default function QuizClient() {
   const limit = question.maxSelections ?? question.options.length
 
   return (
-    <Shell progress={index / TOTAL_QUESTIONS}>
+    <Shell progress={index / total}>
       <div className="flex items-center justify-between text-sm text-muted">
         <span>
-          {index + 1} of {TOTAL_QUESTIONS}
+          {index + 1} of {total}
         </span>
         {index > 0 && (
           <button
@@ -293,7 +312,7 @@ export default function QuizClient() {
           onClick={() => advance(answers, index)}
           className="mt-7 min-h-[52px] w-full rounded-koos bg-accent px-6 text-base font-semibold text-on-accent transition-colors hover:bg-accent-hover disabled:opacity-50"
         >
-          {index + 1 >= TOTAL_QUESTIONS ? 'See where to start' : 'Continue'}
+          {index + 1 >= total ? 'See where to start' : 'Continue'}
         </button>
       )}
     </Shell>
