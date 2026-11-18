@@ -57,6 +57,10 @@ PAIRS = [
     ("helper text on a card",          "muted",       "surface",     4.5),
     ("eyebrow on the page",            "accent",      "bg",          4.5),
     ("eyebrow on a card",              "accent",      "surface",     4.5),
+    # The quiz result's starting point sits on a tinted panel, so its eyebrow
+    # and its outline are both accent on accent-soft rather than on surface.
+    ("eyebrow on a tinted panel",      "accent",      "accent-soft", 4.5),
+    ("tinted panel outline",           "accent",      "surface",     3.0),
     ("primary button label",           "on-accent",   "accent",      4.5),
     ("button label, hovered",          "on-accent",   "accent-hover",4.5),
     ("staging banner label",           "white",       "rose-deep",   4.5),
